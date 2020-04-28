@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: core,db
+  messages:
+    encoding: UTF-8
+
+logging:
+  level:
+    root:  ERROR
+    org.springframework:  ERROR
+    org.mybatis:  ERROR
+    com.example.tinymall:  DEBUG
+server:
+  port: 8090
