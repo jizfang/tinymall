@@ -1,5 +1,6 @@
 package com.example.tinymall.controller.admin;
 
+import com.example.tinymall.common.annotation.LoginAuth;
 import com.example.tinymall.core.util.ResponseUtil;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
@@ -18,13 +19,15 @@ import java.util.List;
  * @Description
  * @Author jzf
  * @Date 2020-4-9 22:02
- */@RestController
+ */
+@RestController
 @RequestMapping("/admin/ad")
 public class AdminAdController {
     @Autowired
     private TinymallAdService adService;
 
     @GetMapping("/list")
+    @LoginAuth
     public Object list(String name, String content,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,

@@ -3,7 +3,7 @@ package com.example.tinymall.common.result;
 import com.example.tinymall.common.Exceptions.BusinessException;
 import com.example.tinymall.common.enums.BusinessExceptionEnum;
 import com.example.tinymall.common.enums.ResultCode;
-import com.example.tinymall.core.util.RequestContextHolderUtil;
+import com.example.tinymall.core.util.RequestContextUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -82,7 +82,7 @@ public class DefaultErrorResult implements Result{
         result.setStatus(httpStatus.value());
         result.setError(httpStatus.getReasonPhrase());
         result.setException(e.getClass().getName());
-        result.setPath(RequestContextHolderUtil.getRequest().getRequestURI());
+        result.setPath(RequestContextUtil.getRequest().getRequestURI());
         result.setTimestamp(new Date());
         return result;
     }

@@ -8,7 +8,7 @@ import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.common.result.DefaultErrorResult;
 import com.example.tinymall.common.result.Result;
 import com.example.tinymall.core.util.JsonUtil;
-import com.example.tinymall.core.util.RequestContextHolderUtil;
+import com.example.tinymall.core.util.RequestContextUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -29,14 +29,14 @@ import javax.servlet.http.HttpServletRequest;
 public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        HttpServletRequest request = RequestContextHolderUtil.getRequest();
+        HttpServletRequest request = RequestContextUtil.getRequest();
         ResponseResult responseResultAnn = (ResponseResult) request.getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
         return responseResultAnn != null && !ApiStyleEnum.NONE.name().equalsIgnoreCase(request.getHeader(HeaderConstants.API_STYLE));
     }
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        ResponseResult responseResultAnn = (ResponseResult) RequestContextHolderUtil.getRequest().getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
+        ResponseResult responseResultAnn = (ResponseResult) RequestContextUtil.getRequest().getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
 
         Class<? extends Result> resultClazz = responseResultAnn.value();
 

@@ -1,7 +1,7 @@
 package com.example.tinymall.core.annotation.support;
 
+import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.core.annotation.LoginUser;
-import com.example.tinymall.manager.UserTokenManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -31,6 +31,6 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
             return null;
         }
 
-        return UserTokenManager.getUserId(token);
+        return LoginTokenHelper.getUserId(token);
     }
 }

@@ -1,14 +1,16 @@
 package com.example.tinymall.controller.admin;
 
 import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.core.annotation.LoginUser;
 import com.example.tinymall.core.constants.ResponseCode;
 import com.example.tinymall.core.util.IpUtil;
+import com.example.tinymall.core.util.MD5Util;
 import com.example.tinymall.core.util.ResponseMsg;
-import com.example.tinymall.core.util.bcrypt.BCryptPasswordEncoder;
+import com.example.tinymall.core.util.ResponseUtil;
 import com.example.tinymall.domain.TinymallAdmin;
 import com.example.tinymall.domain.dto.UserInfo;
 import com.example.tinymall.domain.vo.UserLoginInfo;
-import com.example.tinymall.manager.UserTokenManager;
 import com.example.tinymall.service.TinymallAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -52,9 +54,9 @@ public class AdminAuthController {
             user = userList.get(0);
         }
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (!encoder.matches(password, user.getPassword())) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.PASSWORD_ERROR.getMsgCode(), "账号不存在");
+        boolean result = MD5Util.validDigest(password,user.getPassword());
+        if (!result) {
+            return ResponseMsg.createByErrorCodeMessage(ResponseCode.PASSWORD_ERROR.getMsgCode(), ResponseCode.PASSWORD_ERROR.getMessage());
         }
 
         // 更新登录情况
@@ -70,12 +72,19 @@ public class AdminAuthController {
         userInfo.setAvatarUrl(user.getAvatar());
 
         // token
-        String token = UserTokenManager.generateToken(user.getId());
+        String token = LoginTokenHelper.generateToken(user.getId());
 
-        Map<Object, Object> result = new HashMap<Object, Object>();
-        result.put("token", token);
-        result.put("userInfo", userInfo);
-        //return ResponseMsg.createBySuccess(result);
-        return result;
+        Map<Object, Object> resultMap = new HashMap<Object, Object>();
+        resultMap.put("token", token);
+        resultMap.put("userInfo", userInfo);
+        return resultMap;
+    }
+
+    @PostMapping("logout")
+    public Object logout(@LoginUser Integer userId) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+        return ResponseUtil.ok();
     }
 }

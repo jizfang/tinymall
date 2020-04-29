@@ -1,5 +1,6 @@
 package com.example.tinymall.core.config;
 
+import com.example.tinymall.common.interceptor.LoginAuthInterceptor;
 import com.example.tinymall.common.interceptor.ResponseResultInterceptor;
 import com.example.tinymall.core.annotation.support.LoginUserHandlerMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class WxWebMvcConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private ResponseResultInterceptor responseResultInterceptor;
+    @Autowired
+    private LoginAuthInterceptor loginAuthInterceptor;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -35,5 +38,6 @@ public class WxWebMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         String apiUrl = "/**";
         registry.addInterceptor(responseResultInterceptor).addPathPatterns(apiUrl);
+        registry.addInterceptor(loginAuthInterceptor).addPathPatterns(apiUrl);
     }
 }

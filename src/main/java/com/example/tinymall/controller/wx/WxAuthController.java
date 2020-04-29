@@ -2,14 +2,17 @@ package com.example.tinymall.controller.wx;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import com.example.tinymall.core.constants.ResponseCode;
+import com.example.tinymall.common.Exceptions.BusinessException;
+import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.enums.BusinessExceptionEnum;
+import com.example.tinymall.common.enums.ResultCode;
+import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.core.annotation.LoginUser;
 import com.example.tinymall.core.util.*;
-import com.example.tinymall.core.util.bcrypt.BCryptPasswordEncoder;
 import com.example.tinymall.domain.TinymallUser;
 import com.example.tinymall.domain.dto.UserInfo;
 import com.example.tinymall.domain.dto.WxLoginInfo;
 import com.example.tinymall.domain.vo.UserLoginInfo;
-import com.example.tinymall.manager.UserTokenManager;
 import com.example.tinymall.service.CouponAssignService;
 import com.example.tinymall.service.TinymallUserService;
 import io.swagger.annotations.Api;
@@ -39,6 +42,7 @@ import static com.example.tinymall.core.util.WxResponseCode.*;
 @Api(description = "用户权限操作接口")
 @RestController
 @RequestMapping("/wx/auth")
+@ResponseResult
 public class WxAuthController {
     @Autowired
     private TinymallUserService userService;
@@ -106,12 +110,12 @@ public class WxAuthController {
         }
 
         // token
-        String token = UserTokenManager.generateToken(user.getId());
+        String token = LoginTokenHelper.generateToken(user.getId());
 
         Map<Object, Object> result = new HashMap<Object, Object>();
         result.put("token", token);
         result.put("userInfo", userInfo);
-        return ResponseUtil.ok(result);
+        return result;
     }
 
     /**
@@ -124,33 +128,33 @@ public class WxAuthController {
     @ApiOperation(value = "用户名密码登录", notes="用户名密码登录")
     @ApiImplicitParam(name = "userLoginInfo", value = "用户登录信息", paramType = "UserLoginInfo", required = true, dataType = "UserLoginInfo")
     @PostMapping("login")
-    public ResponseMsg login(@RequestBody UserLoginInfo userLoginInfo, HttpServletRequest request) {
+    public Map<String, Object> login(@RequestBody UserLoginInfo userLoginInfo, HttpServletRequest request) {
         String username = userLoginInfo.getUsername();
         String password = userLoginInfo.getPassword();
         if (username == null || password == null) {
-            return ResponseMsg.badArgument();
+            throw new BusinessException(BusinessExceptionEnum.PARAMETER_INVALID.getResultCode());
         }
 
         List<TinymallUser> userList = userService.queryByUsername(username);
         TinymallUser user = null;
         if (userList.size() > 1) {
-            return ResponseMsg.serious();
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
         } else if (userList.size() == 0) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.USER_NOT_FOUND.getMsgCode(), "账号不存在");
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
         } else {
             user = userList.get(0);
         }
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (!encoder.matches(password, user.getPassword())) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.PASSWORD_ERROR.getMsgCode(), "账号不存在");
+        boolean result = MD5Util.validDigest(password,user.getPassword());
+        if (!result) {
+            throw new BusinessException(ResultCode.USER_LOGIN_ERROR);
         }
 
         // 更新登录情况
         user.setLastLoginTime(LocalDateTime.now());
         user.setLastLoginIp(IpUtil.getIpAddr(request));
         if (userService.updateById(user) == 0) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.SYSTEM_ERROR.getMsgCode(), "账号不存在");
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
 
         // userInfo
@@ -159,12 +163,12 @@ public class WxAuthController {
         userInfo.setAvatarUrl(user.getAvatar());
 
         // token
-        String token = UserTokenManager.generateToken(user.getId());
+        String token = LoginTokenHelper.generateToken(user.getId());
 
-        Map<Object, Object> result = new HashMap<Object, Object>();
-        result.put("token", token);
-        result.put("userInfo", userInfo);
-        return ResponseMsg.createBySuccess(result);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("token", token);
+        resultMap.put("userInfo", userInfo);
+        return resultMap;
     }
 
     /**
@@ -284,11 +288,9 @@ public class WxAuthController {
         }
 
         TinymallUser user = null;
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(password);
         user = new TinymallUser();
         user.setUsername(username);
-        user.setPassword(encodedPassword);
+        user.setPassword(MD5Util.encode(password));
         user.setMobile(mobile);
         user.setWeixinOpenid(openId);
         user.setAvatar("https://yanxuan.nosdn.127.net/80841d741d7fa3073e0ae27bf487339f.jpg?imageView&quality=90&thumbnail=64x64");
@@ -309,11 +311,19 @@ public class WxAuthController {
         userInfo.setAvatarUrl(user.getAvatar());
 
         // token
-        String token = UserTokenManager.generateToken(user.getId());
+        String token = LoginTokenHelper.generateToken(user.getId());
 
         Map<Object, Object> result = new HashMap<Object, Object>();
         result.put("token", token);
         result.put("userInfo", userInfo);
         return ResponseUtil.ok(result);
+    }
+
+    @PostMapping("logout")
+    public Object logout(@LoginUser Integer userId) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+        return ResponseUtil.ok();
     }
 }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  * @Author jzf
  * @Date 2020-4-28 16:20
  */
-public class RequestContextHolderUtil {
+public class RequestContextUtil {
     public static HttpServletRequest getRequest() {
         return getRequestAttributes().getRequest();
     }
