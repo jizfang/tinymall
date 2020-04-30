@@ -1,6 +1,8 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.domain.TinymallGoods;
+import com.example.tinymall.domain.dto.GoodsDTO;
 
 import java.util.List;
 
@@ -26,4 +28,17 @@ public interface TinymallGoodsService {
     List<Integer> getCatIds(Integer brandId, String keyword, Boolean isHot, Boolean isNew);
 
     TinymallGoods findById(Integer id);
+
+    PageVO<TinymallGoods> list(Integer goodsId, String goodsSn, String name,
+                               Integer page, Integer limit, String sort, String order);
+
+    Object update(GoodsDTO goodsAllinone);
+
+    Object delete(TinymallGoods goods);
+
+    Object create(GoodsDTO goodsAllinone);
+
+    Object detail(Integer id);
+
+    Object list2();
 }

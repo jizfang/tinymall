@@ -20,7 +20,10 @@
 
 LOCK TABLES `tinymall_ad` WRITE;
 /*!40000 ALTER TABLE `tinymall_ad` DISABLE KEYS */;
-INSERT INTO `tinymall_ad` VALUES (1,'合作 谁是你的菜','','http://yanxuan.nosdn.127.net/65091eebc48899298171c2eb6696fe27.jpg',1,'合作 谁是你的菜',NULL,NULL,1,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(2,'活动 美食节','','http://yanxuan.nosdn.127.net/bff2e49136fcef1fd829f5036e07f116.jpg',1,'活动 美食节',NULL,NULL,1,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(3,'活动 母亲节','','http://yanxuan.nosdn.127.net/8e50c65fda145e6dd1bf4fb7ee0fcecc.jpg',1,'活动 母亲节5',NULL,NULL,1,'2018-02-01 00:00:00','2018-02-01 00:00:00',0);
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('1', '五一狂欢', '', 'https://resource.smartisan.com/resource/db449fa4355a5330c3a604fcc170ed3c.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '五一狂欢', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('2', '杭州消费券', '', 'https://resource.smartisan.com/resource/0fdd81f08bbe62ed6fee7dce2ee4c6a0.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '杭州消费券', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('3', '初夏洗护季', '', 'https://resource.smartisan.com/resource/feb2e6c99b9b577d9c28ac1412673eae.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '初夏洗护季', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('4', '游戏盛典', '', 'https://resource.smartisan.com/resource/81b3567d296aef566268a050c2753aba.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '游戏活动', NULL, NULL, '1', NULL, NULL, '0');
 /*!40000 ALTER TABLE `tinymall_ad` ENABLE KEYS */;
 UNLOCK TABLES;
 

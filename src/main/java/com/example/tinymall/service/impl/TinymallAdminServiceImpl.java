@@ -34,4 +34,9 @@ public class TinymallAdminServiceImpl implements TinymallAdminService {
         user.setUpdateTime(LocalDateTime.now());
         return adminMapper.updateByPrimaryKeySelective(user);
     }
+
+    @Override
+    public TinymallAdmin getByUserId(int userId) {
+        return adminMapper.selectByPrimaryKey(userId);
+    }
 }

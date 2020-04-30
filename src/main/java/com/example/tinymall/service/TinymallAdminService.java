@@ -14,4 +14,6 @@ public interface TinymallAdminService {
     List<TinymallAdmin> queryByUsername(String username);
 
     int updateById(TinymallAdmin user);
+
+    TinymallAdmin getByUserId(int userId);
 }

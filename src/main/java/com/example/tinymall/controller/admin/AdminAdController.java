@@ -1,6 +1,8 @@
 package com.example.tinymall.controller.admin;
 
 import com.example.tinymall.common.annotation.LoginAuth;
+import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.util.ResponseUtil;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
@@ -22,18 +24,19 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/ad")
+@ResponseResult
 public class AdminAdController {
     @Autowired
     private TinymallAdService adService;
 
     @GetMapping("/list")
     @LoginAuth
-    public Object list(String name, String content,
-                       @RequestParam(defaultValue = "1") Integer page,
-                       @RequestParam(defaultValue = "10") Integer limit,
-                       @Sort @RequestParam(defaultValue = "add_time") String sort,
-                       @Order @RequestParam(defaultValue = "desc") String order) {
-        List<TinymallAd> adList = adService.querySelective(name, content, page, limit, sort, order);
-        return ResponseUtil.okList(adList);
+    public PageVO<TinymallAd> list(String name, String content,
+                                   @RequestParam(defaultValue = "1") Integer page,
+                                   @RequestParam(defaultValue = "10") Integer limit,
+                                   @Sort @RequestParam(defaultValue = "add_time") String sort,
+                                   @Order @RequestParam(defaultValue = "desc") String order) {
+        PageVO<TinymallAd> adList = adService.querySelective(name, content, page, limit, sort, order);
+        return adList;
     }
 }

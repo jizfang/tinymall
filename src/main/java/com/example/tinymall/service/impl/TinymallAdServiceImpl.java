@@ -1,9 +1,11 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.dao.TinymallAdMapper;
 import com.example.tinymall.domain.TinymallAd;
 import com.example.tinymall.domain.TinymallAdExample;
 import com.example.tinymall.service.TinymallAdService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +35,7 @@ public class TinymallAdServiceImpl implements TinymallAdService {
     }
 
     @Override
-    public List<TinymallAd> querySelective(String name, String content, Integer page, Integer limit, String sort, String order) {
+    public PageVO<TinymallAd> querySelective(String name, String content, Integer pageNum, Integer limit, String sort, String order) {
         TinymallAdExample example = new TinymallAdExample();
         TinymallAdExample.Criteria criteria = example.createCriteria();
 
@@ -49,8 +51,9 @@ public class TinymallAdServiceImpl implements TinymallAdService {
             example.setOrderByClause(sort + " " + order);
         }
 
-        PageHelper.startPage(page, limit);
-        return tinymallAdMapper.selectByExample(example);
+        Page<TinymallAd> page = PageHelper.startPage(pageNum, limit);
+        tinymallAdMapper.selectByExample(example);
+        return PageVO.build(page);
     }
 
     @Override

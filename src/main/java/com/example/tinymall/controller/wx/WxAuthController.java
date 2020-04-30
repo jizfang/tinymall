@@ -88,7 +88,7 @@ public class WxAuthController {
             user.setPassword(openId);
             user.setWeixinOpenid(openId);
             user.setAvatar(userInfo.getAvatarUrl());
-            user.setNickname(userInfo.getNickName());
+            user.setNickname(userInfo.getName());
             user.setGender(userInfo.getGender());
             user.setUserLevel((byte) 0);
             user.setStatus((byte) 0);
@@ -159,7 +159,7 @@ public class WxAuthController {
 
         // userInfo
         UserInfo userInfo = new UserInfo();
-        userInfo.setNickName(username);
+        userInfo.setName(username);
         userInfo.setAvatarUrl(user.getAvatar());
 
         // token
@@ -307,7 +307,7 @@ public class WxAuthController {
 
         // userInfo
         UserInfo userInfo = new UserInfo();
-        userInfo.setNickName(username);
+        userInfo.setName(username);
         userInfo.setAvatarUrl(user.getAvatar());
 
         // token

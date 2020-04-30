@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.domain.TinymallAd;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface TinymallAdService {
 
     List<TinymallAd> queryIndex();
 
-    List<TinymallAd> querySelective(String name, String content, Integer page, Integer limit, String sort, String order);
+    PageVO<TinymallAd> querySelective(String name, String content, Integer page, Integer limit, String sort, String order);
 
     int updateById(TinymallAd ad);
 

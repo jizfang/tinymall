@@ -4,15 +4,13 @@ import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.core.annotation.LoginUser;
 import com.example.tinymall.core.constants.ResponseCode;
-import com.example.tinymall.core.util.IpUtil;
-import com.example.tinymall.core.util.MD5Util;
-import com.example.tinymall.core.util.ResponseMsg;
-import com.example.tinymall.core.util.ResponseUtil;
+import com.example.tinymall.core.util.*;
 import com.example.tinymall.domain.TinymallAdmin;
 import com.example.tinymall.domain.dto.UserInfo;
 import com.example.tinymall.domain.vo.UserLoginInfo;
 import com.example.tinymall.service.TinymallAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,13 +28,13 @@ import java.util.Map;
 @ResponseResult
 @RestController
 @RequestMapping("/admin/user")
+@ResponseStatus(HttpStatus.OK)
 public class AdminAuthController {
 
     @Autowired
     private TinymallAdminService userService;
 
     @PostMapping("/login")
-    @ResponseStatus
     public Object login(@RequestBody UserLoginInfo userLoginInfo, HttpServletRequest request) {
         String username = userLoginInfo.getUsername();
         String password = userLoginInfo.getPassword();
@@ -68,7 +66,7 @@ public class AdminAuthController {
 
         // userInfo
         UserInfo userInfo = new UserInfo();
-        userInfo.setNickName(username);
+        userInfo.setName(username);
         userInfo.setAvatarUrl(user.getAvatar());
 
         // token
@@ -86,5 +84,19 @@ public class AdminAuthController {
             return ResponseUtil.unlogin();
         }
         return ResponseUtil.ok();
+    }
+
+    @GetMapping("info")
+    public Object logout(String token) {
+        if (StringUtil.isEmpty(token)) {
+            return ResponseUtil.unlogin();
+        }
+        int userId = LoginTokenHelper.getUserId(token);
+        TinymallAdmin tinymallAdmin = userService.getByUserId(userId);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAvatarUrl(tinymallAdmin.getAvatar());
+        userInfo.setName(tinymallAdmin.getUsername());
+        userInfo.setRoles(tinymallAdmin.getRoleIds());
+        return userInfo;
     }
 }

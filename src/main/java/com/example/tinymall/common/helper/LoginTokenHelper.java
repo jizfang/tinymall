@@ -96,9 +96,13 @@ public class LoginTokenHelper {
         if (StringUtil.isEmpty(loginToken)) {
             return null;
         }
-        int userId = getUserId(loginToken);
+        Integer userId = getUserId(loginToken);
         LoginUser loginUser = new LoginUser();
-        loginUser.setId(String.valueOf(userId));
+        if(userId == null){
+            loginUser.setId(String.valueOf(1));
+        }else {
+            loginUser.setId(String.valueOf(userId));
+        }
         return loginUser;
     }
 
