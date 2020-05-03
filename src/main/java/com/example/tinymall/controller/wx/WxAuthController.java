@@ -10,6 +10,7 @@ import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.core.annotation.LoginUser;
 import com.example.tinymall.core.util.*;
 import com.example.tinymall.domain.TinymallUser;
+import com.example.tinymall.domain.bo.RegisterInfo;
 import com.example.tinymall.domain.dto.UserInfo;
 import com.example.tinymall.domain.dto.WxLoginInfo;
 import com.example.tinymall.domain.vo.UserLoginInfo;
@@ -20,10 +21,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -60,6 +58,7 @@ public class WxAuthController {
      * @return 登录结果
      */
     @PostMapping("login_by_weixin")
+    @ResponseStatus
     public Object loginByWeixin(@RequestBody WxLoginInfo wxLoginInfo, HttpServletRequest request) {
         String code = wxLoginInfo.getCode();
         UserInfo userInfo = wxLoginInfo.getUserInfo();
@@ -206,7 +205,7 @@ public class WxAuthController {
     /**
      * 账号注册
      *
-     * @param body    请求内容
+     * @param registerInfo    请求内容
      *                {
      *                username: xxx,
      *                password: xxx,
@@ -230,17 +229,15 @@ public class WxAuthController {
      * 失败则 { errno: XXX, errmsg: XXX }
      */
     @PostMapping("register")
-    public Object register(@RequestBody String body, HttpServletRequest request) {
-        String username = JacksonUtil.parseString(body, "username");
-        String password = JacksonUtil.parseString(body, "password");
-        String mobile = JacksonUtil.parseString(body, "mobile");
-        String code = JacksonUtil.parseString(body, "code");
+    public Object register(@RequestBody RegisterInfo registerInfo, HttpServletRequest request) {
+        String username = registerInfo.getUsername();
+        String password = registerInfo.getPassword();
+        String mobile = registerInfo.getMobile();
         // 如果是小程序注册，则必须非空
         // 其他情况，可以为空
-        String wxCode = JacksonUtil.parseString(body, "wxCode");
+        String wxCode = registerInfo.getWxCode();
 
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)
-                || StringUtils.isEmpty(code)) {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) {
             return ResponseUtil.badArgument();
         }
 
@@ -316,7 +313,7 @@ public class WxAuthController {
         Map<Object, Object> result = new HashMap<Object, Object>();
         result.put("token", token);
         result.put("userInfo", userInfo);
-        return ResponseUtil.ok(result);
+        return result;
     }
 
     @PostMapping("logout")

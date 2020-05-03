@@ -5,7 +5,7 @@ import com.example.tinymall.domain.TinymallCollect;
 import java.util.List;
 
 /**
- * @ClassName LitemallCollectService
+ * @ClassName TinymallCollectService
  * @Description
  * @Author jzf
  * @Date 2020-4-15 11:58
