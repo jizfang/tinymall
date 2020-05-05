@@ -1,5 +1,11 @@
 package com.example.tinymall.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.tinymall.common.Exceptions.BusinessException;
+import com.example.tinymall.common.enums.BusinessExceptionEnum;
+import com.example.tinymall.common.enums.ResultCode;
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.constants.CouponUserConstant;
 import com.example.tinymall.core.constants.GrouponConstant;
 import com.example.tinymall.core.constants.OrderHandleOption;
@@ -8,11 +14,17 @@ import com.example.tinymall.core.system.SystemConfig;
 import com.example.tinymall.core.util.IpUtil;
 import com.example.tinymall.core.util.JacksonUtil;
 import com.example.tinymall.core.util.ResponseUtil;
+import com.example.tinymall.dao.TinymallOrderMapper;
 import com.example.tinymall.domain.*;
+import com.example.tinymall.domain.bo.OrderInfo;
+import com.example.tinymall.domain.bo.UserCartInfo;
+import com.example.tinymall.domain.dto.UserOrderParam;
 import com.example.tinymall.service.*;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,20 +73,20 @@ public class WxOrderServiceImpl implements WxOrderService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Object submit(Integer userId, String body) {
+    public Object submit(Integer userId, UserCartInfo userCartInfo) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
-        if (body == null) {
+        if (userCartInfo == null) {
             return ResponseUtil.badArgument();
         }
-        Integer cartId = JacksonUtil.parseInteger(body, "cartId");
-        Integer addressId = JacksonUtil.parseInteger(body, "addressId");
-        Integer couponId = JacksonUtil.parseInteger(body, "couponId");
-        Integer userCouponId = JacksonUtil.parseInteger(body, "userCouponId");
-        String message = JacksonUtil.parseString(body, "message");
-        Integer grouponRulesId = JacksonUtil.parseInteger(body, "grouponRulesId");
-        Integer grouponLinkId = JacksonUtil.parseInteger(body, "grouponLinkId");
+        Integer cartId = userCartInfo.getCartId();
+        Integer addressId = userCartInfo.getAddressId();
+        Integer couponId = userCartInfo.getCouponId();
+        Integer userCouponId = userCartInfo.getUserCouponId();
+        String message = userCartInfo.getMessage();
+        Integer grouponRulesId = userCartInfo.getGrouponRulesId();
+        Integer grouponLinkId = userCartInfo.getGrouponLinkId();
 
         //如果是团购项目,验证活动是否有效
         if (grouponRulesId != null && grouponRulesId > 0) {
@@ -288,16 +300,16 @@ public class WxOrderServiceImpl implements WxOrderService {
         else {
             data.put("grouponLinkId", 0);
         }
-        return ResponseUtil.ok(data);
+        return data;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Object prepay(Integer userId, String body, HttpServletRequest request) {
+    public Object prepay(Integer userId, OrderInfo orderInfo, HttpServletRequest request) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
-        Integer orderId = JacksonUtil.parseInteger(body, "orderId");
+        Integer orderId = orderInfo.getOrderId();
         if (orderId == null) {
             return ResponseUtil.badArgument();
         }
@@ -323,7 +335,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         }
         WxPayMpOrderResult result = null;
         try {
-            WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
+            /*WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
             orderRequest.setOutTradeNo(order.getOrderSn());
             orderRequest.setOpenid(openid);
             orderRequest.setBody("订单：" + order.getOrderSn());
@@ -334,7 +346,8 @@ public class WxOrderServiceImpl implements WxOrderService {
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
 
-            result = wxPayService.createOrder(orderRequest);
+            result = wxPayService.createOrder(orderRequest);*/
+            result = WxPayMpOrderResult.builder().appId("appid").timeStamp(String.valueOf(System.currentTimeMillis())).nonceStr("nonceStr").packageValue("prepay_id=" + "prepayId").signType("appId").build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseUtil.fail(ORDER_PAY_FAIL, "订单不能支付");
@@ -343,6 +356,112 @@ public class WxOrderServiceImpl implements WxOrderService {
         /*if (orderService.updateWithOptimisticLocker(order) == 0) {
             return ResponseUtil.updatedDateExpired();
         }*/
-        return ResponseUtil.ok(result);
+        return result;
+    }
+
+    @Override
+    public PageVO<TinymallOrder> list(PageQO pageQO) {
+        UserOrderParam userOrderParam = (UserOrderParam) pageQO.getCondition();
+        Integer userId = userOrderParam.getUserId();
+        if (userId == null) {
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
+        }
+        Integer showType = userOrderParam.getShowType();
+        List<Short> orderStatus = OrderUtil.orderStatus(showType);
+        PageVO<TinymallOrder> orderList = orderService.queryByOrderStatus(userId, orderStatus, pageQO.getPageNum(), pageQO.getPageSize(),
+                pageQO.getOrderBy());
+
+        List<Map<String, Object>> orderVoList = new ArrayList<>(orderList.getList().size());
+        for (TinymallOrder o : orderList.getList()) {
+            Map<String, Object> orderVo = new HashMap<>();
+            orderVo.put("id", o.getId());
+            orderVo.put("orderSn", o.getOrderSn());
+            orderVo.put("actualPrice", o.getActualPrice());
+            orderVo.put("orderStatusText", OrderUtil.orderStatusText(o));
+            orderVo.put("handleOption", OrderUtil.build(o));
+            orderVo.put("aftersaleStatus", o.getAftersaleStatus());
+
+            TinymallGroupon groupon = grouponService.queryByOrderId(o.getId());
+            if (groupon != null) {
+                orderVo.put("isGroupin", true);
+            } else {
+                orderVo.put("isGroupin", false);
+            }
+
+            List<TinymallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(o.getId());
+            List<Map<String, Object>> orderGoodsVoList = new ArrayList<>(orderGoodsList.size());
+            for (TinymallOrderGoods orderGoods : orderGoodsList) {
+                Map<String, Object> orderGoodsVo = new HashMap<>();
+                orderGoodsVo.put("id", orderGoods.getId());
+                orderGoodsVo.put("goodsName", orderGoods.getGoodsName());
+                orderGoodsVo.put("number", orderGoods.getNumber());
+                orderGoodsVo.put("picUrl", orderGoods.getPicUrl());
+                orderGoodsVo.put("specifications", orderGoods.getSpecifications());
+                orderGoodsVo.put("price",orderGoods.getPrice());
+                orderGoodsVoList.add(orderGoodsVo);
+            }
+            orderVo.put("goodsList", orderGoodsVoList);
+
+            orderVoList.add(orderVo);
+        }
+
+        return orderList;
+    }
+
+    @Override
+    public Object detail(Integer userId, Integer orderId) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+
+        // 订单信息
+        TinymallOrder order = orderService.findById(userId, orderId);
+        if (null == order) {
+            return ResponseUtil.fail(ORDER_UNKNOWN, "订单不存在");
+        }
+        if (!order.getUserId().equals(userId)) {
+            return ResponseUtil.fail(ORDER_INVALID, "不是当前用户的订单");
+        }
+        Map<String, Object> orderVo = new HashMap<String, Object>();
+        orderVo.put("id", order.getId());
+        orderVo.put("orderSn", order.getOrderSn());
+        orderVo.put("message", order.getMessage());
+        orderVo.put("addTime", order.getAddTime());
+        orderVo.put("consignee", order.getConsignee());
+        orderVo.put("mobile", order.getMobile());
+        orderVo.put("address", order.getAddress());
+        orderVo.put("goodsPrice", order.getGoodsPrice());
+        orderVo.put("couponPrice", order.getCouponPrice());
+        orderVo.put("freightPrice", order.getFreightPrice());
+        orderVo.put("actualPrice", order.getActualPrice());
+        orderVo.put("orderStatusText", OrderUtil.orderStatusText(order));
+        orderVo.put("handleOption", OrderUtil.build(order));
+        orderVo.put("aftersaleStatus", order.getAftersaleStatus());
+        orderVo.put("expCode", order.getShipChannel());
+        //orderVo.put("expName", expressService.getVendorName(order.getShipChannel()));
+        orderVo.put("expNo", order.getShipSn());
+
+        List<TinymallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("orderInfo", orderVo);
+        result.put("orderGoods", orderGoodsList);
+
+        // 订单状态为已发货且物流信息不为空
+        //"YTO", "800669400640887922"
+        /*if (order.getOrderStatus().equals(OrderUtil.STATUS_SHIP)) {
+            ExpressInfo ei = expressService.getExpressInfo(order.getShipChannel(), order.getShipSn());
+            if(ei == null){
+                result.put("expressInfo", new ArrayList<>());
+            }
+            else {
+                result.put("expressInfo", ei);
+            }
+        }
+        else{
+            result.put("expressInfo", new ArrayList<>());
+        }*/
+
+        return result;
     }
 }

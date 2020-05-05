@@ -1,5 +1,7 @@
 package com.example.tinymall.controller.wx;
 
+import com.example.tinymall.common.annotation.LoginAuth;
+import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.core.annotation.LoginUser;
 import com.example.tinymall.core.system.SystemConfig;
 import com.example.tinymall.core.util.ResponseUtil;
@@ -200,15 +202,14 @@ public class WxCartController {
      * 如果已经存在购物车货品，则增加数量；
      * 否则添加新的购物车货品项。
      *
-     * @param userId 用户ID
      * @param cart   购物车商品信息， { goodsId: xxx, productId: xxx, number: xxx }
      * @return 加入购物车操作结果
      */
     @PostMapping("add")
-    public Object add(@LoginUser Integer userId, @RequestBody TinymallCart cart) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+    @LoginAuth
+    public Object add(@RequestBody TinymallCart cart) {
+        com.example.tinymall.domain.bo.LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        Integer userId = Integer.valueOf(loginUser.getId());
         if (cart == null) {
             return ResponseUtil.badArgument();
         }
@@ -251,6 +252,7 @@ public class WxCartController {
             cart.setSpecifications(product.getSpecifications());
             cart.setUserId(userId);
             cart.setChecked(true);
+            cart.setDeleted(false);
             cartService.add(cart);
         } else {
             //取得规格的信息,判断规格库存

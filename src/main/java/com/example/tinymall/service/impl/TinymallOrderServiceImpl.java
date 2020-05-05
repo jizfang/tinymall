@@ -1,10 +1,14 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.constants.OrderUtil;
 import com.example.tinymall.dao.TinymallOrderMapper;
 import com.example.tinymall.domain.TinymallOrder;
 import com.example.tinymall.domain.TinymallOrderExample;
 import com.example.tinymall.service.TinymallOrderService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -96,5 +100,24 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
     @Override
     public TinymallOrder findById(Integer orderId) {
         return orderMapper.selectByPrimaryKey(orderId);
+    }
+
+    @Override
+    public PageVO<TinymallOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer pageNum, Integer limit, String orderBy) {
+        TinymallOrderExample example = new TinymallOrderExample();
+        example.setOrderByClause(TinymallOrder.Column.addTime.desc());
+        TinymallOrderExample.Criteria criteria = example.or();
+        criteria.andUserIdEqualTo(userId);
+        if (orderStatus != null) {
+            criteria.andOrderStatusIn(orderStatus);
+        }
+        criteria.andDeletedEqualTo(false);
+        if (!StringUtils.isEmpty(orderBy)) {
+            example.setOrderByClause(orderBy);
+        }
+
+        Page page = PageHelper.startPage(pageNum, limit);
+        orderMapper.selectByExample(example);
+        return PageVO.build(page);
     }
 }

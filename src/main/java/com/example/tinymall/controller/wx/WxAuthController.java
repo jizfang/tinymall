@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,7 @@ public class WxAuthController {
      * @return 登录结果
      */
     @PostMapping("login_by_weixin")
-    @ResponseStatus
+    @ResponseStatus(HttpStatus.OK)
     public Object loginByWeixin(@RequestBody WxLoginInfo wxLoginInfo, HttpServletRequest request) {
         String code = wxLoginInfo.getCode();
         UserInfo userInfo = wxLoginInfo.getUserInfo();
@@ -127,6 +128,7 @@ public class WxAuthController {
     @ApiOperation(value = "用户名密码登录", notes="用户名密码登录")
     @ApiImplicitParam(name = "userLoginInfo", value = "用户登录信息", paramType = "UserLoginInfo", required = true, dataType = "UserLoginInfo")
     @PostMapping("login")
+    @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> login(@RequestBody UserLoginInfo userLoginInfo, HttpServletRequest request) {
         String username = userLoginInfo.getUsername();
         String password = userLoginInfo.getPassword();
@@ -180,6 +182,7 @@ public class WxAuthController {
      * @return
      */
     @PostMapping("regCaptcha")
+    @ResponseStatus(HttpStatus.OK)
     public Object registerCaptcha(@RequestBody String body) {
         /*String phoneNumber = JacksonUtil.parseString(body, "mobile");
         if (StringUtils.isEmpty(phoneNumber)) {
@@ -229,6 +232,7 @@ public class WxAuthController {
      * 失败则 { errno: XXX, errmsg: XXX }
      */
     @PostMapping("register")
+    @ResponseStatus(HttpStatus.OK)
     public Object register(@RequestBody RegisterInfo registerInfo, HttpServletRequest request) {
         String username = registerInfo.getUsername();
         String password = registerInfo.getPassword();
@@ -317,6 +321,7 @@ public class WxAuthController {
     }
 
     @PostMapping("logout")
+    @ResponseStatus(HttpStatus.OK)
     public Object logout(@LoginUser Integer userId) {
         if (userId == null) {
             return ResponseUtil.unlogin();

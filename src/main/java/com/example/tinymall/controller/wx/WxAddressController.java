@@ -1,5 +1,6 @@
 package com.example.tinymall.controller.wx;
 
+import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.core.annotation.LoginUser;
 import com.example.tinymall.core.util.RegexUtil;
 import com.example.tinymall.core.util.ResponseUtil;
@@ -41,15 +42,13 @@ public class WxAddressController {
     /**
      * 添加或更新收货地址
      *
-     * @param userId  用户ID
      * @param address 用户收货地址
      * @return 添加或更新操作结果
      */
     @PostMapping("save")
-    public Object save(@LoginUser Integer userId, @RequestBody TinymallAddress address) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+    public Object save(@RequestBody TinymallAddress address) {
+        com.example.tinymall.domain.bo.LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        Integer userId = Integer.valueOf(loginUser.getId());
         Object error = validate(address);
         if (error != null) {
             return error;

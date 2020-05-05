@@ -1,6 +1,13 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.page.PageVO;
+import com.example.tinymall.dao.TinymallOrderMapper;
 import com.example.tinymall.domain.TinymallOrder;
+import com.example.tinymall.domain.TinymallOrderExample;
+import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * @ClassName TinymallOrderService
@@ -19,4 +26,6 @@ public interface TinymallOrderService {
     TinymallOrder findById(Integer userId, Integer orderId);
 
     TinymallOrder findById(Integer orderId);
+
+    PageVO<TinymallOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer page, Integer limit, String orderBy);
 }
