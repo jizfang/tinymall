@@ -1,9 +1,13 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.dao.TinymallSearchHistoryMapper;
 import com.example.tinymall.domain.TinymallSearchHistory;
 import com.example.tinymall.domain.TinymallSearchHistoryExample;
+import com.example.tinymall.domain.bo.SearchHistoryCondition;
 import com.example.tinymall.service.TinymallSearchHistoryService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -47,23 +51,24 @@ public class TinymallSearchHistoryServiceImpl implements TinymallSearchHistorySe
     }
 
     @Override
-    public List<TinymallSearchHistory> querySelective(String userId, String keyword, Integer page, Integer size, String sort, String order) {
+    public PageVO<TinymallSearchHistory> querySelective(PageQO pageQO) {
         TinymallSearchHistoryExample example = new TinymallSearchHistoryExample();
         TinymallSearchHistoryExample.Criteria criteria = example.createCriteria();
-
-        if (!StringUtils.isEmpty(userId)) {
-            criteria.andUserIdEqualTo(Integer.valueOf(userId));
+        SearchHistoryCondition condition = (SearchHistoryCondition) pageQO.getCondition();
+        if (!StringUtils.isEmpty(condition.getUserId())) {
+            criteria.andUserIdEqualTo(Integer.valueOf(condition.getUserId()));
         }
-        if (!StringUtils.isEmpty(keyword)) {
-            criteria.andKeywordLike("%" + keyword + "%");
+        if (!StringUtils.isEmpty(condition.getKeyword())) {
+            criteria.andKeywordLike("%" + condition.getKeyword() + "%");
         }
         criteria.andDeletedEqualTo(false);
 
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
+        if (!StringUtils.isEmpty(pageQO.getOrderBy())) {
+            example.setOrderByClause(pageQO.getOrderBy());
         }
 
-        PageHelper.startPage(page, size);
-        return searchHistoryMapper.selectByExample(example);
+        Page page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize());
+        searchHistoryMapper.selectByExample(example);
+        return PageVO.build(page);
     }
 }

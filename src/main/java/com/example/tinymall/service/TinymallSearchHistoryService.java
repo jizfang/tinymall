@@ -1,5 +1,7 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.domain.TinymallSearchHistory;
 
 import java.util.List;
@@ -17,5 +19,5 @@ public interface TinymallSearchHistoryService {
 
     void deleteByUid(int uid);
 
-    List<TinymallSearchHistory> querySelective(String userId, String keyword, Integer page, Integer size, String sort, String order);
+    PageVO<TinymallSearchHistory> querySelective(PageQO pageQO);
 }
