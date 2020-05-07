@@ -1,13 +1,14 @@
 package com.example.tinymall.core.storage;
 
-import javax.annotation.Resource;
+import org.springframework.core.io.Resource;
+
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
  * @ClassName Storage
- * @Description
+ * @Description 对象存储接口
  * @Author jzf
  * @Date 2020-4-9 17:17
  */

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * @Date 2020-4-14 20:52
  */
 @Configuration
-public class WxWebMvcConfiguration implements WebMvcConfigurer {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private ResponseResultInterceptor responseResultInterceptor;
@@ -39,5 +40,10 @@ public class WxWebMvcConfiguration implements WebMvcConfigurer {
         String apiUrl = "/**";
         registry.addInterceptor(responseResultInterceptor).addPathPatterns(apiUrl);
         registry.addInterceptor(loginAuthInterceptor).addPathPatterns(apiUrl);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("file:D://upload/");
     }
 }

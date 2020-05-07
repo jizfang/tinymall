@@ -36,27 +36,27 @@ public class SystemInistService {
 
     static {
         // 小程序相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_NEW, "6");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_HOT, "6");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_BRAND, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_TOPIC, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_CATLOG_LIST, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_CATLOG_GOODS, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_SHARE, "false");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_WX_INDEX_NEW, "6");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_WX_INDEX_HOT, "6");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_WX_INDEX_BRAND, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_WX_INDEX_TOPIC, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_WX_INDEX_CATLOG_LIST, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_WX_INDEX_CATLOG_GOODS, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_WX_SHARE, "true");
         // 运费相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_EXPRESS_FREIGHT_VALUE, "8");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_EXPRESS_FREIGHT_MIN, "88");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_EXPRESS_FREIGHT_VALUE, "8");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_EXPRESS_FREIGHT_MIN, "88");
         // 订单相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_ORDER_UNPAID, "30");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_ORDER_UNCONFIRM, "7");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_ORDER_COMMENT, "7");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_ORDER_UNPAID, "30");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_ORDER_UNCONFIRM, "7");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_ORDER_COMMENT, "7");
         // 商城相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_NAME, "tinymall");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_ADDRESS, "广州");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_Latitude, "23.13");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_LONGITUDE, "113.27");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_PHONE, "020-xxxx-xxxx");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_QQ, "");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_MALL_NAME, "tinymall");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_MALL_ADDRESS, "广州");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_MALL_Latitude, "23.13");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_MALL_LONGITUDE, "113.27");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_MALL_PHONE, "020-xxxx-xxxx");
+        DEFAULT_CONFIGS.put(SystemConfig.TINYMALL_MALL_QQ, "");
     }
 
     @Autowired

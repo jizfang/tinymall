@@ -8,3 +8,11 @@ tinymall:
     # 商户证书文件路径
     # 请参考“商户证书”一节 https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=4_3
     key-path: xxxxx
+
+  storage:
+    # 当前工作的对象存储模式，暂时用local
+    active: local
+    # 本地对象存储配置信息
+    local:
+      storagePath: D:/upload/images
+      address: http://localhost:8090/images/

@@ -103,7 +103,9 @@ public class RestControllerAspect {
             } else if (arg instanceof MultipartFile) {
                 long size = ((MultipartFile) arg).getSize();
                 paramStr = MultipartFile.class.getSimpleName() + " size:" + size;
-            } else {
+            } else if (arg instanceof String) {
+                paramStr = arg.toString();
+            }else {
                 paramStr = this.deleteSensitiveContent(arg);
             }
             sb.append(paramStr).append(",");
@@ -123,12 +125,16 @@ public class RestControllerAspect {
         }
 
         try {
-            String param = JSON.toJSONString(obj);
-            jsonObject = JSONObject.parseObject(param);
-            List<String> sensitiveFieldList = this.getSensitiveFieldList();
-            for (String sensitiveField : sensitiveFieldList) {
-                if (jsonObject.containsKey(sensitiveField)) {
-                    jsonObject.put(sensitiveField, "******");
+            if(obj instanceof String){
+                // do nothing
+            }else {
+                String param = JSON.toJSONString(obj);
+                jsonObject = JSONObject.parseObject(param);
+                List<String> sensitiveFieldList = this.getSensitiveFieldList();
+                for (String sensitiveField : sensitiveFieldList) {
+                    if (jsonObject.containsKey(sensitiveField)) {
+                        jsonObject.put(sensitiveField, "******");
+                    }
                 }
             }
         } catch (ClassCastException e) {

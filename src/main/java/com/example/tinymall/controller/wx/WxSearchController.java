@@ -1,6 +1,5 @@
 package com.example.tinymall.controller.wx;
 
-import com.alibaba.fastjson.JSONObject;
 import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.common.page.PageQO;
@@ -10,7 +9,6 @@ import com.example.tinymall.domain.TinymallKeyword;
 import com.example.tinymall.domain.TinymallSearchHistory;
 import com.example.tinymall.domain.bo.KeywordCondition;
 import com.example.tinymall.domain.bo.LoginUser;
-import com.example.tinymall.domain.bo.SearchHistoryCondition;
 import com.example.tinymall.service.TinymallKeywordService;
 import com.example.tinymall.service.TinymallSearchHistoryService;
 import lombok.extern.slf4j.Slf4j;

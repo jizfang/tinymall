@@ -7,9 +7,11 @@ import com.example.tinymall.domain.TinymallGroupon;
 import com.example.tinymall.domain.TinymallStorage;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
+import org.apache.commons.lang3.ClassPathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -72,7 +74,15 @@ public class QCodeService {
 
         try {
             //创建该商品的二维码
-            File file = wxMaService.getQrcodeService().createWxaCodeUnlimit("goods," + goodId, "pages/index/index");
+            File file;
+            try{
+                file = wxMaService.getQrcodeService().createWxaCodeUnlimit("goods," + goodId, "pages/index/index");
+            }catch (Exception e){
+
+            }finally {
+                file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "xcxm.jpg");
+            }
+
             FileInputStream inputStream = new FileInputStream(file);
             //将商品图片，商品名字,商城名字画到模版图中
             byte[] imageData = drawPicture(inputStream, goodPicUrl, goodName);
@@ -82,8 +92,6 @@ public class QCodeService {
                     getKeyName(goodId));
 
             return litemallStorage.getUrl();
-        } catch (WxErrorException e) {
-            log.error(e.getMessage(), e);
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
         } catch (IOException e) {

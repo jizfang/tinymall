@@ -87,7 +87,7 @@ public class AdminAuthController {
     }
 
     @GetMapping("info")
-    public Object logout(String token) {
+    public Object info(String token) {
         if (StringUtil.isEmpty(token)) {
             return ResponseUtil.unlogin();
         }

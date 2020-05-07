@@ -1,6 +1,7 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.common.page.PageVO;
+import com.example.tinymall.core.qcode.QCodeService;
 import com.example.tinymall.core.util.ResponseUtil;
 import com.example.tinymall.dao.*;
 import com.example.tinymall.domain.*;
@@ -12,6 +13,7 @@ import com.example.tinymall.service.TinymallGoodsService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,8 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
     private TinymallGoodsAttributeMapper attributeMapper;
     @Resource
     private TinymallBrandMapper brandMapper;
+    @Autowired
+    private QCodeService qCodeService;
 
     @Override
     public List<TinymallGoods> queryByNew(int offset, int limit) {
@@ -225,8 +229,8 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         TinymallGoodsProduct[] products = goodsAllinone.getProducts();
 
         //将生成的分享图片地址写入数据库
-        /*String url = qCodeService.createGoodShareImage(goods.getId().toString(), goods.getPicUrl(), goods.getName());
-        goods.setShareUrl(url);*/
+        String url = qCodeService.createGoodShareImage(goods.getId().toString(), goods.getPicUrl(), goods.getName());
+        goods.setShareUrl(url);
 
         // 商品表里面有一个字段retailPrice记录当前商品的最低价
         BigDecimal retailPrice = new BigDecimal(Integer.MAX_VALUE);
@@ -341,13 +345,13 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         goodsMapper.insertSelective(goods);
 
         //将生成的分享图片地址写入数据库
-        /*String url = qCodeService.createGoodShareImage(goods.getId().toString(), goods.getPicUrl(), goods.getName());
+        String url = qCodeService.createGoodShareImage(goods.getId().toString(), goods.getPicUrl(), goods.getName());
         if (!StringUtils.isEmpty(url)) {
             goods.setShareUrl(url);
             if (goodsMapper.updateByPrimaryKey(goods) == 0) {
                 throw new RuntimeException("更新数据失败");
             }
-        }*/
+        }
 
         // 商品规格表litemall_goods_specification
         for (TinymallGoodsSpecification specification : specifications) {

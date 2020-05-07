@@ -4,9 +4,9 @@ import com.example.tinymall.core.util.CharUtil;
 import com.example.tinymall.domain.TinymallStorage;
 import com.example.tinymall.service.TinymallStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.stream.Stream;
@@ -17,7 +17,6 @@ import java.util.stream.Stream;
  * @Author jzf
  * @Date 2020-4-9 17:16
  */
-@Service
 public class StorageService {
     private String active;
     private Storage storage;
