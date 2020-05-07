@@ -168,7 +168,7 @@ public class MD5Util {
     }
 
     public static void main(String[] args) throws Exception {
-        String str = "123456";
+        String str = "admin";
         System.out.println(encode(str));
 
         System.out.println(encodeWithoutSalt(str));

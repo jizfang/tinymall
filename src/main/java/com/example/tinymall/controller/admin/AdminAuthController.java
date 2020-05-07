@@ -1,6 +1,8 @@
 package com.example.tinymall.controller.admin;
 
+import com.example.tinymall.common.Exceptions.BusinessException;
 import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.enums.ResultCode;
 import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.core.annotation.LoginUser;
 import com.example.tinymall.core.constants.ResponseCode;
@@ -28,7 +30,7 @@ import java.util.Map;
 @ResponseResult
 @RestController
 @RequestMapping("/admin/user")
-@ResponseStatus(HttpStatus.OK)
+//@ResponseStatus(HttpStatus.OK)
 public class AdminAuthController {
 
     @Autowired
@@ -39,7 +41,7 @@ public class AdminAuthController {
         String username = userLoginInfo.getUsername();
         String password = userLoginInfo.getPassword();
         if (username == null || password == null) {
-            return ResponseMsg.badArgument();
+            return new BusinessException(ResultCode.USER_LOGIN_ERROR);
         }
 
         List<TinymallAdmin> userList = userService.queryByUsername(username);
@@ -47,21 +49,21 @@ public class AdminAuthController {
         if (userList.size() > 1) {
             return ResponseMsg.serious();
         } else if (userList.size() == 0) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.USER_NOT_FOUND.getMsgCode(), "账号不存在");
+            return new BusinessException(ResultCode.DATA_IS_WRONG);
         } else {
             user = userList.get(0);
         }
 
         boolean result = MD5Util.validDigest(password,user.getPassword());
         if (!result) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.PASSWORD_ERROR.getMsgCode(), ResponseCode.PASSWORD_ERROR.getMessage());
+            return new BusinessException(ResultCode.USER_LOGIN_ERROR);
         }
 
         // 更新登录情况
         user.setLastLoginTime(LocalDateTime.now());
         user.setLastLoginIp(IpUtil.getIpAddr(request));
         if (userService.updateById(user) == 0) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.SYSTEM_ERROR.getMsgCode(), "账号不存在");
+            return new BusinessException(ResultCode.USER_LOGIN_ERROR);
         }
 
         // userInfo
