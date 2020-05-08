@@ -1,7 +1,7 @@
 package com.example.tinymall.core.config;
 
 import com.example.tinymall.core.system.SystemConfig;
-import com.example.tinymall.core.util.SystemInfoPrinter;
+import com.example.tinymall.core.utils.SystemInfoPrinter;
 import com.example.tinymall.service.TinymallSystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

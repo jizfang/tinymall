@@ -1,7 +1,9 @@
 package com.example.tinymall.controller.wx;
 
-import com.example.tinymall.core.annotation.LoginUser;
-import com.example.tinymall.core.util.ResponseUtil;
+import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.core.utils.AssertUtils;
+import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.TinymallOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import java.util.Map;
  * @Author jzf
  * @Date 2020-4-11 17:41
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/user")
 public class WxUserController {
@@ -28,17 +31,16 @@ public class WxUserController {
      * <p>
      * 目前是用户订单统计信息
      *
-     * @param userId 用户ID
      * @return 用户个人页面数据
      */
     @GetMapping("index")
-    public Object list(@LoginUser Integer userId) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+    public Object list() {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        Integer userId = loginUser.getId();
 
         Map<Object, Object> data = new HashMap<Object, Object>();
         data.put("order", orderService.orderInfo(userId));
-        return ResponseUtil.ok(data);
+        return data;
     }
 }

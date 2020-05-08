@@ -1,12 +1,12 @@
 package com.example.tinymall.common.helper;
 
 import com.example.tinymall.common.annotation.LoginAuth;
-import com.example.tinymall.core.util.CookieUtil;
-import com.example.tinymall.core.util.JwtHelper;
-import com.example.tinymall.core.util.RequestContextUtil;
-import com.example.tinymall.core.util.StringUtil;
-import com.example.tinymall.domain.bo.LoginToken;
-import com.example.tinymall.domain.bo.LoginUser;
+import com.example.tinymall.core.utils.CookieUtil;
+import com.example.tinymall.core.utils.JwtHelper;
+import com.example.tinymall.core.utils.RequestContextUtil;
+import com.example.tinymall.core.utils.StringUtil;
+import com.example.tinymall.model.bo.LoginToken;
+import com.example.tinymall.model.bo.LoginUser;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -99,9 +99,9 @@ public class LoginTokenHelper {
         Integer userId = getUserId(loginToken);
         LoginUser loginUser = new LoginUser();
         if(userId == null){
-            loginUser.setId(String.valueOf(1));
+            loginUser.setId(1);
         }else {
-            loginUser.setId(String.valueOf(userId));
+            loginUser.setId(userId);
         }
         return loginUser;
     }

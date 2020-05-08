@@ -1,8 +1,8 @@
 package com.example.tinymall.service;
 
 import com.example.tinymall.common.page.PageVO;
-import com.example.tinymall.domain.TinymallGoods;
-import com.example.tinymall.domain.dto.GoodsDTO;
+import com.example.tinymall.entity.TinymallGoods;
+import com.example.tinymall.model.dto.GoodsDTO;
 
 import java.util.List;
 

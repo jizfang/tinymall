@@ -1,8 +1,7 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.TinymallComment;
+import com.example.tinymall.entity.TinymallComment;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**

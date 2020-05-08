@@ -1,13 +1,13 @@
 package com.example.tinymall.controller.admin;
 
 import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.enums.ResultCode;
 import com.example.tinymall.common.helper.LoginTokenHelper;
-import com.example.tinymall.core.annotation.LoginUser;
-import com.example.tinymall.core.constants.ResponseCode;
-import com.example.tinymall.core.util.*;
-import com.example.tinymall.domain.TinymallAdmin;
-import com.example.tinymall.domain.dto.UserInfo;
-import com.example.tinymall.domain.vo.UserLoginInfo;
+import com.example.tinymall.common.result.CommonResult;
+import com.example.tinymall.core.utils.*;
+import com.example.tinymall.entity.TinymallAdmin;
+import com.example.tinymall.model.dto.UserInfo;
+import com.example.tinymall.model.vo.UserLoginInfo;
 import com.example.tinymall.service.TinymallAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,31 +38,21 @@ public class AdminAuthController {
     public Object login(@RequestBody UserLoginInfo userLoginInfo, HttpServletRequest request) {
         String username = userLoginInfo.getUsername();
         String password = userLoginInfo.getPassword();
-        if (username == null || password == null) {
-            return ResponseMsg.badArgument();
-        }
+        AssertUtils.isFalse(username == null || password == null,"用户名或密码不能为空");
 
         List<TinymallAdmin> userList = userService.queryByUsername(username);
         TinymallAdmin user = null;
-        if (userList.size() > 1) {
-            return ResponseMsg.serious();
-        } else if (userList.size() == 0) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.USER_NOT_FOUND.getMsgCode(), "账号不存在");
-        } else {
-            user = userList.get(0);
-        }
+        AssertUtils.isFalse(userList.size() > 1, ResultCode.USER_HAS_EXISTED);
+        AssertUtils.isFalse(userList.size() == 0,ResultCode.USER_NOT_EXIST);
+        user = userList.get(0);
 
         boolean result = MD5Util.validDigest(password,user.getPassword());
-        if (!result) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.PASSWORD_ERROR.getMsgCode(), ResponseCode.PASSWORD_ERROR.getMessage());
-        }
+        AssertUtils.isTrue(result,ResultCode.USER_LOGIN_ERROR);
 
         // 更新登录情况
         user.setLastLoginTime(LocalDateTime.now());
         user.setLastLoginIp(IpUtil.getIpAddr(request));
-        if (userService.updateById(user) == 0) {
-            return ResponseMsg.createByErrorCodeMessage(ResponseCode.SYSTEM_ERROR.getMsgCode(), "账号不存在");
-        }
+        AssertUtils.isFalse(userService.updateById(user) == 0, "账号不存在");
 
         // userInfo
         UserInfo userInfo = new UserInfo();
@@ -79,24 +69,19 @@ public class AdminAuthController {
     }
 
     @PostMapping("logout")
-    public Object logout(@LoginUser Integer userId) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
-        return ResponseUtil.ok();
+    public Object logout() {
+        return CommonResult.success();
     }
 
     @GetMapping("info")
     public Object info(String token) {
-        if (StringUtil.isEmpty(token)) {
-            return ResponseUtil.unlogin();
-        }
+        AssertUtils.notBlank(token,"用户未登录");
         int userId = LoginTokenHelper.getUserId(token);
         TinymallAdmin tinymallAdmin = userService.getByUserId(userId);
         UserInfo userInfo = new UserInfo();
         userInfo.setAvatarUrl(tinymallAdmin.getAvatar());
         userInfo.setName(tinymallAdmin.getUsername());
-        userInfo.setRoles(tinymallAdmin.getRoleIds());
+        //userInfo.setRoles(tinymallAdmin.getRoleIds());
         return userInfo;
     }
 }

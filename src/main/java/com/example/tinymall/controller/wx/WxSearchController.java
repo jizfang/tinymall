@@ -4,11 +4,11 @@ import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
-import com.example.tinymall.core.util.ResponseUtil;
-import com.example.tinymall.domain.TinymallKeyword;
-import com.example.tinymall.domain.TinymallSearchHistory;
-import com.example.tinymall.domain.bo.KeywordCondition;
-import com.example.tinymall.domain.bo.LoginUser;
+import com.example.tinymall.common.result.CommonResult;
+import com.example.tinymall.entity.TinymallKeyword;
+import com.example.tinymall.entity.TinymallSearchHistory;
+import com.example.tinymall.model.bo.KeywordCondition;
+import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.TinymallKeywordService;
 import com.example.tinymall.service.TinymallSearchHistoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -105,6 +105,6 @@ public class WxSearchController {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         Integer userId = Integer.valueOf(loginUser.getId());
         searchHistoryService.deleteByUid(userId);
-        return ResponseUtil.ok();
+        return CommonResult.success();
     }
 }

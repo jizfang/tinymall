@@ -1,16 +1,13 @@
 package com.example.tinymall.controller.admin;
 
 import com.example.tinymall.common.Exceptions.BusinessException;
-import com.example.tinymall.common.Exceptions.InternalServerException;
 import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.core.storage.StorageService;
-import com.example.tinymall.core.util.ResponseUtil;
-import com.example.tinymall.domain.TinymallStorage;
+import com.example.tinymall.entity.TinymallStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

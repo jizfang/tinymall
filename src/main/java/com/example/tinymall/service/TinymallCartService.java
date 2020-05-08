@@ -1,6 +1,6 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.TinymallCart;
+import com.example.tinymall.entity.TinymallCart;
 
 import java.math.BigDecimal;
 import java.util.List;

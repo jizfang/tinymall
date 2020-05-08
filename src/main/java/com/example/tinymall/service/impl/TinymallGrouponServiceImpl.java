@@ -1,11 +1,11 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.core.constants.GrouponConstant;
-import com.example.tinymall.dao.TinymallGrouponMapper;
-import com.example.tinymall.domain.TinymallGroupon;
-import com.example.tinymall.domain.TinymallGrouponExample;
+import com.example.tinymall.entity.TinymallGroupon;
+import com.example.tinymall.mapper.TinymallGrouponMapper;
 import com.example.tinymall.service.TinymallGrouponService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -26,61 +26,69 @@ public class TinymallGrouponServiceImpl implements TinymallGrouponService {
 
     @Override
     public List<TinymallGroupon> queryMyGroupon(Integer userId) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andUserIdEqualTo(userId).andCreatorUserIdEqualTo(userId).andGrouponIdEqualTo(0).andStatusNotEqualTo(GrouponConstant.STATUS_NONE).andDeletedEqualTo(false);
         example.orderBy("add_time desc");
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public List<TinymallGroupon> queryMyJoinGroupon(Integer userId) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andUserIdEqualTo(userId).andGrouponIdNotEqualTo(0).andStatusNotEqualTo(GrouponConstant.STATUS_NONE).andDeletedEqualTo(false);
         example.orderBy("add_time desc");
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public TinymallGroupon queryByOrderId(Integer orderId) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andOrderIdEqualTo(orderId).andDeletedEqualTo(false);
-        return mapper.selectOneByExample(example);
+        return mapper.selectOneByExample(example);*/
+        return null;
     }
 
     @Override
     public List<TinymallGroupon> queryJoinRecord(Integer id) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andGrouponIdEqualTo(id).andStatusNotEqualTo(GrouponConstant.STATUS_NONE).andDeletedEqualTo(false);
         example.orderBy("add_time desc");
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public TinymallGroupon queryById(Integer id) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-        return mapper.selectOneByExample(example);
+        return mapper.selectOneByExample(example);*/
+        return null;
     }
 
     @Override
     public TinymallGroupon queryById(Integer userId, Integer id) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andIdEqualTo(id).andUserIdEqualTo(id).andDeletedEqualTo(false);
-        return mapper.selectOneByExample(example);
+        return mapper.selectOneByExample(example);*/
+        return null;
     }
 
     @Override
     public int countGroupon(Integer grouponId) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andGrouponIdEqualTo(grouponId).andStatusNotEqualTo(GrouponConstant.STATUS_NONE).andDeletedEqualTo(false);
-        return (int) mapper.countByExample(example);
+        return (int) mapper.countByExample(example);*/
+        return 0;
     }
 
     @Override
     public boolean hasJoin(Integer userId, Integer grouponId) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andUserIdEqualTo(userId).andGrouponIdEqualTo(grouponId).andStatusNotEqualTo(GrouponConstant.STATUS_NONE).andDeletedEqualTo(false);
-        return mapper.countByExample(example) != 0;
+        return mapper.countByExample(example) != 0;*/
+        return true;
     }
 
     @Override
@@ -98,7 +106,7 @@ public class TinymallGrouponServiceImpl implements TinymallGrouponService {
 
     @Override
     public List<TinymallGroupon> querySelective(String rulesId, Integer page, Integer size, String sort, String order) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         TinymallGrouponExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(rulesId)) {
@@ -109,13 +117,15 @@ public class TinymallGrouponServiceImpl implements TinymallGrouponService {
         criteria.andGrouponIdEqualTo(0);
 
         PageHelper.startPage(page, size);
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public List<TinymallGroupon> queryByRuleId(int grouponRuleId) {
-        TinymallGrouponExample example = new TinymallGrouponExample();
+        /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andRulesIdEqualTo(grouponRuleId).andDeletedEqualTo(false);
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 }

@@ -2,7 +2,7 @@ package com.example.tinymall.common.Exceptions;
 
 import com.example.tinymall.common.enums.BusinessExceptionEnum;
 import com.example.tinymall.common.enums.ResultCode;
-import com.example.tinymall.core.util.StringUtil;
+import com.example.tinymall.core.utils.StringUtil;
 import lombok.Data;
 
 /**

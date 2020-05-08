@@ -1,6 +1,6 @@
 package com.example.tinymall.common.page;
 
-import com.example.tinymall.core.util.BeanUtil;
+import com.example.tinymall.core.utils.BeanUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;

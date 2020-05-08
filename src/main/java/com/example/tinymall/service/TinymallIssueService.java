@@ -1,6 +1,6 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.TinymallIssue;
+import com.example.tinymall.entity.TinymallIssue;
 
 import java.util.List;
 

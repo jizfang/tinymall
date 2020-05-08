@@ -1,21 +1,23 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.common.page.PageVO;
+import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.qcode.QCodeService;
-import com.example.tinymall.core.util.ResponseUtil;
-import com.example.tinymall.dao.*;
-import com.example.tinymall.domain.*;
-import com.example.tinymall.domain.dto.GoodsDTO;
-import com.example.tinymall.domain.vo.CatVo;
+import com.example.tinymall.entity.TinymallGoods;
+import com.example.tinymall.mapper.*;
+import com.example.tinymall.model.dto.GoodsDTO;
+import com.example.tinymall.model.vo.CatVo;
 import com.example.tinymall.service.TinymallBrandService;
 import com.example.tinymall.service.TinymallCategoryService;
 import com.example.tinymall.service.TinymallGoodsService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -24,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.tinymall.core.util.ResponseCode.GOODS_NAME_EXIST;
 
 /**
  * @ClassName TinymallGoodsServiceImpl
@@ -35,8 +36,6 @@ import static com.example.tinymall.core.util.ResponseCode.GOODS_NAME_EXIST;
 @Service
 public class TinymallGoodsServiceImpl implements TinymallGoodsService {
 
-    TinymallGoods.Column[] columns = new TinymallGoods.Column[]{TinymallGoods.Column.id, TinymallGoods.Column.name, TinymallGoods.Column.brief,
-            TinymallGoods.Column.picUrl, TinymallGoods.Column.isHot, TinymallGoods.Column.isNew, TinymallGoods.Column.counterPrice, TinymallGoods.Column.retailPrice};
     @Resource
     private TinymallGoodsMapper goodsMapper;
     @Resource
@@ -56,54 +55,67 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
 
     @Override
     public List<TinymallGoods> queryByNew(int offset, int limit) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
-        example.or().andIsNewEqualTo(true).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
+        Example example = new Example(TinymallGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isNew",true);
+        criteria.andEqualTo("isOnSale",true);
+        criteria.andEqualTo("deleted",false);
         example.setOrderByClause("add_time desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return goodsMapper.selectByExample(example);
     }
 
     @Override
     public List<TinymallGoods> queryByHot(int offset, int limit) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
-        example.or().andIsHotEqualTo(true).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
+        Example example = new Example(TinymallGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isHot",true);
+        criteria.andEqualTo("isOnSale",true);
+        criteria.andEqualTo("deleted",false);
         example.setOrderByClause("add_time desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return goodsMapper.selectByExample(example);
     }
 
     @Override
     public List<TinymallGoods> queryByCategory(List<Integer> catList, int offset, Integer limit) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
-        example.or().andCategoryIdIn(catList).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
+        Example example = new Example(TinymallGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andIn("categoryId",catList);
+        criteria.andEqualTo("isOnSale",true);
+        criteria.andEqualTo("deleted",false);
         example.setOrderByClause("add_time  desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return goodsMapper.selectByExample(example);
     }
 
     @Override
     public List<TinymallGoods> queryByCategory(Integer catId, int offset, int limit) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
-        example.or().andCategoryIdEqualTo(catId).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
+        Example example = new Example(TinymallGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("categoryId",catId);
+        criteria.andEqualTo("isOnSale",true);
+        criteria.andEqualTo("deleted",false);
         example.setOrderByClause("add_time desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return goodsMapper.selectByExample(example);
     }
 
     @Override
     public Integer queryOnSale() {
-        TinymallGoodsExample example = new TinymallGoodsExample();
-        example.or().andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
-        return (int) goodsMapper.countByExample(example);
+        TinymallGoods tinymallGoods = new TinymallGoods();
+        tinymallGoods.setIsOnSale(true);
+        tinymallGoods.setDeleted(false);
+        return (int) goodsMapper.selectCount(tinymallGoods);
     }
 
     @Override
     public List<TinymallGoods> querySelective(Integer categoryId, Integer brandId, String keywords, Boolean isHot, Boolean isNew, Integer page, Integer limit, String sort, String order) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
+        /*TinymallGoodsExample example = new TinymallGoodsExample();
         TinymallGoodsExample.Criteria criteria1 = example.or();
         TinymallGoodsExample.Criteria criteria2 = example.or();
 
@@ -138,12 +150,14 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
 
         PageHelper.startPage(page, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return goodsMapper.selectByExampleSelective(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public List<Integer> getCatIds(Integer brandId, String keywords, Boolean isHot, Boolean isNew) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
+        return Lists.newArrayList();
+        /*TinymallGoodsExample example = new TinymallGoodsExample();
         TinymallGoodsExample.Criteria criteria1 = example.or();
         TinymallGoodsExample.Criteria criteria2 = example.or();
 
@@ -173,19 +187,21 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         for (TinymallGoods goods : goodsList) {
             cats.add(goods.getCategoryId());
         }
-        return cats;
+        return cats;*/
     }
 
     @Override
     public TinymallGoods findById(Integer id) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
+        return null;
+        /*TinymallGoodsExample example = new TinymallGoodsExample();
         example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-        return goodsMapper.selectOneByExampleWithBLOBs(example);
+        return goodsMapper.selectOneByExampleWithBLOBs(example);*/
     }
 
     @Override
     public PageVO<TinymallGoods> list(Integer goodsId, String goodsSn, String name, Integer pageNum, Integer limit, String sort, String order) {
-        TinymallGoodsExample example = new TinymallGoodsExample();
+        return null;
+        /*TinymallGoodsExample example = new TinymallGoodsExample();
         TinymallGoodsExample.Criteria criteria1 = example.or();
         TinymallGoodsExample.Criteria criteria2 = example.or();
 
@@ -212,13 +228,14 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
 
         Page<TinymallGoods> page = PageHelper.startPage(pageNum, limit);
         goodsMapper.selectByExampleSelective(example, columns);
-        return PageVO.build(page);
+        return PageVO.build(page);*/
     }
 
     @Override
     @Transactional
     public Object update(GoodsDTO goodsAllinone) {
-        Object error = validate(goodsAllinone);
+        return CommonResult.success();
+        /*Object error = validate(goodsAllinone);
         if (error != null) {
             return error;
         }
@@ -286,13 +303,14 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
             productMapper.updateByPrimaryKeySelective(product);
         }
 
-        return ResponseUtil.ok();
+        return CommonResult.success();*/
     }
 
     @Override
     @Transactional
     public Object delete(TinymallGoods goods) {
-        Integer id = goods.getId();
+        return CommonResult.success();
+        /*Integer id = goods.getId();
         if (id == null) {
             return ResponseUtil.badArgument();
         }
@@ -308,13 +326,14 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         TinymallGoodsProductExample goodsProductExample = new TinymallGoodsProductExample();
         goodsProductExample.or().andGoodsIdEqualTo(id);
         productMapper.deleteByExample(goodsProductExample);
-        return ResponseUtil.ok();
+        return CommonResult.success();*/
     }
 
     @Override
     @Transactional
     public Object create(GoodsDTO goodsAllinone) {
-        Object error = validate(goodsAllinone);
+        return CommonResult.success();
+        /*Object error = validate(goodsAllinone);
         if (error != null) {
             return error;
         }
@@ -370,12 +389,13 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
             product.setGoodsId(goods.getId());
             productMapper.insertSelective(product);
         }
-        return ResponseUtil.ok();
+        return CommonResult.success();*/
     }
 
     @Override
     public Object detail(Integer id) {
-        TinymallGoods goods = goodsMapper.selectByPrimaryKey(id);
+        return CommonResult.success();
+        /*TinymallGoods goods = goodsMapper.selectByPrimaryKey(id);
         TinymallGoodsProductExample goodsProductExample = new TinymallGoodsProductExample();
         goodsProductExample.or().andGoodsIdEqualTo(id);
         List<TinymallGoodsProduct> products = productMapper.selectByExample(goodsProductExample);
@@ -401,11 +421,12 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         data.put("attributes", attributes);
         data.put("categoryIds", categoryIds);
 
-        return data;
+        return data;*/
     }
 
     private Object validate(GoodsDTO goodsAllinone) {
-        TinymallGoods goods = goodsAllinone.getGoods();
+        return CommonResult.success();
+        /*TinymallGoods goods = goodsAllinone.getGoods();
         String name = goods.getName();
         if (StringUtils.isEmpty(name)) {
             return ResponseUtil.badArgument();
@@ -471,12 +492,13 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
             }
         }
 
-        return null;
+        return null;*/
     }
 
     @Override
     public Object list2() {
-        List<TinymallCategory> l1CatList = categoryService.queryL1();
+        return CommonResult.success();
+        /*List<TinymallCategory> l1CatList = categoryService.queryL1();
         List<CatVo> categoryList = new ArrayList<>(l1CatList.size());
 
         for (TinymallCategory l1 : l1CatList) {
@@ -513,6 +535,6 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         Map<String, Object> data = new HashMap<>();
         data.put("categoryList", categoryList);
         data.put("brandList", brandList);
-        return data;
+        return data;*/
     }
 }

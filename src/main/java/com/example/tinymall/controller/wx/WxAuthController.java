@@ -3,17 +3,19 @@ package com.example.tinymall.controller.wx;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.example.tinymall.common.Exceptions.BusinessException;
+import com.example.tinymall.common.annotation.LoginAuth;
 import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.enums.BusinessExceptionEnum;
 import com.example.tinymall.common.enums.ResultCode;
 import com.example.tinymall.common.helper.LoginTokenHelper;
-import com.example.tinymall.core.annotation.LoginUser;
-import com.example.tinymall.core.util.*;
-import com.example.tinymall.domain.TinymallUser;
-import com.example.tinymall.domain.bo.RegisterInfo;
-import com.example.tinymall.domain.dto.UserInfo;
-import com.example.tinymall.domain.dto.WxLoginInfo;
-import com.example.tinymall.domain.vo.UserLoginInfo;
+import com.example.tinymall.common.result.CommonResult;
+import com.example.tinymall.core.utils.*;
+import com.example.tinymall.entity.TinymallUser;
+import com.example.tinymall.model.bo.LoginUser;
+import com.example.tinymall.model.bo.RegisterInfo;
+import com.example.tinymall.model.dto.UserInfo;
+import com.example.tinymall.model.dto.WxLoginInfo;
+import com.example.tinymall.model.vo.UserLoginInfo;
 import com.example.tinymall.service.CouponAssignService;
 import com.example.tinymall.service.TinymallUserService;
 import io.swagger.annotations.Api;
@@ -30,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.tinymall.core.util.WxResponseCode.*;
+import static com.example.tinymall.core.utils.WxResponseCode.*;
 
 /**
  * @ClassName WxAuthController
@@ -63,9 +65,8 @@ public class WxAuthController {
     public Object loginByWeixin(@RequestBody WxLoginInfo wxLoginInfo, HttpServletRequest request) {
         String code = wxLoginInfo.getCode();
         UserInfo userInfo = wxLoginInfo.getUserInfo();
-        if (code == null || userInfo == null) {
-            return ResponseUtil.badArgument();
-        }
+        AssertUtils.notBlank(code,ResultCode.PARAM_IS_INVALID);
+        AssertUtils.notNull(userInfo,"用户不存在");
 
         String sessionKey = null;
         String openId = null;
@@ -77,9 +78,8 @@ public class WxAuthController {
             e.printStackTrace();
         }
 
-        if (sessionKey == null || openId == null) {
-            return ResponseUtil.fail();
-        }
+        AssertUtils.notBlank(sessionKey,ResultCode.USER_NOT_LOGGED_IN);
+        AssertUtils.notBlank(openId,ResultCode.USER_NOT_LOGGED_IN);
 
         TinymallUser user = userService.queryByOid(openId);
         if (user == null) {
@@ -104,9 +104,7 @@ public class WxAuthController {
             user.setLastLoginTime(LocalDateTime.now());
             user.setLastLoginIp(IpUtil.getIpAddr(request));
             user.setSessionKey(sessionKey);
-            if (userService.updateById(user) == 0) {
-                return ResponseUtil.updatedDataFailed();
-            }
+            AssertUtils.isFalse(userService.updateById(user) == 0,"更新失败");
         }
 
         // token
@@ -202,7 +200,7 @@ public class WxAuthController {
         }
         notifyService.notifySmsTemplate(phoneNumber, NotifyType.CAPTCHA, new String[]{code});*/
 
-        return ResponseUtil.ok();
+        return CommonResult.success();
     }
 
     /**
@@ -241,22 +239,15 @@ public class WxAuthController {
         // 其他情况，可以为空
         String wxCode = registerInfo.getWxCode();
 
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) {
-            return ResponseUtil.badArgument();
-        }
+        AssertUtils.isFalse(StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile),"参数无效");
 
         List<TinymallUser> userList = userService.queryByUsername(username);
-        if (userList.size() > 0) {
-            return ResponseUtil.fail(AUTH_NAME_REGISTERED, "用户名已注册");
-        }
+        AssertUtils.isFalse(userList.size() > 0,ResultCode.USER_HAS_EXISTED);
 
         userList = userService.queryByMobile(mobile);
-        if (userList.size() > 0) {
-            return ResponseUtil.fail(AUTH_MOBILE_REGISTERED, "手机号已注册");
-        }
-        if (!RegexUtil.isMobileExact(mobile)) {
-            return ResponseUtil.fail(AUTH_INVALID_MOBILE, "手机号格式不正确");
-        }
+        AssertUtils.isFalse(userList.size() > 0,ResultCode.USER_HAS_EXISTED);
+        AssertUtils.isTrue(RegexUtil.isMobileExact(mobile), "手机号格式不正确");
+
         //判断验证码是否正确
         /*String cacheCode = CaptchaCodeManager.getCachedCaptcha(mobile);
         if (cacheCode == null || cacheCode.isEmpty() || !cacheCode.equals(code)) {
@@ -272,19 +263,16 @@ public class WxAuthController {
                 openId = result.getOpenid();
             } catch (Exception e) {
                 e.printStackTrace();
-                return ResponseUtil.fail(AUTH_OPENID_UNACCESS, "openid 获取失败");
+                return new BusinessException("openid 获取失败");
             }
             userList = userService.queryByOpenid(openId);
-            if (userList.size() > 1) {
-                return ResponseUtil.serious();
-            }
+            AssertUtils.isFalse(userList.size() > 1,ResultCode.DATA_ALREADY_EXISTED);
+
             if (userList.size() == 1) {
                 TinymallUser checkUser = userList.get(0);
                 String checkUsername = checkUser.getUsername();
                 String checkPassword = checkUser.getPassword();
-                if (!checkUsername.equals(openId) || !checkPassword.equals(openId)) {
-                    return ResponseUtil.fail(AUTH_OPENID_BINDED, "openid已绑定账号");
-                }
+                AssertUtils.isTrue(!checkUsername.equals(openId) || !checkPassword.equals(openId), "openid已绑定账号");
             }
         }
 
@@ -322,10 +310,10 @@ public class WxAuthController {
 
     @PostMapping("logout")
     @ResponseStatus(HttpStatus.OK)
-    public Object logout(@LoginUser Integer userId) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
-        return ResponseUtil.ok();
+    @LoginAuth
+    public Object logout() {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+
+        return CommonResult.success();
     }
 }

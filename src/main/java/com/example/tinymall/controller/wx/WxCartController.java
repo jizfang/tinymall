@@ -1,14 +1,15 @@
 package com.example.tinymall.controller.wx;
 
 import com.example.tinymall.common.annotation.LoginAuth;
+import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
-import com.example.tinymall.core.annotation.LoginUser;
+import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.system.SystemConfig;
-import com.example.tinymall.core.util.ResponseUtil;
-import com.example.tinymall.domain.*;
+import com.example.tinymall.core.utils.AssertUtils;
+import com.example.tinymall.entity.*;
+import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.tinymall.core.util.WxResponseCode.GOODS_NO_STOCK;
-import static com.example.tinymall.core.util.WxResponseCode.GOODS_UNSHELVE;
+import static com.example.tinymall.core.utils.WxResponseCode.GOODS_NO_STOCK;
+import static com.example.tinymall.core.utils.WxResponseCode.GOODS_UNSHELVE;
 
 /**
  * @ClassName WxCartController
@@ -28,6 +29,7 @@ import static com.example.tinymall.core.util.WxResponseCode.GOODS_UNSHELVE;
  * @Author jzf
  * @Date 2020-4-15 14:17
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/cart")
 @Slf4j
@@ -50,16 +52,14 @@ public class WxCartController {
     /**
      * 用户购物车信息
      *
-     * @param userId 用户ID
      * @return 用户购物车信息
      */
     @GetMapping("index")
-    public Object index(@LoginUser Integer userId) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+    public Object index() {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
 
-        List<TinymallCart> list = cartService.queryByUid(userId);
+        List<TinymallCart> list = cartService.queryByUid(loginUser.getId());
         List<TinymallCart> cartList = new ArrayList<>();
         // TODO
         // 如果系统检查商品已删除或已下架，则系统自动删除。
@@ -97,29 +97,26 @@ public class WxCartController {
         result.put("cartList", cartList);
         result.put("cartTotal", cartTotal);
 
-        return ResponseUtil.ok(result);
+        return result;
     }
     /**
      * 购物车商品货品数量
      * <p>
      * 如果用户没有登录，则返回空数据。
      *
-     * @param userId 用户ID
      * @return 购物车商品货品数量
      */
     @GetMapping("goodscount")
-    public Object goodscount(@LoginUser Integer userId) {
-        if (userId == null) {
-            return ResponseUtil.ok(0);
-        }
-
+    public Object goodscount() {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
         int goodsCount = 0;
-        List<TinymallCart> cartList = cartService.queryByUid(userId);
+        List<TinymallCart> cartList = cartService.queryByUid(loginUser.getId());
         for (TinymallCart cart : cartList) {
             goodsCount += cart.getNumber();
         }
 
-        return ResponseUtil.ok(goodsCount);
+        return goodsCount;
     }
 
     /**
@@ -129,43 +126,39 @@ public class WxCartController {
      * 1. 如果购物车内已经存在购物车货品，前者的逻辑是数量添加，这里的逻辑是数量覆盖
      * 2. 添加成功以后，前者的逻辑是返回当前购物车商品数量，这里的逻辑是返回对应购物车项的ID
      *
-     * @param userId 用户ID
      * @param cart   购物车商品信息， { goodsId: xxx, productId: xxx, number: xxx }
      * @return 立即购买操作结果
      */
     @PostMapping("fastadd")
-    public Object fastadd(@LoginUser Integer userId, @RequestBody TinymallCart cart) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
-        if (cart == null) {
-            return ResponseUtil.badArgument();
-        }
+    public Object fastadd(@RequestBody TinymallCart cart) {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        AssertUtils.notNull(cart,"购物车信息不能为空");
 
         Integer productId = cart.getProductId();
         Integer number = cart.getNumber().intValue();
         Integer goodsId = cart.getGoodsId();
-        if (!ObjectUtils.allNotNull(productId, number, goodsId)) {
+        /*if (!ObjectUtils.allNotNull(productId, number, goodsId)) {
             return ResponseUtil.badArgument();
         }
         if(number <= 0){
             return ResponseUtil.badArgument();
-        }
+        }*/
 
         //判断商品是否可以购买
         TinymallGoods goods = goodsService.findById(goodsId);
-        if (goods == null || !goods.getIsOnSale()) {
+        /*if (goods == null || !goods.getIsOnSale()) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
-        }
+        }*/
 
         TinymallGoodsProduct product = productService.findById(productId);
         //判断购物车中是否存在此规格商品
-        TinymallCart existCart = cartService.queryExist(goodsId, productId, userId);
+        TinymallCart existCart = cartService.queryExist(goodsId, productId, loginUser.getId());
         if (existCart == null) {
             //取得规格的信息,判断规格库存
-            if (product == null || number > product.getNumber()) {
+            /*if (product == null || number > product.getNumber()) {
                 return ResponseUtil.fail(GOODS_NO_STOCK, "库存不足");
-            }
+            }*/
 
             cart.setId(null);
             cart.setGoodsSn(goods.getGoodsSn());
@@ -177,23 +170,23 @@ public class WxCartController {
                 cart.setPicUrl(product.getUrl());
             }
             cart.setPrice(product.getPrice());
-            cart.setSpecifications(product.getSpecifications());
-            cart.setUserId(userId);
+            //cart.setSpecifications(product.getSpecifications());
+            cart.setUserId(loginUser.getId());
             cart.setChecked(true);
             cartService.add(cart);
         } else {
             //取得规格的信息,判断规格库存
             int num = number;
-            if (num > product.getNumber()) {
+            /*if (num > product.getNumber()) {
                 return ResponseUtil.fail(GOODS_NO_STOCK, "库存不足");
-            }
+            }*/
             existCart.setNumber((short) num);
-            if (cartService.updateById(existCart) == 0) {
+            /*if (cartService.updateById(existCart) == 0) {
                 return ResponseUtil.updatedDataFailed();
-            }
+            }*/
         }
 
-        return ResponseUtil.ok(existCart != null ? existCart.getId() : cart.getId());
+        return CommonResult.success(existCart != null ? existCart.getId() : cart.getId());
     }
 
     /**
@@ -208,36 +201,36 @@ public class WxCartController {
     @PostMapping("add")
     @LoginAuth
     public Object add(@RequestBody TinymallCart cart) {
-        com.example.tinymall.domain.bo.LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
-        Integer userId = Integer.valueOf(loginUser.getId());
-        if (cart == null) {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        Integer userId = loginUser.getId();
+        /*if (cart == null) {
             return ResponseUtil.badArgument();
-        }
+        }*/
 
         Integer productId = cart.getProductId();
         Integer number = cart.getNumber().intValue();
         Integer goodsId = cart.getGoodsId();
-        if (!ObjectUtils.allNotNull(productId, number, goodsId)) {
+        /*if (!ObjectUtils.allNotNull(productId, number, goodsId)) {
             return ResponseUtil.badArgument();
         }
         if(number <= 0){
             return ResponseUtil.badArgument();
-        }
+        }*/
 
         //判断商品是否可以购买
         TinymallGoods goods = goodsService.findById(goodsId);
-        if (goods == null || !goods.getIsOnSale()) {
+        /*if (goods == null || !goods.getIsOnSale()) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
-        }
+        }*/
 
         TinymallGoodsProduct product = productService.findById(productId);
         //判断购物车中是否存在此规格商品
         TinymallCart existCart = cartService.queryExist(goodsId, productId, userId);
         if (existCart == null) {
             //取得规格的信息,判断规格库存
-            if (product == null || number > product.getNumber()) {
+            /*if (product == null || number > product.getNumber()) {
                 return ResponseUtil.fail(GOODS_NO_STOCK, "库存不足");
-            }
+            }*/
 
             cart.setId(null);
             cart.setGoodsSn(goods.getGoodsSn());
@@ -249,7 +242,7 @@ public class WxCartController {
                 cart.setPicUrl(product.getUrl());
             }
             cart.setPrice(product.getPrice());
-            cart.setSpecifications(product.getSpecifications());
+            //cart.setSpecifications(product.getSpecifications());
             cart.setUserId(userId);
             cart.setChecked(true);
             cart.setDeleted(false);
@@ -257,22 +250,21 @@ public class WxCartController {
         } else {
             //取得规格的信息,判断规格库存
             int num = existCart.getNumber() + number;
-            if (num > product.getNumber()) {
+            /*if (num > product.getNumber()) {
                 return ResponseUtil.fail(GOODS_NO_STOCK, "库存不足");
-            }
+            }*/
             existCart.setNumber((short) num);
-            if (cartService.updateById(existCart) == 0) {
+            /*if (cartService.updateById(existCart) == 0) {
                 return ResponseUtil.updatedDataFailed();
-            }
+            }*/
         }
 
-        return goodscount(userId);
+        return goodscount();
     }
 
     /**
      * 购物车下单
      *
-     * @param userId    用户ID
      * @param cartId    购物车商品ID：
      *                  如果购物车商品ID是空，则下单当前用户所有购物车商品；
      *                  如果购物车商品ID非空，则只下单当前购物车商品。
@@ -283,10 +275,9 @@ public class WxCartController {
      * @return 购物车操作结果
      */
     @GetMapping("checkout")
-    public Object checkout(@LoginUser Integer userId, Integer cartId, Integer addressId, Integer couponId, Integer userCouponId, Integer grouponRulesId) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+    public Object checkout(Integer cartId, Integer addressId, Integer couponId, Integer userCouponId, Integer grouponRulesId) {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        Integer userId = loginUser.getId();
 
         // 收货地址
         TinymallAddress checkedAddress = null;
@@ -305,9 +296,9 @@ public class WxCartController {
         } else {
             checkedAddress = addressService.query(userId, addressId);
             // 如果null, 则报错
-            if (checkedAddress == null) {
+            /*if (checkedAddress == null) {
                 return ResponseUtil.badArgumentValue();
-            }
+            }*/
         }
 
         // 团购优惠
@@ -323,9 +314,9 @@ public class WxCartController {
             checkedGoodsList = cartService.queryByUidAndChecked(userId);
         } else {
             TinymallCart cart = cartService.findById(userId, cartId);
-            if (cart == null) {
+            /*if (cart == null) {
                 return ResponseUtil.badArgumentValue();
-            }
+            }*/
             checkedGoodsList = new ArrayList<>(1);
             checkedGoodsList.add(cart);
         }
@@ -416,6 +407,6 @@ public class WxCartController {
         data.put("orderTotalPrice", orderTotalPrice);
         data.put("actualPrice", actualPrice);
         data.put("checkedGoodsList", checkedGoodsList);
-        return ResponseUtil.ok(data);
+        return data;
     }
 }

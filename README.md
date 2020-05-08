@@ -9,8 +9,8 @@ http://localhost:8090/swagger-ui.html
 ## 技术点
 - mybatis
 - springboot
-- mybatis-plus
-- easyExcel
+- 通用mapper
+
 
 ## 接口响应体格式统一封装
 1. Result 是返回格式类的父接口（所有返回格式类都需要继承它）
@@ -21,6 +21,21 @@ http://localhost:8090/swagger-ui.html
 6. ResponseResultInterceptor 拦截器（主要用于将ResponseResult注解类的标记信息传入ResponseResultHandler中）
 7. ResponseResultHandler 响应体格式处理器（主要转换逻辑都在这里）
 
+## 通用mapper生成代码使用lombok
+1. 在pom文件添加依赖
+```xml
+<dependency>
+   <groupId>org.projectlombok</groupId>
+   <artifactId>lombok</artifactId>
+   <version>1.18.12</version>
+   <scope>provided</scope>
+</dependency>
+```
+2. 在generatorConfig plugin中配置lombok插件
+```xml
+<!--lombok-->
+<property name="lombok" value="Getter,Setter,ToString"/>
+```
 
 ## 参考博客
-https://blog.csdn.net/aiyaya_/article/details/78976759
+https://blog.csdn.net/aiyaya_/

@@ -1,11 +1,10 @@
 package com.example.tinymall.core.storage;
 
-import com.example.tinymall.core.util.CharUtil;
-import com.example.tinymall.domain.TinymallStorage;
+import com.example.tinymall.core.utils.CharUtil;
+import com.example.tinymall.entity.TinymallStorage;
 import com.example.tinymall.service.TinymallStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.nio.file.Path;

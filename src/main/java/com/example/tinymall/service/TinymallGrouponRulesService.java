@@ -1,6 +1,6 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.TinymallGrouponRules;
+import com.example.tinymall.entity.TinymallGrouponRules;
 
 import java.util.List;
 

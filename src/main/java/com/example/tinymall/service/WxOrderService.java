@@ -2,12 +2,11 @@ package com.example.tinymall.service;
 
 import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
-import com.example.tinymall.domain.TinymallOrder;
-import com.example.tinymall.domain.bo.OrderInfo;
-import com.example.tinymall.domain.bo.UserCartInfo;
+import com.example.tinymall.entity.TinymallOrder;
+import com.example.tinymall.model.bo.OrderInfo;
+import com.example.tinymall.model.bo.UserCartInfo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @ClassName WxOrderService

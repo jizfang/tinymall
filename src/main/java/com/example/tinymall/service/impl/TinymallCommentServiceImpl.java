@@ -1,10 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallCommentMapper;
-import com.example.tinymall.domain.TinymallComment;
-import com.example.tinymall.domain.TinymallCommentExample;
+import com.example.tinymall.entity.TinymallComment;
+import com.example.tinymall.mapper.TinymallCommentMapper;
 import com.example.tinymall.service.TinymallCommentService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +25,17 @@ public class TinymallCommentServiceImpl implements TinymallCommentService {
 
     @Override
     public List<TinymallComment> queryGoodsByGid(Integer id, int offset, int limit) {
-        TinymallCommentExample example = new TinymallCommentExample();
+        /*TinymallCommentExample example = new TinymallCommentExample();
         example.setOrderByClause(TinymallComment.Column.addTime.desc());
         example.or().andValueIdEqualTo(id).andTypeEqualTo((byte) 0).andDeletedEqualTo(false);
         PageHelper.startPage(offset, limit);
-        return commentMapper.selectByExample(example);
+        return commentMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public List<TinymallComment> query(Byte type, Integer valueId, Integer showType, Integer offset, Integer limit) {
-        TinymallCommentExample example = new TinymallCommentExample();
+        /*TinymallCommentExample example = new TinymallCommentExample();
         example.setOrderByClause(TinymallComment.Column.addTime.desc());
         if (showType == 0) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
@@ -44,12 +45,13 @@ public class TinymallCommentServiceImpl implements TinymallCommentService {
             throw new RuntimeException("showType不支持");
         }
         PageHelper.startPage(offset, limit);
-        return commentMapper.selectByExample(example);
+        return commentMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public int count(Byte type, Integer valueId, Integer showType) {
-        TinymallCommentExample example = new TinymallCommentExample();
+        /*TinymallCommentExample example = new TinymallCommentExample();
         if (showType == 0) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         } else if (showType == 1) {
@@ -57,7 +59,8 @@ public class TinymallCommentServiceImpl implements TinymallCommentService {
         } else {
             throw new RuntimeException("showType不支持");
         }
-        return (int) commentMapper.countByExample(example);
+        return (int) commentMapper.countByExample(example);*/
+        return 0;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class TinymallCommentServiceImpl implements TinymallCommentService {
 
     @Override
     public List<TinymallComment> querySelective(String userId, String valueId, Integer page, Integer size, String sort, String order) {
-        TinymallCommentExample example = new TinymallCommentExample();
+        /*TinymallCommentExample example = new TinymallCommentExample();
         TinymallCommentExample.Criteria criteria = example.createCriteria();
 
         // type=2 是订单商品回复，这里过滤
@@ -88,12 +91,13 @@ public class TinymallCommentServiceImpl implements TinymallCommentService {
         }
 
         PageHelper.startPage(page, size);
-        return commentMapper.selectByExample(example);
+        return commentMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public void deleteById(Integer id) {
-        commentMapper.logicalDeleteByPrimaryKey(id);
+        commentMapper.deleteByIds(String.valueOf(id));
     }
 
     @Override

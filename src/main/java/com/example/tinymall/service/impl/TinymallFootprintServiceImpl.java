@@ -1,10 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallFootprintMapper;
-import com.example.tinymall.domain.TinymallFootprint;
-import com.example.tinymall.domain.TinymallFootprintExample;
+import com.example.tinymall.entity.TinymallFootprint;
+import com.example.tinymall.mapper.TinymallFootprintMapper;
 import com.example.tinymall.service.TinymallFootprintService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +25,12 @@ public class TinymallFootprintServiceImpl implements TinymallFootprintService {
 
     @Override
     public List<TinymallFootprint> queryByAddTime(Integer userId, Integer page, Integer size) {
-        TinymallFootprintExample example = new TinymallFootprintExample();
+        /*TinymallFootprintExample example = new TinymallFootprintExample();
         example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
         example.setOrderByClause(TinymallFootprint.Column.addTime.desc());
         PageHelper.startPage(page, size);
-        return footprintMapper.selectByExample(example);
+        return footprintMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
@@ -39,14 +40,15 @@ public class TinymallFootprintServiceImpl implements TinymallFootprintService {
 
     @Override
     public TinymallFootprint findById(Integer userId, Integer id) {
-        TinymallFootprintExample example = new TinymallFootprintExample();
+        /*TinymallFootprintExample example = new TinymallFootprintExample();
         example.or().andIdEqualTo(id).andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        return footprintMapper.selectOneByExample(example);
+        return footprintMapper.selectOneByExample(example);*/
+        return null;
     }
 
     @Override
     public void deleteById(Integer id) {
-        footprintMapper.logicalDeleteByPrimaryKey(id);
+        footprintMapper.deleteByIds(String.valueOf(id));
     }
 
     @Override
@@ -58,7 +60,7 @@ public class TinymallFootprintServiceImpl implements TinymallFootprintService {
 
     @Override
     public List<TinymallFootprint> querySelective(String userId, String goodsId, Integer page, Integer size, String sort, String order) {
-        TinymallFootprintExample example = new TinymallFootprintExample();
+        /*TinymallFootprintExample example = new TinymallFootprintExample();
         TinymallFootprintExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(userId)) {
@@ -74,6 +76,7 @@ public class TinymallFootprintServiceImpl implements TinymallFootprintService {
         }
 
         PageHelper.startPage(page, size);
-        return footprintMapper.selectByExample(example);
+        return footprintMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 }

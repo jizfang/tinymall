@@ -1,11 +1,13 @@
 package com.example.tinymall.controller.wx;
 
-import com.example.tinymall.core.annotation.LoginUser;
+import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.system.SystemConfig;
-import com.example.tinymall.core.util.ResponseUtil;
+import com.example.tinymall.core.utils.AssertUtils;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
-import com.example.tinymall.domain.*;
+import com.example.tinymall.entity.*;
+import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.*;
 import com.github.pagehelper.PageInfo;
 import com.mysql.jdbc.StringUtils;
@@ -69,12 +71,15 @@ public class WxGoodsController {
      * 用户可以不登录。
      * 如果用户登录，则记录用户足迹以及返回用户收藏信息。
      *
-     * @param userId 用户ID
      * @param id     商品ID
      * @return 商品详情
      */
     @GetMapping("detail")
-    public Object detail(@LoginUser Integer userId, @NotNull Integer id) {
+    public Object detail( @NotNull Integer id) {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        Integer userId = loginUser.getId();
+
         // 商品信息
         TinymallGoods info = goodsService.findById(id);
 
@@ -116,7 +121,7 @@ public class WxGoodsController {
                 TinymallUser user = userService.findById(comment.getUserId());
                 c.put("nickname", user == null ? "" : user.getNickname());
                 c.put("avatar", user == null ? "" : user.getAvatar());
-                c.put("picList", comment.getPicUrls());
+                //c.put("picList", comment.getPicUrls());
                 commentsVo.add(c);
             }
             Map<String, Object> commentList = new HashMap<>();
@@ -181,7 +186,7 @@ public class WxGoodsController {
 
         //商品分享图片地址
         data.put("shareImage", info.getShareUrl());
-        return ResponseUtil.ok(data);
+        return data;
     }
 
     /**
@@ -195,7 +200,6 @@ public class WxGoodsController {
      * @param keyword    关键字，可选
      * @param isNew      是否新品，可选
      * @param isHot      是否热买，可选
-     * @param userId     用户ID
      * @param page       分页页数
      * @param limit       分页大小
      * @param sort       排序方式，支持"add_time", "retail_price"或"name"
@@ -209,12 +213,14 @@ public class WxGoodsController {
             String keyword,
             Boolean isNew,
             Boolean isHot,
-            @LoginUser Integer userId,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer limit,
             @Sort(accepts = {"add_time", "retail_price", "name"}) @RequestParam(defaultValue = "add_time") String sort,
             @Order @RequestParam(defaultValue = "desc") String order) {
 
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        Integer userId = loginUser.getId();
         //添加到搜索历史
         if (userId != null && !StringUtils.isNullOrEmpty(keyword)) {
             TinymallSearchHistory searchHistoryVo = new TinymallSearchHistory();
@@ -247,7 +253,7 @@ public class WxGoodsController {
         entity.put("filterCategoryList", categoryList);
 
         // 因为这里需要返回额外的filterCategoryList参数，因此不能方便使用ResponseUtil.okList
-        return ResponseUtil.ok(entity);
+        return entity;
     }
 
     /**
@@ -274,7 +280,7 @@ public class WxGoodsController {
         data.put("currentCategory", cur);
         data.put("parentCategory", parent);
         data.put("brotherCategory", children);
-        return ResponseUtil.ok(data);
+        return data;
     }
 
     /**
@@ -285,7 +291,7 @@ public class WxGoodsController {
     @GetMapping("count")
     public Object count() {
         Integer goodsCount = goodsService.queryOnSale();
-        return ResponseUtil.ok(goodsCount);
+        return CommonResult.success(goodsCount);
     }
 
     /**
@@ -297,9 +303,9 @@ public class WxGoodsController {
     @GetMapping("related")
     public Object related(@NotNull Integer id) {
         TinymallGoods goods = goodsService.findById(id);
-        if (goods == null) {
+        /*if (goods == null) {
             return ResponseUtil.badArgumentValue();
-        }
+        }*/
 
         // 目前的商品推荐算法仅仅是推荐同类目的其他商品
         int cid = goods.getCategoryId();
@@ -307,6 +313,6 @@ public class WxGoodsController {
         // 查找六个相关商品
         int related = 6;
         List<TinymallGoods> goodsList = goodsService.queryByCategory(cid, 0, related);
-        return ResponseUtil.okList(goodsList);
+        return goodsList;
     }
 }

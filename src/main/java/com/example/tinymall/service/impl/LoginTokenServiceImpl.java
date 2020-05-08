@@ -2,16 +2,14 @@ package com.example.tinymall.service.impl;
 
 import com.example.tinymall.common.enums.CacheKeyEnum;
 import com.example.tinymall.common.helper.LoginTokenHelper;
-import com.example.tinymall.core.util.RedisUtil;
-import com.example.tinymall.domain.bo.LoginToken;
+import com.example.tinymall.core.utils.RedisUtil;
+import com.example.tinymall.model.bo.LoginToken;
 import com.example.tinymall.service.LoginTokenService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName LoginTokenServiceImpl

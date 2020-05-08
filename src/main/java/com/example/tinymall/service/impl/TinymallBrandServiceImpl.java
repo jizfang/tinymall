@@ -1,10 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallBrandMapper;
-import com.example.tinymall.domain.TinymallBrand;
-import com.example.tinymall.domain.TinymallBrandExample;
+import com.example.tinymall.entity.TinymallBrand;
+import com.example.tinymall.mapper.TinymallBrandMapper;
 import com.example.tinymall.service.TinymallBrandService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,6 @@ import java.util.List;
 public class TinymallBrandServiceImpl implements TinymallBrandService {
     @Resource
     private TinymallBrandMapper brandMapper;
-    private TinymallBrand.Column[] columns = new TinymallBrand.Column[]{TinymallBrand.Column.id, TinymallBrand.Column.name,
-            TinymallBrand.Column.desc, TinymallBrand.Column.picUrl, TinymallBrand.Column.floorPrice};
 
     @Override
     public List<TinymallBrand> query(Integer page, Integer limit) {
@@ -31,13 +29,14 @@ public class TinymallBrandServiceImpl implements TinymallBrandService {
 
     @Override
     public List<TinymallBrand> query(Integer page, Integer limit, String sort, String order) {
-        TinymallBrandExample example = new TinymallBrandExample();
+        /*TinymallBrandExample example = new TinymallBrandExample();
         example.or().andDeletedEqualTo(false);
         if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
             example.setOrderByClause(sort + " " + order);
         }
         PageHelper.startPage(page, limit);
-        return brandMapper.selectByExampleSelective(example, columns);
+        return brandMapper.selectByExampleSelective(example, columns);*/
+        return Lists.newArrayList();
     }
 
     @Override

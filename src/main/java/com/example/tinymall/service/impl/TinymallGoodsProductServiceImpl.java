@@ -1,10 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.GoodsProductMapper;
-import com.example.tinymall.dao.TinymallGoodsProductMapper;
-import com.example.tinymall.domain.TinymallGoodsProduct;
-import com.example.tinymall.domain.TinymallGoodsProductExample;
+import com.example.tinymall.entity.TinymallGoodsProduct;
+import com.example.tinymall.mapper.GoodsProductMapper;
+import com.example.tinymall.mapper.TinymallGoodsProductMapper;
 import com.example.tinymall.service.TinymallGoodsProductService;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,9 +27,10 @@ public class TinymallGoodsProductServiceImpl implements TinymallGoodsProductServ
 
     @Override
     public List<TinymallGoodsProduct> queryByGid(Integer gid) {
-        TinymallGoodsProductExample example = new TinymallGoodsProductExample();
+        /*TinymallGoodsProductExample example = new TinymallGoodsProductExample();
         example.or().andGoodsIdEqualTo(gid).andDeletedEqualTo(false);
-        return litemallGoodsProductMapper.selectByExample(example);
+        return litemallGoodsProductMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class TinymallGoodsProductServiceImpl implements TinymallGoodsProductServ
 
     @Override
     public void deleteById(Integer id) {
-        litemallGoodsProductMapper.logicalDeleteByPrimaryKey(id);
+        litemallGoodsProductMapper.deleteByIds(String.valueOf(id));
     }
 
     @Override
@@ -51,16 +52,17 @@ public class TinymallGoodsProductServiceImpl implements TinymallGoodsProductServ
 
     @Override
     public int count() {
-        TinymallGoodsProductExample example = new TinymallGoodsProductExample();
+        /*TinymallGoodsProductExample example = new TinymallGoodsProductExample();
         example.or().andDeletedEqualTo(false);
-        return (int) litemallGoodsProductMapper.countByExample(example);
+        return (int) litemallGoodsProductMapper.countByExample(example);*/
+        return 0;
     }
 
     @Override
     public void deleteByGid(Integer gid) {
-        TinymallGoodsProductExample example = new TinymallGoodsProductExample();
+        /*TinymallGoodsProductExample example = new TinymallGoodsProductExample();
         example.or().andGoodsIdEqualTo(gid);
-        litemallGoodsProductMapper.logicalDeleteByExample(example);
+        litemallGoodsProductMapper.logicalDeleteByExample(example);*/
     }
 
     @Override

@@ -1,19 +1,16 @@
 package com.example.tinymall.controller.wx;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
-import com.example.tinymall.core.util.JsonUtil;
-import com.example.tinymall.domain.TinymallOrder;
-import com.example.tinymall.domain.bo.LoginUser;
-import com.example.tinymall.domain.bo.OrderInfo;
-import com.example.tinymall.domain.bo.UserCartInfo;
-import com.example.tinymall.domain.dto.UserOrderParam;
+import com.example.tinymall.entity.TinymallOrder;
+import com.example.tinymall.model.bo.LoginUser;
+import com.example.tinymall.model.bo.OrderInfo;
+import com.example.tinymall.model.bo.UserCartInfo;
+import com.example.tinymall.model.dto.UserOrderParam;
 import com.example.tinymall.service.WxOrderService;
-import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,10 +57,9 @@ public class WxOrderController {
     }
 
     @GetMapping("list")
-    public PageVO<TinymallOrder> list(PageQO pageQO){
+    public PageVO<TinymallOrder> list(PageQO pageQO,UserOrderParam userOrderParam){
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         Integer userId = Integer.valueOf(loginUser.getId());
-        UserOrderParam userOrderParam = JSONObject.parseObject(pageQO.getCondition().toString(),UserOrderParam.class);
         if(userOrderParam == null){
             userOrderParam = new UserOrderParam();
         }

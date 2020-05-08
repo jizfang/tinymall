@@ -3,15 +3,14 @@ package com.example.tinymall.controller.admin;
 import com.example.tinymall.common.Exceptions.BusinessException;
 import com.example.tinymall.common.Exceptions.ParameterInvalidException;
 import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.storage.StorageService;
-import com.example.tinymall.core.util.ResponseUtil;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
-import com.example.tinymall.domain.TinymallStorage;
+import com.example.tinymall.entity.TinymallStorage;
 import com.example.tinymall.service.TinymallStorageService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -77,6 +76,6 @@ public class AdminStorageController {
         }
         tinymallStorageService.deleteByKey(key);
         storageService.delete(key);
-        return ResponseUtil.ok();
+        return CommonResult.success();
     }
 }

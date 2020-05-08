@@ -1,7 +1,7 @@
 package com.example.tinymall.controller.wx;
 
-import com.example.tinymall.core.util.ResponseUtil;
-import com.example.tinymall.domain.TinymallCategory;
+import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.entity.TinymallCategory;
 import com.example.tinymall.service.TinymallCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +19,7 @@ import java.util.Map;
  * @Author jzf
  * @Date 2020-4-11 17:24
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/catalog")
 public class WxCatalogController {
@@ -59,7 +60,7 @@ public class WxCatalogController {
         data.put("categoryList", l1CatList);
         data.put("currentCategory", currentCategory);
         data.put("currentSubCategory", currentSubCategory);
-        return ResponseUtil.ok(data);
+        return data;
     }
 
     /**
@@ -72,14 +73,14 @@ public class WxCatalogController {
     public Object current(@NotNull Integer id) {
         // 当前分类
         TinymallCategory currentCategory = categoryService.findById(id);
-        if(currentCategory == null){
+        /*if(currentCategory == null){
             return ResponseUtil.badArgumentValue();
-        }
+        }*/
         List<TinymallCategory> currentSubCategory = categoryService.queryByPid(currentCategory.getId());
 
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("currentCategory", currentCategory);
         data.put("currentSubCategory", currentSubCategory);
-        return ResponseUtil.ok(data);
+        return data;
     }
 }

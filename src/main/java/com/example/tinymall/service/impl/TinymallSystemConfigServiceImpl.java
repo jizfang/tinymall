@@ -1,8 +1,7 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallSystemMapper;
-import com.example.tinymall.domain.TinymallSystem;
-import com.example.tinymall.domain.TinymallSystemExample;
+import com.example.tinymall.entity.TinymallSystem;
+import com.example.tinymall.mapper.TinymallSystemMapper;
 import com.example.tinymall.service.TinymallSystemConfigService;
 import org.springframework.stereotype.Service;
 
@@ -26,69 +25,69 @@ public class TinymallSystemConfigServiceImpl implements TinymallSystemConfigServ
 
     @Override
     public Map<String, String> queryAll() {
-        TinymallSystemExample example = new TinymallSystemExample();
+        /*TinymallSystemExample example = new TinymallSystemExample();
         example.or().andDeletedEqualTo(false);
 
-        List<TinymallSystem> systemList = systemMapper.selectByExample(example);
+        List<TinymallSystem> systemList = systemMapper.selectByExample(example);*/
         Map<String, String> systemConfigs = new HashMap<>();
-        for (TinymallSystem item : systemList) {
+        /*for (TinymallSystem item : systemList) {
             systemConfigs.put(item.getKeyName(), item.getKeyValue());
-        }
+        }*/
 
         return systemConfigs;
     }
 
     @Override
     public Map<String, String> listMail() {
-        TinymallSystemExample example = new TinymallSystemExample();
+        /*TinymallSystemExample example = new TinymallSystemExample();
         example.or().andKeyNameLike("litemall_mall_%").andDeletedEqualTo(false);
-        List<TinymallSystem> systemList = systemMapper.selectByExample(example);
+        List<TinymallSystem> systemList = systemMapper.selectByExample(example);*/
         Map<String, String> data = new HashMap<>();
-        for (TinymallSystem system : systemList) {
+        /*for (TinymallSystem system : systemList) {
             data.put(system.getKeyName(), system.getKeyValue());
-        }
+        }*/
         return data;
     }
 
     @Override
     public Map<String, String> listWx() {
-        TinymallSystemExample example = new TinymallSystemExample();
+        /*TinymallSystemExample example = new TinymallSystemExample();
         example.or().andKeyNameLike("litemall_wx_%").andDeletedEqualTo(false);
-        List<TinymallSystem> systemList = systemMapper.selectByExample(example);
+        List<TinymallSystem> systemList = systemMapper.selectByExample(example);*/
         Map<String, String> data = new HashMap<>();
-        for (TinymallSystem system : systemList) {
+        /*for (TinymallSystem system : systemList) {
             data.put(system.getKeyName(), system.getKeyValue());
-        }
+        }*/
         return data;
     }
 
     @Override
     public Map<String, String> listOrder() {
-        TinymallSystemExample example = new TinymallSystemExample();
+        /*TinymallSystemExample example = new TinymallSystemExample();
         example.or().andKeyNameLike("litemall_order_%").andDeletedEqualTo(false);
-        List<TinymallSystem> systemList = systemMapper.selectByExample(example);
+        List<TinymallSystem> systemList = systemMapper.selectByExample(example);*/
         Map<String, String> data = new HashMap<>();
-        for (TinymallSystem system : systemList) {
+        /*for (TinymallSystem system : systemList) {
             data.put(system.getKeyName(), system.getKeyValue());
-        }
+        }*/
         return data;
     }
 
     @Override
     public Map<String, String> listExpress() {
-        TinymallSystemExample example = new TinymallSystemExample();
+        /*TinymallSystemExample example = new TinymallSystemExample();
         example.or().andKeyNameLike("litemall_express_%").andDeletedEqualTo(false);
-        List<TinymallSystem> systemList = systemMapper.selectByExample(example);
+        List<TinymallSystem> systemList = systemMapper.selectByExample(example);*/
         Map<String, String> data = new HashMap<>();
-        for (TinymallSystem system : systemList) {
+        /*for (TinymallSystem system : systemList) {
             data.put(system.getKeyName(), system.getKeyValue());
-        }
+        }*/
         return data;
     }
 
     @Override
     public void updateConfig(Map<String, String> data) {
-        for (Map.Entry<String, String> entry : data.entrySet()) {
+        /*for (Map.Entry<String, String> entry : data.entrySet()) {
             TinymallSystemExample example = new TinymallSystemExample();
             example.or().andKeyNameEqualTo(entry.getKey()).andDeletedEqualTo(false);
 
@@ -97,7 +96,7 @@ public class TinymallSystemConfigServiceImpl implements TinymallSystemConfigServ
             system.setKeyValue(entry.getValue());
             system.setUpdateTime(LocalDateTime.now());
             systemMapper.updateByExampleSelective(system, example);
-        }
+        }*/
 
     }
 

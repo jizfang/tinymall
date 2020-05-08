@@ -1,10 +1,11 @@
 package com.example.tinymall.controller.wx;
 
+import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
-import com.example.tinymall.core.annotation.LoginUser;
-import com.example.tinymall.core.util.RegexUtil;
-import com.example.tinymall.core.util.ResponseUtil;
-import com.example.tinymall.domain.TinymallAddress;
+import com.example.tinymall.core.utils.AssertUtils;
+import com.example.tinymall.core.utils.RegexUtil;
+import com.example.tinymall.entity.TinymallAddress;
+import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.TinymallAddressService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-15 20:08
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/address")
 public class WxAddressController {
@@ -27,16 +29,14 @@ public class WxAddressController {
     /**
      * 用户收货地址列表
      *
-     * @param userId 用户ID
      * @return 收货地址列表
      */
     @GetMapping("list")
-    public Object list(@LoginUser Integer userId) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
-        List<TinymallAddress> addressList = addressService.queryByUid(userId);
-        return ResponseUtil.okList(addressList);
+    public Object list() {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        List<TinymallAddress> addressList = addressService.queryByUid(loginUser.getId());
+        return addressList;
     }
 
     /**
@@ -47,7 +47,7 @@ public class WxAddressController {
      */
     @PostMapping("save")
     public Object save(@RequestBody TinymallAddress address) {
-        com.example.tinymall.domain.bo.LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        com.example.tinymall.model.bo.LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         Integer userId = Integer.valueOf(loginUser.getId());
         Object error = validate(address);
         if (error != null) {
@@ -65,9 +65,9 @@ public class WxAddressController {
             addressService.add(address);
         } else {
             TinymallAddress litemallAddress = addressService.query(userId, address.getId());
-            if (litemallAddress == null) {
+            /*if (litemallAddress == null) {
                 return ResponseUtil.badArgumentValue();
-            }
+            }*/
 
             if (address.getIsDefault()) {
                 // 重置其他收货地址的默认选项
@@ -77,18 +77,18 @@ public class WxAddressController {
             address.setUserId(userId);
             addressService.update(address);
         }
-        return ResponseUtil.ok(address.getId());
+        return address.getId();
     }
 
     private Object validate(TinymallAddress address) {
         String name = address.getName();
-        if (StringUtils.isEmpty(name)) {
+        /*if (StringUtils.isEmpty(name)) {
             return ResponseUtil.badArgument();
-        }
+        }*/
 
         // 测试收货手机号码是否正确
         String mobile = address.getTel();
-        if (StringUtils.isEmpty(mobile)) {
+        /*if (StringUtils.isEmpty(mobile)) {
             return ResponseUtil.badArgument();
         }
         if (!RegexUtil.isMobileExact(mobile)) {
@@ -124,7 +124,7 @@ public class WxAddressController {
         Boolean isDefault = address.getIsDefault();
         if (isDefault == null) {
             return ResponseUtil.badArgument();
-        }
+        }*/
         return null;
     }
 }

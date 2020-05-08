@@ -1,6 +1,6 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.bo.LoginToken;
+import com.example.tinymall.model.bo.LoginToken;
 
 /**
  * @ClassName LoginTokenService

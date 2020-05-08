@@ -1,7 +1,7 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.vo.LoginVO;
-import com.example.tinymall.domain.vo.UserLoginInfo;
+import com.example.tinymall.model.vo.LoginVO;
+import com.example.tinymall.model.vo.UserLoginInfo;
 
 /**
  * @ClassName LoginService

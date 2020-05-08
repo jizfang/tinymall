@@ -1,11 +1,11 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.core.constants.CouponUserConstant;
-import com.example.tinymall.dao.TinymallCouponUserMapper;
-import com.example.tinymall.domain.TinymallCouponUser;
-import com.example.tinymall.domain.TinymallCouponUserExample;
+import com.example.tinymall.entity.TinymallCouponUser;
+import com.example.tinymall.mapper.TinymallCouponUserMapper;
 import com.example.tinymall.service.TinymallCouponUserService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -26,16 +26,18 @@ public class TinymallCouponUserServiceImpl implements TinymallCouponUserService 
 
     @Override
     public Integer countCoupon(Integer couponId) {
-        TinymallCouponUserExample example = new TinymallCouponUserExample();
+        /*TinymallCouponUserExample example = new TinymallCouponUserExample();
         example.or().andCouponIdEqualTo(couponId).andDeletedEqualTo(false);
-        return (int) couponUserMapper.countByExample(example);
+        return (int) couponUserMapper.countByExample(example);*/
+        return 0;
     }
 
     @Override
     public Integer countUserAndCoupon(Integer userId, Integer couponId) {
-        TinymallCouponUserExample example = new TinymallCouponUserExample();
+        /*TinymallCouponUserExample example = new TinymallCouponUserExample();
         example.or().andUserIdEqualTo(userId).andCouponIdEqualTo(couponId).andDeletedEqualTo(false);
-        return (int) couponUserMapper.countByExample(example);
+        return (int) couponUserMapper.countByExample(example);*/
+        return 0;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class TinymallCouponUserServiceImpl implements TinymallCouponUserService 
 
     @Override
     public List<TinymallCouponUser> queryList(Integer userId, Integer couponId, Short status, Integer page, Integer size, String sort, String order) {
-        TinymallCouponUserExample example = new TinymallCouponUserExample();
+        /*TinymallCouponUserExample example = new TinymallCouponUserExample();
         TinymallCouponUserExample.Criteria criteria = example.createCriteria();
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -68,7 +70,8 @@ public class TinymallCouponUserServiceImpl implements TinymallCouponUserService 
             PageHelper.startPage(page, size);
         }
 
-        return couponUserMapper.selectByExample(example);
+        return couponUserMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
@@ -103,8 +106,9 @@ public class TinymallCouponUserServiceImpl implements TinymallCouponUserService 
 
     @Override
     public List<TinymallCouponUser> queryExpired() {
-        TinymallCouponUserExample example = new TinymallCouponUserExample();
+        /*TinymallCouponUserExample example = new TinymallCouponUserExample();
         example.or().andStatusEqualTo(CouponUserConstant.STATUS_USABLE).andEndTimeLessThan(LocalDateTime.now()).andDeletedEqualTo(false);
-        return couponUserMapper.selectByExample(example);
+        return couponUserMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 }

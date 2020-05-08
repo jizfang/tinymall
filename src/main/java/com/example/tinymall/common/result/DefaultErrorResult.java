@@ -3,7 +3,7 @@ package com.example.tinymall.common.result;
 import com.example.tinymall.common.Exceptions.BusinessException;
 import com.example.tinymall.common.enums.BusinessExceptionEnum;
 import com.example.tinymall.common.enums.ResultCode;
-import com.example.tinymall.core.util.RequestContextUtil;
+import com.example.tinymall.core.utils.RequestContextUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

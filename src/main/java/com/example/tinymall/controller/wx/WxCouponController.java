@@ -1,12 +1,14 @@
 package com.example.tinymall.controller.wx;
 
-import com.example.tinymall.core.annotation.LoginUser;
-import com.example.tinymall.core.util.ResponseUtil;
+import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.core.utils.AssertUtils;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
-import com.example.tinymall.domain.TinymallCoupon;
-import com.example.tinymall.domain.TinymallCouponUser;
-import com.example.tinymall.domain.vo.CouponVo;
+import com.example.tinymall.entity.TinymallCoupon;
+import com.example.tinymall.entity.TinymallCouponUser;
+import com.example.tinymall.model.bo.LoginUser;
+import com.example.tinymall.model.vo.CouponVo;
 import com.example.tinymall.service.TinymallCouponService;
 import com.example.tinymall.service.TinymallCouponUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-15 19:57
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/coupon")
 public class WxCouponController {
@@ -34,7 +37,6 @@ public class WxCouponController {
     /**
      * 个人优惠券列表
      *
-     * @param userId
      * @param status
      * @param page
      * @param limit
@@ -43,19 +45,19 @@ public class WxCouponController {
      * @return
      */
     @GetMapping("mylist")
-    public Object mylist(@LoginUser Integer userId,
+    public Object mylist(
                          Short status,
                          @RequestParam(defaultValue = "1") Integer page,
                          @RequestParam(defaultValue = "10") Integer limit,
                          @Sort @RequestParam(defaultValue = "add_time") String sort,
                          @Order @RequestParam(defaultValue = "desc") String order) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        Integer userId = loginUser.getId();
 
         List<TinymallCouponUser> couponUserList = couponUserService.queryList(userId, null, status, page, limit, sort, order);
         List<CouponVo> couponVoList = change(couponUserList);
-        return ResponseUtil.okList(couponVoList, couponUserList);
+        return couponUserList;
     }
 
     private List<CouponVo> change(List<TinymallCouponUser> couponList) {

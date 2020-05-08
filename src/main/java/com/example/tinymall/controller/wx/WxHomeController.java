@@ -1,11 +1,17 @@
 package com.example.tinymall.controller.wx;
 
-import com.example.tinymall.core.annotation.LoginUser;
+import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.system.SystemConfig;
-import com.example.tinymall.core.util.ResponseUtil;
-import com.example.tinymall.domain.TinymallCategory;
-import com.example.tinymall.domain.TinymallGoods;
+import com.example.tinymall.core.utils.AssertUtils;
+import com.example.tinymall.entity.TinymallCategory;
+import com.example.tinymall.entity.TinymallCoupon;
+import com.example.tinymall.entity.TinymallGoods;
+import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.*;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 /**
  * @ClassName WxHomeController
@@ -27,6 +30,7 @@ import java.util.concurrent.FutureTask;
  * @Author jzf
  * @Date 2020-4-10 16:00
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/home")
 @Slf4j
@@ -58,14 +62,25 @@ public class WxHomeController {
      * @return 首页数据
      */
     @GetMapping("/index")
-    public Object index(@LoginUser Integer userId) {
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+    public Object index() {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        Integer userId = loginUser.getId();
 
-        Callable<List> bannerListCallable = () -> adService.queryIndex();
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("home-pool-%d").build();
+
+        //Common Thread Pool
+        ExecutorService executorService = new ThreadPoolExecutor(5, 200,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+
+        Callable<List> bannerListCallable = () -> adService.selectAll();
 
         Callable<List> channelListCallable = () -> categoryService.queryChannel();
 
-        Callable<List> couponListCallable = () -> couponService.queryList(0, 3);
+        PageQO pageQO = new PageQO(0,3);
+        Callable<PageVO<TinymallCoupon>> couponListCallable = () -> couponService.queryList(pageQO);
 
         Callable<List> newGoodsListCallable = () -> goodsService.queryByNew(0, SystemConfig.getNewLimit());
 
@@ -82,7 +97,7 @@ public class WxHomeController {
 
         FutureTask<List> bannerTask = new FutureTask<>(bannerListCallable);
         FutureTask<List> channelTask = new FutureTask<>(channelListCallable);
-        FutureTask<List> couponListTask = new FutureTask<>(couponListCallable);
+        FutureTask<PageVO<TinymallCoupon>> couponListTask = new FutureTask<>(couponListCallable);
         FutureTask<List> newGoodsListTask = new FutureTask<>(newGoodsListCallable);
         FutureTask<List> hotGoodsListTask = new FutureTask<>(hotGoodsListCallable);
         FutureTask<List> brandListTask = new FutureTask<>(brandListCallable);
@@ -104,7 +119,7 @@ public class WxHomeController {
         try {
             entity.put("banner", bannerTask.get());
             entity.put("channel", channelTask.get());
-            entity.put("couponList", couponListTask.get());
+            entity.put("couponList", couponListTask.get().getList());
             entity.put("newGoodsList", newGoodsListTask.get());
             entity.put("hotGoodsList", hotGoodsListTask.get());
             entity.put("brandList", brandListTask.get());
@@ -116,7 +131,7 @@ public class WxHomeController {
         }finally {
             executorService.shutdown();
         }
-        return ResponseUtil.ok(entity);
+        return entity;
     }
 
     private List<Map> getCategoryList() {

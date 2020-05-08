@@ -1,6 +1,6 @@
 package com.example.tinymall.core.constants;
 
-import com.example.tinymall.domain.TinymallOrder;
+import com.example.tinymall.entity.TinymallOrder;
 
 import java.util.ArrayList;
 import java.util.List;

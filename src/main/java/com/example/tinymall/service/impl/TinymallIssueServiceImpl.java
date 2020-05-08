@@ -1,10 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallIssueMapper;
-import com.example.tinymall.domain.TinymallIssue;
-import com.example.tinymall.domain.TinymallIssueExample;
+import com.example.tinymall.entity.TinymallIssue;
+import com.example.tinymall.mapper.TinymallIssueMapper;
 import com.example.tinymall.service.TinymallIssueService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class TinymallIssueServiceImpl implements TinymallIssueService {
 
     @Override
     public void deleteById(Integer id) {
-        issueMapper.logicalDeleteByPrimaryKey(id);
+        //issueMapper.logicalDeleteByPrimaryKey(id);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TinymallIssueServiceImpl implements TinymallIssueService {
 
     @Override
     public List<TinymallIssue> querySelective(String question, Integer page, Integer limit, String sort, String order) {
-        TinymallIssueExample example = new TinymallIssueExample();
+        /*TinymallIssueExample example = new TinymallIssueExample();
         TinymallIssueExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(question)) {
@@ -50,7 +50,8 @@ public class TinymallIssueServiceImpl implements TinymallIssueService {
         }
 
         PageHelper.startPage(page, limit);
-        return issueMapper.selectByExample(example);
+        return issueMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override

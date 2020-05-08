@@ -2,9 +2,8 @@ package com.example.tinymall.service.impl;
 
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.constants.OrderUtil;
-import com.example.tinymall.dao.TinymallOrderMapper;
-import com.example.tinymall.domain.TinymallOrder;
-import com.example.tinymall.domain.TinymallOrderExample;
+import com.example.tinymall.entity.TinymallOrder;
+import com.example.tinymall.mapper.TinymallOrderMapper;
 import com.example.tinymall.service.TinymallOrderService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.tinymall.core.util.CharUtil.getRandomNum;
+import static com.example.tinymall.core.utils.CharUtil.getRandomNum;
 
 /**
  * @ClassName TinymallOrderServiceImpl
@@ -35,15 +34,15 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
 
     @Override
     public Map<Object, Object> orderInfo(Integer userId) {
-        TinymallOrderExample example = new TinymallOrderExample();
-        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        List<TinymallOrder> orders = orderMapper.selectByExampleSelective(example, TinymallOrder.Column.orderStatus, TinymallOrder.Column.comments);
+//        TinymallOrderExample example = new TinymallOrderExample();
+//        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
+//        List<TinymallOrder> orders = orderMapper.selectByExampleSelective(example, TinymallOrder.Column.orderStatus, TinymallOrder.Column.comments);
 
         int unpaid = 0;
         int unship = 0;
         int unrecv = 0;
         int uncomment = 0;
-        for (TinymallOrder order : orders) {
+        /*for (TinymallOrder order : orders) {
             if (OrderUtil.isCreateStatus(order)) {
                 unpaid++;
             } else if (OrderUtil.isPayStatus(order)) {
@@ -55,7 +54,7 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
             } else {
                 // do nothing
             }
-        }
+        }*/
 
         Map<Object, Object> orderInfo = new HashMap<Object, Object>();
         orderInfo.put("unpaid", unpaid);
@@ -67,9 +66,10 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
     }
 
     public int countByOrderSn(Integer userId, String orderSn) {
-        TinymallOrderExample example = new TinymallOrderExample();
+        /*TinymallOrderExample example = new TinymallOrderExample();
         example.or().andUserIdEqualTo(userId).andOrderSnEqualTo(orderSn).andDeletedEqualTo(false);
-        return (int) orderMapper.countByExample(example);
+        return (int) orderMapper.countByExample(example);*/
+        return 0;
     }
 
     @Override
@@ -92,9 +92,10 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
 
     @Override
     public TinymallOrder findById(Integer userId, Integer orderId) {
-        TinymallOrderExample example = new TinymallOrderExample();
+        /*TinymallOrderExample example = new TinymallOrderExample();
         example.or().andIdEqualTo(orderId).andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        return orderMapper.selectOneByExample(example);
+        return orderMapper.selectOneByExample(example);*/
+        return null;
     }
 
     @Override
@@ -104,7 +105,7 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
 
     @Override
     public PageVO<TinymallOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer pageNum, Integer limit, String orderBy) {
-        TinymallOrderExample example = new TinymallOrderExample();
+        /*TinymallOrderExample example = new TinymallOrderExample();
         example.setOrderByClause(TinymallOrder.Column.addTime.desc());
         TinymallOrderExample.Criteria criteria = example.or();
         criteria.andUserIdEqualTo(userId);
@@ -118,6 +119,7 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
 
         Page page = PageHelper.startPage(pageNum, limit);
         orderMapper.selectByExample(example);
-        return PageVO.build(page);
+        return PageVO.build(page);*/
+        return null;
     }
 }

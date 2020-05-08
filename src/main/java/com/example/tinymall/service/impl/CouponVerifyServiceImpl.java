@@ -1,8 +1,8 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.core.constants.CouponConstant;
-import com.example.tinymall.domain.TinymallCoupon;
-import com.example.tinymall.domain.TinymallCouponUser;
+import com.example.tinymall.entity.TinymallCoupon;
+import com.example.tinymall.entity.TinymallCouponUser;
 import com.example.tinymall.service.CouponVerifyService;
 import com.example.tinymall.service.TinymallCouponService;
 import com.example.tinymall.service.TinymallCouponUserService;

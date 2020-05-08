@@ -1,11 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.core.validator.Order;
-import com.example.tinymall.dao.TinymallStorageMapper;
-import com.example.tinymall.domain.TinymallStorage;
-import com.example.tinymall.domain.TinymallStorageExample;
+import com.example.tinymall.entity.TinymallStorage;
+import com.example.tinymall.mapper.TinymallStorageMapper;
 import com.example.tinymall.service.TinymallStorageService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +25,9 @@ public class TinymallStorageServiceImpl implements TinymallStorageService {
 
     @Override
     public void deleteByKey(String key) {
-        TinymallStorageExample example = new TinymallStorageExample();
+        /*TinymallStorageExample example = new TinymallStorageExample();
         example.or().andKeyEqualTo(key);
-        storageMapper.logicalDeleteByExample(example);
+        storageMapper.logicalDeleteByExample(example);*/
     }
 
     @Override
@@ -40,9 +39,10 @@ public class TinymallStorageServiceImpl implements TinymallStorageService {
 
     @Override
     public TinymallStorage findByKey(String key) {
-        TinymallStorageExample example = new TinymallStorageExample();
+        /*TinymallStorageExample example = new TinymallStorageExample();
         example.or().andKeyEqualTo(key).andDeletedEqualTo(false);
-        return storageMapper.selectOneByExample(example);
+        return storageMapper.selectOneByExample(example);*/
+        return null;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TinymallStorageServiceImpl implements TinymallStorageService {
 
     @Override
     public List<TinymallStorage> querySelective(String key, String name, Integer page, Integer limit, String sort, String order) {
-        TinymallStorageExample example = new TinymallStorageExample();
+        /*TinymallStorageExample example = new TinymallStorageExample();
         TinymallStorageExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(key)) {
@@ -74,6 +74,7 @@ public class TinymallStorageServiceImpl implements TinymallStorageService {
         }
 
         PageHelper.startPage(page, limit);
-        return storageMapper.selectByExample(example);
+        return storageMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 }

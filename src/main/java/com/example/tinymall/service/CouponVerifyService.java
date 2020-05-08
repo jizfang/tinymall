@@ -1,6 +1,6 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.TinymallCoupon;
+import com.example.tinymall.entity.TinymallCoupon;
 
 import java.math.BigDecimal;
 

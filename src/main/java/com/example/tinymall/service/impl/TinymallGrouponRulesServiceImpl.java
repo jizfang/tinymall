@@ -1,13 +1,12 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.core.constants.GrouponConstant;
-import com.example.tinymall.dao.TinymallGoodsMapper;
-import com.example.tinymall.dao.TinymallGrouponRulesMapper;
-import com.example.tinymall.domain.TinymallGoods;
-import com.example.tinymall.domain.TinymallGrouponRules;
-import com.example.tinymall.domain.TinymallGrouponRulesExample;
+import com.example.tinymall.entity.TinymallGrouponRules;
+import com.example.tinymall.mapper.TinymallGoodsMapper;
+import com.example.tinymall.mapper.TinymallGrouponRulesMapper;
 import com.example.tinymall.service.TinymallGrouponRulesService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +26,6 @@ public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesServ
     private TinymallGrouponRulesMapper mapper;
     @Resource
     private TinymallGoodsMapper goodsMapper;
-    private TinymallGoods.Column[] goodsColumns = new TinymallGoods.Column[]{TinymallGoods.Column.id, TinymallGoods.Column.name, TinymallGoods.Column.brief, TinymallGoods.Column.picUrl,
-            TinymallGoods.Column.counterPrice, TinymallGoods.Column.retailPrice};
 
 
     @Override
@@ -45,23 +42,26 @@ public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesServ
 
     @Override
     public List<TinymallGrouponRules> queryByGoodsId(Integer goodsId) {
-        TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
+        /*TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
         example.or().andGoodsIdEqualTo(goodsId).andStatusEqualTo(GrouponConstant.RULE_STATUS_ON).andDeletedEqualTo(false);
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public int countByGoodsId(Integer goodsId) {
-        TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
-        example.or().andGoodsIdEqualTo(goodsId).andStatusEqualTo(GrouponConstant.RULE_STATUS_ON).andDeletedEqualTo(false);
-        return (int) mapper.countByExample(example);
+//        TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
+//        example.or().andGoodsIdEqualTo(goodsId).andStatusEqualTo(GrouponConstant.RULE_STATUS_ON).andDeletedEqualTo(false);
+//        return (int) mapper.countByExample(example);
+        return 0;
     }
 
     @Override
     public List<TinymallGrouponRules> queryByStatus(Short status) {
-        TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
+        /*TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
         example.or().andStatusEqualTo(status).andDeletedEqualTo(false);
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
@@ -71,11 +71,12 @@ public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesServ
 
     @Override
     public List<TinymallGrouponRules> queryList(Integer page, Integer limit, String sort, String order) {
-        TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
+        /*TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
         example.or().andStatusEqualTo(GrouponConstant.RULE_STATUS_ON).andDeletedEqualTo(false);
         example.setOrderByClause(sort + " " + order);
         PageHelper.startPage(page, limit);
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
@@ -85,7 +86,7 @@ public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesServ
 
     @Override
     public List<TinymallGrouponRules> querySelective(String goodsId, Integer page, Integer size, String sort, String order) {
-        TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
+        /*TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
         example.setOrderByClause(sort + " " + order);
 
         TinymallGrouponRulesExample.Criteria criteria = example.createCriteria();
@@ -96,12 +97,13 @@ public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesServ
         criteria.andDeletedEqualTo(false);
 
         PageHelper.startPage(page, size);
-        return mapper.selectByExample(example);
+        return mapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
     public void delete(Integer id) {
-        mapper.logicalDeleteByPrimaryKey(id);
+        mapper.deleteByIds(String.valueOf(id));
     }
 
     @Override

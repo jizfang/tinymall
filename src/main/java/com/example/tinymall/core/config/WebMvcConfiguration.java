@@ -2,7 +2,6 @@ package com.example.tinymall.core.config;
 
 import com.example.tinymall.common.interceptor.LoginAuthInterceptor;
 import com.example.tinymall.common.interceptor.ResponseResultInterceptor;
-import com.example.tinymall.core.annotation.support.LoginUserHandlerMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -25,11 +24,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     private ResponseResultInterceptor responseResultInterceptor;
     @Autowired
     private LoginAuthInterceptor loginAuthInterceptor;
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new LoginUserHandlerMethodArgumentResolver());
-    }
 
     /**
      * 开启拦截器

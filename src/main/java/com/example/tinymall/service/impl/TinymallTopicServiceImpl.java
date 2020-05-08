@@ -1,10 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallTopicMapper;
-import com.example.tinymall.domain.TinymallTopic;
-import com.example.tinymall.domain.TinymallTopicExample;
+import com.example.tinymall.entity.TinymallTopic;
+import com.example.tinymall.mapper.TinymallTopicMapper;
 import com.example.tinymall.service.TinymallTopicService;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,8 +21,6 @@ public class TinymallTopicServiceImpl implements TinymallTopicService {
 
     @Resource
     private TinymallTopicMapper topicMapper;
-    private TinymallTopic.Column[] columns = new TinymallTopic.Column[]{TinymallTopic.Column.id, TinymallTopic.Column.title,
-            TinymallTopic.Column.subtitle, TinymallTopic.Column.price, TinymallTopic.Column.picUrl, TinymallTopic.Column.readCount};
 
     @Override
     public List<TinymallTopic> queryList(int offset, int limit) {
@@ -31,10 +29,11 @@ public class TinymallTopicServiceImpl implements TinymallTopicService {
 
     @Override
     public List<TinymallTopic> queryList(int offset, int limit, String sort, String order) {
-        TinymallTopicExample example = new TinymallTopicExample();
+        /*TinymallTopicExample example = new TinymallTopicExample();
         example.or().andDeletedEqualTo(false);
         example.setOrderByClause(sort + " " + order);
         PageHelper.startPage(offset, limit);
-        return topicMapper.selectByExampleSelective(example, columns);
+        return topicMapper.selectByExampleSelective(example, columns);*/
+        return Lists.newArrayList();
     }
 }

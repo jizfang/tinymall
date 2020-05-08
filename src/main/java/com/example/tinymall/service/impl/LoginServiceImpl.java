@@ -1,7 +1,7 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.domain.vo.LoginVO;
-import com.example.tinymall.domain.vo.UserLoginInfo;
+import com.example.tinymall.model.vo.LoginVO;
+import com.example.tinymall.model.vo.UserLoginInfo;
 import com.example.tinymall.service.LoginService;
 import com.example.tinymall.service.LoginTokenService;
 import org.springframework.beans.factory.annotation.Autowired;

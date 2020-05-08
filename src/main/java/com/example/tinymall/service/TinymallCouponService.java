@@ -1,7 +1,8 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.TinymallCoupon;
-import com.example.tinymall.domain.TinymallCouponExample;
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
+import com.example.tinymall.entity.TinymallCoupon;
 
 import java.util.List;
 
@@ -12,11 +13,8 @@ import java.util.List;
  * @Date 2020-4-10 16:10
  */
 public interface TinymallCouponService {
-    List queryList(int offset, int limit);
 
-    List<TinymallCoupon> queryList(TinymallCouponExample.Criteria criteria, int offset, int limit, String sort, String order);
-
-    List<TinymallCoupon> queryList(int offset, int limit, String sort, String order);
+    PageVO<TinymallCoupon> queryList(PageQO pageQO);
 
     List<TinymallCoupon> queryRegister();
 

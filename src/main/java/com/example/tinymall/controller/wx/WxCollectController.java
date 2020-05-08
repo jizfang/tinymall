@@ -1,15 +1,17 @@
 package com.example.tinymall.controller.wx;
 
-import com.example.tinymall.core.annotation.LoginUser;
-import com.example.tinymall.core.util.JacksonUtil;
-import com.example.tinymall.core.util.ResponseUtil;
+import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.common.result.CommonResult;
+import com.example.tinymall.core.utils.AssertUtils;
+import com.example.tinymall.core.utils.JacksonUtil;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
-import com.example.tinymall.domain.TinymallCollect;
-import com.example.tinymall.domain.TinymallGoods;
+import com.example.tinymall.entity.TinymallCollect;
+import com.example.tinymall.entity.TinymallGoods;
+import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.TinymallCollectService;
 import com.example.tinymall.service.TinymallGoodsService;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,7 @@ import java.util.Map;
  * @Author jzf
  * @Date 2020-4-15 17:36
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/collect")
 public class WxCollectController {
@@ -37,22 +40,21 @@ public class WxCollectController {
     /**
      * 用户收藏列表
      *
-     * @param userId 用户ID
      * @param type   类型，如果是0则是商品收藏，如果是1则是专题收藏
      * @param page   分页页数
      * @param limit   分页大小
      * @return 用户收藏列表
      */
     @GetMapping("list")
-    public Object list(@LoginUser Integer userId,
+    public Object list(
                        @NotNull Byte type,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        Integer userId = loginUser.getId();
 
         List<TinymallCollect> collectList = collectService.queryByType(userId, type, page, limit, sort, order);
 
@@ -72,7 +74,7 @@ public class WxCollectController {
             collects.add(c);
         }
 
-        return ResponseUtil.okList(collects, collectList);
+        return collectList;
     }
 
     /**
@@ -80,21 +82,20 @@ public class WxCollectController {
      * <p>
      * 如果商品没有收藏，则添加收藏；如果商品已经收藏，则删除收藏状态。
      *
-     * @param userId 用户ID
      * @param body   请求内容，{ type: xxx, valueId: xxx }
      * @return 操作结果
      */
     @PostMapping("addordelete")
-    public Object addordelete(@LoginUser Integer userId, @RequestBody String body) {
-        if (userId == null) {
-            return ResponseUtil.unlogin();
-        }
+    public Object addordelete(@RequestBody String body) {
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"用户未登录");
+        Integer userId = loginUser.getId();
 
         Byte type = JacksonUtil.parseByte(body, "type");
         Integer valueId = JacksonUtil.parseInteger(body, "valueId");
-        if (!ObjectUtils.allNotNull(type, valueId)) {
+        /*if (!ObjectUtils.allNotNull(type, valueId)) {
             return ResponseUtil.badArgument();
-        }
+        }*/
 
         TinymallCollect collect = collectService.queryByTypeAndValue(userId, type, valueId);
 
@@ -108,6 +109,6 @@ public class WxCollectController {
             collectService.add(collect);
         }
 
-        return ResponseUtil.ok();
+        return CommonResult.success();
     }
 }

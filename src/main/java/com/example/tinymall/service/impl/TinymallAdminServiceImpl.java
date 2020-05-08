@@ -1,11 +1,11 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallAdminMapper;
-import com.example.tinymall.domain.TinymallAdmin;
-import com.example.tinymall.domain.TinymallAdminExample;
+import com.example.tinymall.entity.TinymallAdmin;
+import com.example.tinymall.mapper.TinymallAdminMapper;
 import com.example.tinymall.service.TinymallAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,8 +24,9 @@ public class TinymallAdminServiceImpl implements TinymallAdminService {
 
     @Override
     public List<TinymallAdmin> queryByUsername(String username) {
-        TinymallAdminExample example = new TinymallAdminExample();
-        example.or().andUsernameEqualTo(username).andDeletedEqualTo(false);
+        Example example = new Example(TinymallAdmin.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username",username);
         return adminMapper.selectByExample(example);
     }
 

@@ -2,7 +2,7 @@ package com.example.tinymall.service;
 
 import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
-import com.example.tinymall.domain.TinymallKeyword;
+import com.example.tinymall.entity.TinymallKeyword;
 
 import java.util.List;
 

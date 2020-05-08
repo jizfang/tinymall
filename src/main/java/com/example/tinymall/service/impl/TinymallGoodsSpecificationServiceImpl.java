@@ -1,10 +1,10 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.dao.TinymallGoodsSpecificationMapper;
-import com.example.tinymall.domain.TinymallGoodsSpecification;
-import com.example.tinymall.domain.TinymallGoodsSpecificationExample;
-import com.example.tinymall.domain.vo.SpecificationVO;
+import com.example.tinymall.entity.TinymallGoodsSpecification;
+import com.example.tinymall.mapper.TinymallGoodsSpecificationMapper;
+import com.example.tinymall.model.vo.SpecificationVO;
 import com.example.tinymall.service.TinymallGoodsSpecificationService;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,9 +27,10 @@ public class TinymallGoodsSpecificationServiceImpl implements TinymallGoodsSpeci
 
     @Override
     public List<TinymallGoodsSpecification> queryByGid(Integer id) {
-        TinymallGoodsSpecificationExample example = new TinymallGoodsSpecificationExample();
+        /*TinymallGoodsSpecificationExample example = new TinymallGoodsSpecificationExample();
         example.or().andGoodsIdEqualTo(id).andDeletedEqualTo(false);
-        return goodsSpecificationMapper.selectByExample(example);
+        return goodsSpecificationMapper.selectByExample(example);*/
+        return Lists.newArrayList();
     }
 
     @Override
@@ -39,9 +40,9 @@ public class TinymallGoodsSpecificationServiceImpl implements TinymallGoodsSpeci
 
     @Override
     public void deleteByGid(Integer gid) {
-        TinymallGoodsSpecificationExample example = new TinymallGoodsSpecificationExample();
+        /*TinymallGoodsSpecificationExample example = new TinymallGoodsSpecificationExample();
         example.or().andGoodsIdEqualTo(gid);
-        goodsSpecificationMapper.logicalDeleteByExample(example);
+        goodsSpecificationMapper.logicalDeleteByExample(example);*/
     }
 
     @Override

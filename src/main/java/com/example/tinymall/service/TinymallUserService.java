@@ -1,7 +1,7 @@
 package com.example.tinymall.service;
 
-import com.example.tinymall.domain.TinymallUser;
-import com.example.tinymall.domain.vo.UserVo;
+import com.example.tinymall.entity.TinymallUser;
+import com.example.tinymall.model.vo.UserVo;
 
 import java.util.List;
 

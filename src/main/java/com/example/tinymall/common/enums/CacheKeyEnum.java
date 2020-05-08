@@ -1,6 +1,6 @@
 package com.example.tinymall.common.enums;
 
-import com.example.tinymall.core.util.StringUtil;
+import com.example.tinymall.core.utils.StringUtil;
 
 /**
  * @ClassName CacheKeyEnum
