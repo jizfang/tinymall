@@ -359,6 +359,7 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
             }
         }
         goods.setRetailPrice(retailPrice);
+        goods.setDeleted(false);
 
         // 商品基本信息表litemall_goods
         goodsMapper.insertSelective(goods);
