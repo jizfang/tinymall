@@ -52,11 +52,11 @@ public class StorageService {
 
         String url = generateUrl(key);
         TinymallStorage storageInfo = new TinymallStorage();
-        storageInfo.setName(fileName);
-        storageInfo.setSize((int) contentLength);
-        storageInfo.setType(contentType);
-        storageInfo.setKey(key);
-        storageInfo.setUrl(url);
+        storageInfo.setStorageName(fileName);
+        storageInfo.setStorageSize((int) contentLength);
+        storageInfo.setStorageType(contentType);
+        storageInfo.setStorageKey(key);
+        storageInfo.setStorageUrl(url);
         tinymallStorageService.add(storageInfo);
 
         return storageInfo;

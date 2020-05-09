@@ -738,13 +738,13 @@ DROP TABLE IF EXISTS `tinymall_storage`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tinymall_storage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(63) NOT NULL COMMENT '文件的唯一索引',
-  `name` varchar(255) NOT NULL COMMENT '文件名',
-  `type` varchar(20) NOT NULL COMMENT '文件类型',
-  `size` int(11) NOT NULL COMMENT '文件大小',
-  `url` varchar(255) DEFAULT NULL COMMENT '文件访问链接',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `storage_key` varchar(63) NOT NULL COMMENT '文件的唯一索引',
+  `storage_name` varchar(255) NOT NULL COMMENT '文件名',
+  `storage_type` varchar(20) NOT NULL COMMENT '文件类型',
+  `storage_size` int(11) NOT NULL COMMENT '文件大小',
+  `storage_url` varchar(255) DEFAULT NULL COMMENT '文件访问链接',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `key` (`key`)

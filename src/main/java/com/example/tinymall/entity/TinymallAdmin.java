@@ -49,8 +49,8 @@ public class TinymallAdmin {
     /**
      * 创建时间
      */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
@@ -67,6 +67,6 @@ public class TinymallAdmin {
     /**
      * 角色列表
      */
-    //@Column(name = "role_ids")
-    //private Integer[] roleIds;
+    @Column(name = "role_ids")
+    private String roleIds;
 }

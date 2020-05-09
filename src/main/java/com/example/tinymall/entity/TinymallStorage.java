@@ -1,7 +1,10 @@
 package com.example.tinymall.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,57 +13,38 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_storage")
-public class TinymallStorage {
+public class TinymallStorage extends BasePO<Integer> {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
      * 文件的唯一索引
      */
-    @Column(name = "key")
-    private String key;
+    @Column(name = "storage_key")
+    private String storageKey;
 
     /**
      * 文件名
      */
-    @Column(name = "name")
-    private String name;
+    @Column(name = "storage_name")
+    private String storageName;
 
     /**
      * 文件类型
      */
-    @Column(name = "type")
-    private String type;
+    @Column(name = "storage_type")
+    private String storageType;
 
     /**
      * 文件大小
      */
-    @Column(name = "size")
-    private Integer size;
+    @Column(name = "storage_size")
+    private Integer storageSize;
 
     /**
      * 文件访问链接
      */
-    @Column(name = "url")
-    private String url;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
+    @Column(name = "storage_url")
+    private String storageUrl;
 }

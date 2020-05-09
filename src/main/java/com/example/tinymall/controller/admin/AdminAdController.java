@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @ResponseResult
-@Api(description = "首页广告图片")
+@Api(tags = "首页广告图片")
 @RequestMapping("/admin/ad")
 public class AdminAdController {
     @Autowired
@@ -41,17 +42,15 @@ public class AdminAdController {
 
     @PostMapping("/create")
     @ApiOperation(value = "新增广告图片", notes="新增广告图片")
-    @ApiImplicitParam(name = "ad", value = "用户登录信息", paramType = "TinymallAd", required = true, dataType = "TinymallAd")
-    public Object create(@RequestBody Ad ad) {
-        validate(ad);
+    @ApiImplicitParam(name = "ad", value = "广告图片信息", paramType = "Ad", required = true, dataType = "Ad")
+    public Object create(@Validated @RequestBody Ad ad) {
         adService.insert(ad);
         return ad;
     }
 
     @PutMapping("/update")
     @ApiOperation(value = "修改广告图片", notes="修改广告图片")
-    public Object update(@RequestBody Ad ad) {
-        validate(ad);
+    public Object update(@Validated @RequestBody Ad ad) {
         adService.updateByPkSelective(ad.getId(),ad);
         return ad;
     }
@@ -63,12 +62,5 @@ public class AdminAdController {
         AssertUtils.isFalse(id == null,"id不能为空");
         adService.deleteByPk(id);
         return CommonResult.success();
-    }
-
-    private void validate(Ad ad) {
-        String name = ad.getName();
-        AssertUtils.isFalse(StringUtils.isEmpty(name),"名字不能为空");
-        String content = ad.getContent();
-        AssertUtils.isFalse(StringUtils.isEmpty(content),"内容不能为空");
     }
 }

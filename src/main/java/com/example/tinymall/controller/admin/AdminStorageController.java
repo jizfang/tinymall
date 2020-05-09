@@ -70,7 +70,7 @@ public class AdminStorageController {
 
     @PostMapping("/delete")
     public Object delete(@RequestBody TinymallStorage tinymallStorage) {
-        String key = tinymallStorage.getKey();
+        String key = tinymallStorage.getStorageKey();
         if (StringUtils.isEmpty(key)) {
             return new ParameterInvalidException();
         }

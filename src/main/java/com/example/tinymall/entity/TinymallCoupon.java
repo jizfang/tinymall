@@ -3,6 +3,8 @@ package com.example.tinymall.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,22 +13,21 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_coupon")
-public class TinymallCoupon {
+public class TinymallCoupon extends BasePO<Integer> {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
      * 优惠券名称
      */
-    @Column(name = "name")
+    @Column(name = "`name`")
     private String name;
 
     /**
      * 优惠券介绍，通常是显示优惠券使用限制文字
      */
-    @Column(name = "desc")
+    @Column(name = "`desc`")
     private String desc;
 
     /**
@@ -56,7 +57,7 @@ public class TinymallCoupon {
     /**
      * 用户领券限制数量，如果是0，则是不限制；默认是1，限领一张.
      */
-    @Column(name = "limit")
+    @Column(name = "`limit`")
     private Short limit;
 
     /**
@@ -68,7 +69,7 @@ public class TinymallCoupon {
     /**
      * 优惠券状态，如果是0则是正常可用；如果是1则是过期; 如果是2则是下架。
      */
-    @Column(name = "status")
+    @Column(name = "`status`")
     private Short status;
 
     /**
@@ -86,7 +87,7 @@ public class TinymallCoupon {
     /**
      * 优惠券兑换码
      */
-    @Column(name = "code")
+    @Column(name = "`code`")
     private String code;
 
     /**
@@ -112,22 +113,4 @@ public class TinymallCoupon {
      */
     @Column(name = "end_time")
     private LocalDateTime endTime;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
 }

@@ -17,11 +17,11 @@ public abstract class BasePO<PK> implements PO<PK>{
 
     @ApiModelProperty(value = "创建时间")
     @Column(name = "create_time")
-    private Date createTime;
+    private Long createTime;
 
     @ApiModelProperty(value = "更新时间")
     @Column(name = "update_time")
-    private Date updateTime;
+    private Long updateTime;
 
     @ApiModelProperty(value = "逻辑删除")
     @Column(name = "deleted")

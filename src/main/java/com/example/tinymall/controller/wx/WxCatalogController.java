@@ -38,12 +38,12 @@ public class WxCatalogController {
     public Object index(Integer id) {
 
         // 所有一级分类目录
-        List<TinymallCategory> l1CatList = categoryService.queryL1();
+        List<TinymallCategory> l1CatList = categoryService.queryChannel();
 
         // 当前一级分类目录
         TinymallCategory currentCategory = null;
         if (id != null) {
-            currentCategory = categoryService.findById(id);
+            currentCategory = categoryService.selectByPk(id);
         } else {
             if (l1CatList.size() > 0) {
                 currentCategory = l1CatList.get(0);
@@ -72,7 +72,7 @@ public class WxCatalogController {
     @GetMapping("current")
     public Object current(@NotNull Integer id) {
         // 当前分类
-        TinymallCategory currentCategory = categoryService.findById(id);
+        TinymallCategory currentCategory = categoryService.selectByPk(id);
         /*if(currentCategory == null){
             return ResponseUtil.badArgumentValue();
         }*/

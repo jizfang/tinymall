@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallCategory;
 
 import java.util.List;
@@ -10,16 +11,12 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-10 16:09
  */
-public interface TinymallCategoryService {
+public interface TinymallCategoryService extends BaseService<TinymallCategory,Integer> {
     List<TinymallCategory> queryChannel();
 
     List<TinymallCategory> queryL1WithoutRecommend(int offset, int limit);
 
     List<TinymallCategory> queryByPid(Integer pid);
-
-    List<TinymallCategory> queryL1();
-
-    TinymallCategory findById(Integer id);
 
     List<TinymallCategory> queryL2ByIds(List<Integer> ids);
 }

@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.qcode.QCodeService;
@@ -34,7 +35,7 @@ import java.util.Map;
  * @Date 2020-4-10 17:37
  */
 @Service
-public class TinymallGoodsServiceImpl implements TinymallGoodsService {
+public class TinymallGoodsServiceImpl extends BaseMySqlServiceImpl<TinymallGoods,Integer> implements TinymallGoodsService {
 
     @Resource
     private TinymallGoodsMapper goodsMapper;
@@ -113,46 +114,6 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         return (int) goodsMapper.selectCount(tinymallGoods);
     }
 
-    @Override
-    public List<TinymallGoods> querySelective(Integer categoryId, Integer brandId, String keywords, Boolean isHot, Boolean isNew, Integer page, Integer limit, String sort, String order) {
-        /*TinymallGoodsExample example = new TinymallGoodsExample();
-        TinymallGoodsExample.Criteria criteria1 = example.or();
-        TinymallGoodsExample.Criteria criteria2 = example.or();
-
-        if (categoryId != null && categoryId != 0) {
-            criteria1.andCategoryIdEqualTo(categoryId);
-            criteria2.andCategoryIdEqualTo(categoryId);
-        }
-        if (brandId != null) {
-            criteria1.andBrandIdEqualTo(brandId);
-            criteria2.andBrandIdEqualTo(brandId);
-        }
-        if (isNew != null) {
-            criteria1.andIsNewEqualTo(isNew);
-            criteria2.andIsNewEqualTo(isNew);
-        }
-        if (isHot != null) {
-            criteria1.andIsHotEqualTo(isHot);
-            criteria2.andIsHotEqualTo(isHot);
-        }
-        if (!StringUtils.isEmpty(keywords)) {
-            criteria1.andKeywordsLike("%" + keywords + "%");
-            criteria2.andNameLike("%" + keywords + "%");
-        }
-        criteria1.andIsOnSaleEqualTo(true);
-        criteria2.andIsOnSaleEqualTo(true);
-        criteria1.andDeletedEqualTo(false);
-        criteria2.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        PageHelper.startPage(page, limit);
-
-        return goodsMapper.selectByExampleSelective(example);*/
-        return Lists.newArrayList();
-    }
 
     @Override
     public List<Integer> getCatIds(Integer brandId, String keywords, Boolean isHot, Boolean isNew) {
@@ -190,46 +151,6 @@ public class TinymallGoodsServiceImpl implements TinymallGoodsService {
         return cats;*/
     }
 
-    @Override
-    public TinymallGoods findById(Integer id) {
-        return null;
-        /*TinymallGoodsExample example = new TinymallGoodsExample();
-        example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-        return goodsMapper.selectOneByExampleWithBLOBs(example);*/
-    }
-
-    @Override
-    public PageVO<TinymallGoods> list(Integer goodsId, String goodsSn, String name, Integer pageNum, Integer limit, String sort, String order) {
-        return null;
-        /*TinymallGoodsExample example = new TinymallGoodsExample();
-        TinymallGoodsExample.Criteria criteria1 = example.or();
-        TinymallGoodsExample.Criteria criteria2 = example.or();
-
-        if (goodsId != null && goodsId != 0) {
-            criteria1.andIdEqualTo(goodsId);
-            criteria2.andIdEqualTo(goodsId);
-        }
-        if (goodsSn != null) {
-            criteria1.andGoodsSnEqualTo(goodsSn);
-            criteria2.andGoodsSnEqualTo(goodsSn);
-        }
-        if (name != null) {
-            criteria1.andNameEqualTo(name);
-            criteria2.andNameEqualTo(name);
-        }
-        criteria1.andIsOnSaleEqualTo(true);
-        criteria2.andIsOnSaleEqualTo(true);
-        criteria1.andDeletedEqualTo(false);
-        criteria2.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        Page<TinymallGoods> page = PageHelper.startPage(pageNum, limit);
-        goodsMapper.selectByExampleSelective(example, columns);
-        return PageVO.build(page);*/
-    }
 
     @Override
     @Transactional

@@ -79,8 +79,7 @@ public class WxHomeController {
 
         Callable<List> channelListCallable = () -> categoryService.queryChannel();
 
-        PageQO pageQO = new PageQO(0,3);
-        Callable<PageVO<TinymallCoupon>> couponListCallable = () -> couponService.queryList(pageQO);
+        Callable<List> couponListCallable = () -> couponService.selectAll();
 
         Callable<List> newGoodsListCallable = () -> goodsService.queryByNew(0, SystemConfig.getNewLimit());
 
@@ -97,7 +96,7 @@ public class WxHomeController {
 
         FutureTask<List> bannerTask = new FutureTask<>(bannerListCallable);
         FutureTask<List> channelTask = new FutureTask<>(channelListCallable);
-        FutureTask<PageVO<TinymallCoupon>> couponListTask = new FutureTask<>(couponListCallable);
+        FutureTask<List> couponListTask = new FutureTask<>(couponListCallable);
         FutureTask<List> newGoodsListTask = new FutureTask<>(newGoodsListCallable);
         FutureTask<List> hotGoodsListTask = new FutureTask<>(hotGoodsListCallable);
         FutureTask<List> brandListTask = new FutureTask<>(brandListCallable);
@@ -119,7 +118,7 @@ public class WxHomeController {
         try {
             entity.put("banner", bannerTask.get());
             entity.put("channel", channelTask.get());
-            entity.put("couponList", couponListTask.get().getList());
+            entity.put("couponList", couponListTask.get());
             entity.put("newGoodsList", newGoodsListTask.get());
             entity.put("hotGoodsList", hotGoodsListTask.get());
             entity.put("brandList", brandListTask.get());

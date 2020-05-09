@@ -21,7 +21,8 @@ http://localhost:8090/swagger-ui.html
 6. ResponseResultInterceptor 拦截器（主要用于将ResponseResult注解类的标记信息传入ResponseResultHandler中）
 7. ResponseResultHandler 响应体格式处理器（主要转换逻辑都在这里）
 
-## 通用mapper生成代码使用lombok
+# 踩的坑
+## 1. 通用mapper生成代码使用lombok
 1. 在pom文件添加依赖
 ```xml
 <dependency>
@@ -36,6 +37,15 @@ http://localhost:8090/swagger-ui.html
 <!--lombok-->
 <property name="lombok" value="Getter,Setter,ToString"/>
 ```
-
+## 2.swagger在配置了静态资源后无法访问
+```java
+registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+```
+## 3.查询出现mysql关键字
+```java
+@Column(name = "`level`")
+private String level;
+```
 ## 参考博客
 https://blog.csdn.net/aiyaya_/

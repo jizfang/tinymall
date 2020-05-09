@@ -19,5 +19,5 @@ public class UserInfo {
     private String city;
     private String language;
     private Byte gender;
-    private Integer[] roles;
+    private String[] roles;
 }

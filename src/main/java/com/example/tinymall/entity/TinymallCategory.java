@@ -2,6 +2,8 @@ package com.example.tinymall.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_category")
-public class TinymallCategory {
+public class TinymallCategory extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class TinymallCategory {
     /**
      * 类目名称
      */
-    @Column(name = "name")
+    @Column(name = "`name`")
     private String name;
 
     /**
@@ -31,7 +33,7 @@ public class TinymallCategory {
     /**
      * 类目广告语介绍
      */
-    @Column(name = "desc")
+    @Column(name = "`desc`")
     private String desc;
 
     /**
@@ -52,7 +54,7 @@ public class TinymallCategory {
     @Column(name = "pic_url")
     private String picUrl;
 
-    @Column(name = "level")
+    @Column(name = "`level`")
     private String level;
 
     /**
@@ -60,22 +62,4 @@ public class TinymallCategory {
      */
     @Column(name = "sort_order")
     private Byte sortOrder;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
 }

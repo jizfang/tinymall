@@ -65,7 +65,7 @@ public class WxCartController {
         // 如果系统检查商品已删除或已下架，则系统自动删除。
         // 更好的效果应该是告知用户商品失效，允许用户点击按钮来清除失效商品。
         for (TinymallCart cart : list) {
-            TinymallGoods goods = goodsService.findById(cart.getGoodsId());
+            TinymallGoods goods = goodsService.selectByPk(cart.getGoodsId());
             if (goods == null || !goods.getIsOnSale()) {
                 cartService.deleteById(cart.getId());
                 log.debug("系统自动删除失效购物车商品 goodsId=" + cart.getGoodsId() + " productId=" + cart.getProductId());
@@ -146,7 +146,7 @@ public class WxCartController {
         }*/
 
         //判断商品是否可以购买
-        TinymallGoods goods = goodsService.findById(goodsId);
+        TinymallGoods goods = goodsService.selectByPk(goodsId);
         /*if (goods == null || !goods.getIsOnSale()) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
         }*/
@@ -218,7 +218,7 @@ public class WxCartController {
         }*/
 
         //判断商品是否可以购买
-        TinymallGoods goods = goodsService.findById(goodsId);
+        TinymallGoods goods = goodsService.selectByPk(goodsId);
         /*if (goods == null || !goods.getIsOnSale()) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
         }*/

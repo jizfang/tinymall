@@ -52,9 +52,9 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
         AssertUtils.notNull(record, "record is not null");
 
         if (record.getCreateTime() == null) {
-            Date currentDate = new Date();
-            record.setCreateTime(currentDate);
-            record.setUpdateTime(currentDate);
+            long now = System.currentTimeMillis();
+            record.setCreateTime(now);
+            record.setUpdateTime(now);
         }
         crudMapper.insert(record);
         return record.getId();
@@ -102,7 +102,7 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
 
         record.setId(pk);
         if (record.getUpdateTime() == null) {
-            record.setUpdateTime(new Date());
+            record.setUpdateTime(System.currentTimeMillis());
         }
         return crudMapper.updateByPrimaryKey(record);
     }
@@ -120,7 +120,7 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
 
         record.setId(pk);
         if (record.getUpdateTime() == null) {
-            record.setUpdateTime(new Date());
+            record.setUpdateTime(System.currentTimeMillis());
         }
         return crudMapper.updateByPrimaryKeySelective(record);
     }

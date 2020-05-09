@@ -58,6 +58,8 @@ public class AdminAuthController {
         UserInfo userInfo = new UserInfo();
         userInfo.setName(username);
         userInfo.setAvatarUrl(user.getAvatar());
+        String[] roles = user.getRoleIds().split(",");
+        userInfo.setRoles(roles);
 
         // token
         String token = LoginTokenHelper.generateToken(user.getId());
@@ -81,6 +83,8 @@ public class AdminAuthController {
         UserInfo userInfo = new UserInfo();
         userInfo.setAvatarUrl(tinymallAdmin.getAvatar());
         userInfo.setName(tinymallAdmin.getUsername());
+        String[] roles = tinymallAdmin.getRoleIds().split(",");
+        userInfo.setRoles(roles);
         //userInfo.setRoles(tinymallAdmin.getRoleIds());
         return userInfo;
     }

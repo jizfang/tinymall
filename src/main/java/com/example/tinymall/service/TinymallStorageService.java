@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallStorage;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-9 17:03
  */
-public interface TinymallStorageService {
+public interface TinymallStorageService extends BaseService<TinymallStorage,Integer> {
     void deleteByKey(String key);
 
     void add(TinymallStorage storageInfo);

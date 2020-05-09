@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.constants.CouponConstant;
@@ -21,7 +22,7 @@ import java.util.List;
  * @Date 2020-4-11 10:19
  */
 @Service
-public class TinymallCouponServiceImpl implements TinymallCouponService {
+public class TinymallCouponServiceImpl extends BaseMySqlServiceImpl<TinymallCoupon,Integer> implements TinymallCouponService {
 
     @Resource
     private TinymallCouponMapper couponMapper;
@@ -29,24 +30,10 @@ public class TinymallCouponServiceImpl implements TinymallCouponService {
     private TinymallCouponUserMapper couponUserMapper;
 
     @Override
-    public PageVO<TinymallCoupon> queryList(PageQO pageQO) {
-        /*criteria.andTypeEqualTo(CouponConstant.TYPE_COMMON).andStatusEqualTo(CouponConstant.STATUS_NORMAL).andDeletedEqualTo(false);
-        criteria.example().setOrderByClause(sort + " " + order);
-        PageHelper.startPage(offset, limit);
-        return couponMapper.selectByExampleSelective(criteria.example(), result);*/
-        return null;
-    }
-
-    @Override
     public List<TinymallCoupon> queryRegister() {
         /*TinymallCouponExample example = new TinymallCouponExample();
         example.or().andTypeEqualTo(CouponConstant.TYPE_REGISTER).andStatusEqualTo(CouponConstant.STATUS_NORMAL).andDeletedEqualTo(false);
         return couponMapper.selectByExample(example);*/
         return Lists.newArrayList();
-    }
-
-    @Override
-    public TinymallCoupon findById(Integer couponId) {
-        return couponMapper.selectByPrimaryKey(couponId);
     }
 }

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -28,6 +30,7 @@ public class Ad extends BasePO<Integer>{
     /**
      * 广告标题
      */
+    @NotEmpty(message = "广告标题不能为空")
     private String name;
 
     /**
@@ -38,6 +41,7 @@ public class Ad extends BasePO<Integer>{
     /**
      * 广告宣传图片
      */
+    @NotEmpty(message = "广告宣传图片不能为空")
     private String url;
 
     /**
@@ -48,6 +52,7 @@ public class Ad extends BasePO<Integer>{
     /**
      * 活动内容
      */
+    @NotEmpty(message = "活动内容不能为空")
     private String content;
 
     /**

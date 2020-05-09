@@ -1,11 +1,13 @@
 package com.example.tinymall.controller.admin;
 
 import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
 import com.example.tinymall.entity.TinymallGoods;
 import com.example.tinymall.model.dto.GoodsDTO;
+import com.example.tinymall.model.qo.GoodsQO;
 import com.example.tinymall.service.TinymallGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +28,9 @@ public class AdminGoodsController {
     private TinymallGoodsService goodsService;
 
     @GetMapping("/list")
-    public PageVO<TinymallGoods> list(Integer goodsId, String goodsSn, String name,
-                                      @RequestParam(defaultValue = "1") Integer page,
-                                      @RequestParam(defaultValue = "10") Integer limit,
-                                      @Sort @RequestParam(defaultValue = "add_time") String sort,
-                                      @Order @RequestParam(defaultValue = "desc") String order) {
-        return goodsService.list(goodsId, goodsSn, name, page, limit, sort, order);
+    public PageVO<TinymallGoods> list(PageQO page, GoodsQO condition) {
+        page.setCondition(condition);
+        return goodsService.selectPage(page);
     }
 
     @PostMapping("/update")

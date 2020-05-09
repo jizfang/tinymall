@@ -1,5 +1,7 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.BaseService;
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallStorage;
 import com.example.tinymall.mapper.TinymallStorageMapper;
 import com.example.tinymall.service.TinymallStorageService;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +22,7 @@ import java.util.List;
  * @Date 2020-4-9 17:06
  */
 @Service
-public class TinymallStorageServiceImpl implements TinymallStorageService {
+public class TinymallStorageServiceImpl extends BaseMySqlServiceImpl<TinymallStorage,Integer> implements TinymallStorageService {
     @Autowired
     private TinymallStorageMapper storageMapper;
 
@@ -32,8 +35,8 @@ public class TinymallStorageServiceImpl implements TinymallStorageService {
 
     @Override
     public void add(TinymallStorage storageInfo) {
-        storageInfo.setAddTime(LocalDateTime.now());
-        storageInfo.setUpdateTime(LocalDateTime.now());
+        storageInfo.setCreateTime(System.currentTimeMillis());
+        storageInfo.setUpdateTime(System.currentTimeMillis());
         storageMapper.insertSelective(storageInfo);
     }
 
@@ -47,7 +50,7 @@ public class TinymallStorageServiceImpl implements TinymallStorageService {
 
     @Override
     public int update(TinymallStorage storageInfo) {
-        storageInfo.setUpdateTime(LocalDateTime.now());
+        storageInfo.setUpdateTime(System.currentTimeMillis());
         return storageMapper.updateByPrimaryKeySelective(storageInfo);
     }
 

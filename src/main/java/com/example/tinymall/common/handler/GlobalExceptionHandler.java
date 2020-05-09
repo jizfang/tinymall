@@ -2,6 +2,7 @@ package com.example.tinymall.common.handler;
 
 import com.example.tinymall.common.Exceptions.BusinessException;
 import com.example.tinymall.common.result.DefaultErrorResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -20,6 +21,7 @@ import javax.validation.ConstraintViolationException;
  */
 @RestController
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler extends BaseGlobalExceptionHandler{
     /* 处理400类异常 */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -47,6 +49,8 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler{
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public DefaultErrorResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
+        log.info("handleMethodArgumentNotValidException start, uri:{}, caused by: ", request.getRequestURI(), e);
+
         return super.handleMethodArgumentNotValidException(e, request);
     }
 

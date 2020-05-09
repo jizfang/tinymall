@@ -1,6 +1,9 @@
 package com.example.tinymall.controller.wx;
 
+import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.system.SystemConfig;
 import com.example.tinymall.core.utils.AssertUtils;
@@ -8,6 +11,7 @@ import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
 import com.example.tinymall.entity.*;
 import com.example.tinymall.model.bo.LoginUser;
+import com.example.tinymall.model.qo.GoodsQO;
 import com.example.tinymall.service.*;
 import com.github.pagehelper.PageInfo;
 import com.mysql.jdbc.StringUtils;
@@ -30,6 +34,7 @@ import java.util.concurrent.*;
  * @Author jzf
  * @Date 2020-4-11 17:34
  */
+@ResponseResult
 @RestController
 @RequestMapping("/wx/goods")
 public class WxGoodsController {
@@ -81,7 +86,7 @@ public class WxGoodsController {
         Integer userId = loginUser.getId();
 
         // 商品信息
-        TinymallGoods info = goodsService.findById(id);
+        TinymallGoods info = goodsService.selectByPk(id);
 
         // 商品属性
         Callable<List> goodsAttributeListCallable = () -> goodsAttributeService.queryByGid(id);
@@ -195,46 +200,32 @@ public class WxGoodsController {
      * 1. 这里的前五个参数都是可选的，甚至都是空
      * 2. 用户是可选登录，如果登录，则记录用户的搜索关键字
      *
-     * @param categoryId 分类类目ID，可选
-     * @param brandId    品牌商ID，可选
-     * @param keyword    关键字，可选
-     * @param isNew      是否新品，可选
-     * @param isHot      是否热买，可选
      * @param page       分页页数
-     * @param limit       分页大小
-     * @param sort       排序方式，支持"add_time", "retail_price"或"name"
-     * @param order      排序类型，顺序或者降序
+     * @param condition       分页大小
      * @return 根据条件搜素的商品详情
      */
     @GetMapping("list")
-    public Object list(
-            Integer categoryId,
-            Integer brandId,
-            String keyword,
-            Boolean isNew,
-            Boolean isHot,
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer limit,
-            @Sort(accepts = {"add_time", "retail_price", "name"}) @RequestParam(defaultValue = "add_time") String sort,
-            @Order @RequestParam(defaultValue = "desc") String order) {
+    public Object list(PageQO page, GoodsQO condition) {
 
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         AssertUtils.notNull(loginUser,"用户未登录");
         Integer userId = loginUser.getId();
         //添加到搜索历史
-        if (userId != null && !StringUtils.isNullOrEmpty(keyword)) {
+        /*if (userId != null && !StringUtils.isNullOrEmpty(keyword)) {
             TinymallSearchHistory searchHistoryVo = new TinymallSearchHistory();
             searchHistoryVo.setKeyword(keyword);
             searchHistoryVo.setUserId(userId);
             searchHistoryVo.setFrom("wx");
             searchHistoryService.save(searchHistoryVo);
-        }
+        }*/
 
+        page.setCondition(condition);
         //查询列表数据
-        List<TinymallGoods> goodsList = goodsService.querySelective(categoryId, brandId, keyword, isHot, isNew, page, limit, sort, order);
+        PageVO<TinymallGoods> goodsList = goodsService.selectPage(page);
 
         // 查询商品所属类目列表。
-        List<Integer> goodsCatIds = goodsService.getCatIds(brandId, keyword, isHot, isNew);
+        List<Integer> goodsCatIds = goodsService.getCatIds(condition.getBrandId(), condition.getKeyword(),
+                condition.getIsHot(), condition.getIsNew());
         List<TinymallCategory> categoryList = null;
         if (goodsCatIds.size() != 0) {
             categoryList = categoryService.queryL2ByIds(goodsCatIds);
@@ -242,14 +233,8 @@ public class WxGoodsController {
             categoryList = new ArrayList<>(0);
         }
 
-        PageInfo<TinymallGoods> pagedList = PageInfo.of(goodsList);
-
         Map<String, Object> entity = new HashMap<>();
         entity.put("list", goodsList);
-        entity.put("total", pagedList.getTotal());
-        entity.put("page", pagedList.getPageNum());
-        entity.put("limit", pagedList.getPageSize());
-        entity.put("pages", pagedList.getPages());
         entity.put("filterCategoryList", categoryList);
 
         // 因为这里需要返回额外的filterCategoryList参数，因此不能方便使用ResponseUtil.okList
@@ -264,7 +249,7 @@ public class WxGoodsController {
      */
     @GetMapping("category")
     public Object category(@NotNull Integer id) {
-        TinymallCategory cur = categoryService.findById(id);
+        TinymallCategory cur = categoryService.selectByPk(id);
         TinymallCategory parent = null;
         List<TinymallCategory> children = null;
 
@@ -273,7 +258,7 @@ public class WxGoodsController {
             children = categoryService.queryByPid(cur.getId());
             cur = children.size() > 0 ? children.get(0) : cur;
         } else {
-            parent = categoryService.findById(cur.getPid());
+            parent = categoryService.selectByPk(cur.getPid());
             children = categoryService.queryByPid(cur.getPid());
         }
         Map<String, Object> data = new HashMap<>();
@@ -302,7 +287,7 @@ public class WxGoodsController {
      */
     @GetMapping("related")
     public Object related(@NotNull Integer id) {
-        TinymallGoods goods = goodsService.findById(id);
+        TinymallGoods goods = goodsService.selectByPk(id);
         /*if (goods == null) {
             return ResponseUtil.badArgumentValue();
         }*/

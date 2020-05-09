@@ -16,11 +16,11 @@ public interface PO<PK> extends Model {
 
     void setId(PK id);
 
-    Date getCreateTime();
+    Long getCreateTime();
 
-    void setCreateTime(Date createTime);
+    void setCreateTime(Long createTime);
 
-    Date getUpdateTime();
+    Long getUpdateTime();
 
-    void setUpdateTime(Date updateTime);
+    void setUpdateTime(Long updateTime);
 }

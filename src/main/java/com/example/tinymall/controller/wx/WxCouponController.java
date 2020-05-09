@@ -64,7 +64,7 @@ public class WxCouponController {
         List<CouponVo> couponVoList = new ArrayList<>(couponList.size());
         for(TinymallCouponUser couponUser : couponList){
             Integer couponId = couponUser.getCouponId();
-            TinymallCoupon coupon = couponService.findById(couponId);
+            TinymallCoupon coupon = couponService.selectByPk(couponId);
             CouponVo couponVo = new CouponVo();
             couponVo.setId(couponUser.getId());
             couponVo.setCid(coupon.getId());

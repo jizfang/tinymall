@@ -46,7 +46,7 @@ public class QCodeService {
             TinymallStorage storageInfo = storageService.store(inputStream2, imageData.length, "image/jpeg",
                     getKeyName(groupon.getId().toString()));
 
-            return storageInfo.getUrl();
+            return storageInfo.getStorageUrl();
         } catch (WxErrorException e) {
             log.error(e.getMessage(), e);
         } catch (FileNotFoundException e) {
@@ -90,7 +90,7 @@ public class QCodeService {
             TinymallStorage litemallStorage = storageService.store(inputStream2, imageData.length, "image/jpeg",
                     getKeyName(goodId));
 
-            return litemallStorage.getUrl();
+            return litemallStorage.getStorageUrl();
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
         } catch (IOException e) {

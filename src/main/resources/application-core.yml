@@ -14,5 +14,5 @@ tinymall:
     active: local
     # 本地对象存储配置信息
     local:
-      storagePath: D:/upload/images
+      storagePath: upload/images
       address: http://localhost:8090/images/

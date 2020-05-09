@@ -28,7 +28,7 @@ public class CouponVerifyServiceImpl implements CouponVerifyService {
 
     @Override
     public TinymallCoupon checkCoupon(Integer userId, Integer couponId, Integer userCouponId, BigDecimal checkedGoodsPrice) {
-        TinymallCoupon coupon = couponService.findById(couponId);
+        TinymallCoupon coupon = couponService.selectByPk(couponId);
         if (coupon == null) {
             return null;
         }
