@@ -3,6 +3,8 @@ package com.example.tinymall.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_groupon_rules")
-public class TinymallGrouponRules {
+public class TinymallGrouponRules extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,22 +60,4 @@ public class TinymallGrouponRules {
      */
     @Column(name = "status")
     private Short status;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
 }

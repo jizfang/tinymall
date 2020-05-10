@@ -23,4 +23,8 @@ public interface PO<PK> extends Model {
     Long getUpdateTime();
 
     void setUpdateTime(Long updateTime);
+
+    Integer getDeleted();
+
+    void setDeleted(Integer deleted);
 }

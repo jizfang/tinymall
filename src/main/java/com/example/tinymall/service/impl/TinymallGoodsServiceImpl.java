@@ -61,7 +61,7 @@ public class TinymallGoodsServiceImpl extends BaseMySqlServiceImpl<TinymallGoods
         criteria.andEqualTo("isNew",true);
         criteria.andEqualTo("isOnSale",true);
         criteria.andEqualTo("deleted",false);
-        example.setOrderByClause("add_time desc");
+        example.setOrderByClause("create_time desc");
         PageHelper.startPage(offset, limit);
 
         return goodsMapper.selectByExample(example);
@@ -74,7 +74,7 @@ public class TinymallGoodsServiceImpl extends BaseMySqlServiceImpl<TinymallGoods
         criteria.andEqualTo("isHot",true);
         criteria.andEqualTo("isOnSale",true);
         criteria.andEqualTo("deleted",false);
-        example.setOrderByClause("add_time desc");
+        example.setOrderByClause("create_time desc");
         PageHelper.startPage(offset, limit);
 
         return goodsMapper.selectByExample(example);
@@ -87,7 +87,7 @@ public class TinymallGoodsServiceImpl extends BaseMySqlServiceImpl<TinymallGoods
         criteria.andIn("categoryId",catList);
         criteria.andEqualTo("isOnSale",true);
         criteria.andEqualTo("deleted",false);
-        example.setOrderByClause("add_time  desc");
+        example.setOrderByClause("create_time  desc");
         PageHelper.startPage(offset, limit);
 
         return goodsMapper.selectByExample(example);
@@ -100,7 +100,7 @@ public class TinymallGoodsServiceImpl extends BaseMySqlServiceImpl<TinymallGoods
         criteria.andEqualTo("categoryId",catId);
         criteria.andEqualTo("isOnSale",true);
         criteria.andEqualTo("deleted",false);
-        example.setOrderByClause("add_time desc");
+        example.setOrderByClause("create_time desc");
         PageHelper.startPage(offset, limit);
 
         return goodsMapper.selectByExample(example);
@@ -110,7 +110,7 @@ public class TinymallGoodsServiceImpl extends BaseMySqlServiceImpl<TinymallGoods
     public Integer queryOnSale() {
         TinymallGoods tinymallGoods = new TinymallGoods();
         tinymallGoods.setIsOnSale(true);
-        tinymallGoods.setDeleted(false);
+        tinymallGoods.setDeleted(0);
         return (int) goodsMapper.selectCount(tinymallGoods);
     }
 

@@ -28,7 +28,7 @@ public class TinymallCategoryServiceImpl extends BaseMySqlServiceImpl<TinymallCa
     public List<TinymallCategory> queryChannel() {
         TinymallCategory tinymallCategory = new TinymallCategory();
         tinymallCategory.setLevel("L1");
-        tinymallCategory.setDeleted(false);
+        tinymallCategory.setDeleted(0);
         return categoryMapper.select(tinymallCategory);
     }
 
@@ -45,7 +45,7 @@ public class TinymallCategoryServiceImpl extends BaseMySqlServiceImpl<TinymallCa
     public List<TinymallCategory> queryByPid(Integer pid) {
         TinymallCategory tinymallCategory = new TinymallCategory();
         tinymallCategory.setPid(pid);
-        tinymallCategory.setDeleted(false);
+        tinymallCategory.setDeleted(0);
         return categoryMapper.select(tinymallCategory);
     }
 
@@ -53,7 +53,7 @@ public class TinymallCategoryServiceImpl extends BaseMySqlServiceImpl<TinymallCa
     public List<TinymallCategory> queryL2ByIds(List<Integer> ids) {
         TinymallCategory tinymallCategory = new TinymallCategory();
         tinymallCategory.setLevel("L2");
-        tinymallCategory.setDeleted(false);
+        tinymallCategory.setDeleted(0);
         return categoryMapper.select(tinymallCategory);
     }
 }

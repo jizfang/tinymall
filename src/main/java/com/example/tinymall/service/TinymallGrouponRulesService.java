@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallGrouponRules;
 
 import java.util.List;
@@ -10,8 +11,7 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-15 11:53
  */
-public interface TinymallGrouponRulesService {
-    int createRules(TinymallGrouponRules rules);
+public interface TinymallGrouponRulesService extends BaseService<TinymallGrouponRules,Integer> {
 
     /**
      * 根据ID查找对应团购项
@@ -61,8 +61,4 @@ public interface TinymallGrouponRulesService {
      * @return
      */
     List<TinymallGrouponRules> querySelective(String goodsId, Integer page, Integer size, String sort, String order);
-
-    void delete(Integer id);
-
-    int updateById(TinymallGrouponRules grouponRules);
 }

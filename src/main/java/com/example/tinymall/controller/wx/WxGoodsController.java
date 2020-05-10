@@ -7,18 +7,14 @@ import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.system.SystemConfig;
 import com.example.tinymall.core.utils.AssertUtils;
-import com.example.tinymall.core.validator.Order;
-import com.example.tinymall.core.validator.Sort;
 import com.example.tinymall.entity.*;
 import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.model.qo.GoodsQO;
 import com.example.tinymall.service.*;
 import com.github.pagehelper.PageInfo;
-import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
@@ -98,7 +94,10 @@ public class WxGoodsController {
         Callable<List> productListCallable = () -> productService.queryByGid(id);
 
         // 商品问题，这里是一些通用问题
-        Callable<List> issueCallable = () -> goodsIssueService.querySelective("", 1, 4, "", "");
+        PageQO pageQO = new PageQO(1,4);
+        Object condition = new Object();
+        pageQO.setCondition(condition);
+        Callable<List> issueCallable = () -> goodsIssueService.selectPage(pageQO).getList();
 
         // 商品品牌商
         Callable<TinymallBrand> brandCallable = ()->{
@@ -107,23 +106,27 @@ public class WxGoodsController {
             if (brandId == 0) {
                 brand = new TinymallBrand();
             } else {
-                brand = brandService.findById(info.getBrandId());
+                brand = brandService.selectByPk(info.getBrandId());
             }
             return brand;
         };
 
         // 评论
         Callable<Map> commentsCallable = () -> {
-            List<TinymallComment> comments = commentService.queryGoodsByGid(id, 0, 2);
+            PageQO commentPage = new PageQO(0,2);
+            TinymallComment tinymallComment = new TinymallComment();
+            tinymallComment.setValueId(id);
+            commentPage.setCondition(tinymallComment);
+            List<TinymallComment> comments = commentService.selectPage(commentPage).getList();
             List<Map<String, Object>> commentsVo = new ArrayList<>(comments.size());
             long commentCount = PageInfo.of(comments).getTotal();
             for (TinymallComment comment : comments) {
                 Map<String, Object> c = new HashMap<>();
                 c.put("id", comment.getId());
-                c.put("addTime", comment.getAddTime());
+                c.put("addTime", comment.getCreateTime());
                 c.put("content", comment.getContent());
                 c.put("adminContent", comment.getAdminContent());
-                TinymallUser user = userService.findById(comment.getUserId());
+                TinymallUser user = userService.selectByPk(comment.getUserId());
                 c.put("nickname", user == null ? "" : user.getNickname());
                 c.put("avatar", user == null ? "" : user.getAvatar());
                 //c.put("picList", comment.getPicUrls());
@@ -150,7 +153,7 @@ public class WxGoodsController {
                 TinymallFootprint footprint = new TinymallFootprint();
                 footprint.setUserId(userId);
                 footprint.setGoodsId(id);
-                footprintService.add(footprint);
+                footprintService.insert(footprint);
             });
         }
         FutureTask<List> goodsAttributeListTask = new FutureTask<>(goodsAttributeListCallable);

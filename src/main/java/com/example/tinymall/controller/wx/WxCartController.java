@@ -151,7 +151,7 @@ public class WxCartController {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
         }*/
 
-        TinymallGoodsProduct product = productService.findById(productId);
+        TinymallGoodsProduct product = productService.selectByPk(productId);
         //判断购物车中是否存在此规格商品
         TinymallCart existCart = cartService.queryExist(goodsId, productId, loginUser.getId());
         if (existCart == null) {
@@ -223,7 +223,7 @@ public class WxCartController {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
         }*/
 
-        TinymallGoodsProduct product = productService.findById(productId);
+        TinymallGoodsProduct product = productService.selectByPk(productId);
         //判断购物车中是否存在此规格商品
         TinymallCart existCart = cartService.queryExist(goodsId, productId, userId);
         if (existCart == null) {

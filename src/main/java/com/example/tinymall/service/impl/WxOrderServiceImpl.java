@@ -235,7 +235,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         // 商品货品数量减少
         for (TinymallCart checkGoods : checkedGoodsList) {
             Integer productId = checkGoods.getProductId();
-            TinymallGoodsProduct product = productService.findById(productId);
+            TinymallGoodsProduct product = productService.selectByPk(productId);
 
             int remainNumber = product.getNumber() - checkGoods.getNumber();
             if (remainNumber < 0) {

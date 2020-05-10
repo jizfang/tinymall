@@ -1,5 +1,7 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
+import com.example.tinymall.entity.TinymallGoodsAttribute;
 import com.example.tinymall.mapper.TinymallGoodsAttributeMapper;
 import com.example.tinymall.service.TinymallGoodsAttributeService;
 import com.google.common.collect.Lists;
@@ -15,15 +17,16 @@ import java.util.List;
  * @Date 2020-4-14 21:01
  */
 @Service
-public class TinymallGoodsAttributeServiceImpl implements TinymallGoodsAttributeService {
+public class TinymallGoodsAttributeServiceImpl extends BaseMySqlServiceImpl<TinymallGoodsAttribute,Integer>
+        implements TinymallGoodsAttributeService {
     @Resource
     private TinymallGoodsAttributeMapper goodsAttributeMapper;
 
     @Override
     public List queryByGid(Integer goodsId) {
-        /*TinymallGoodsAttributeExample example = new TinymallGoodsAttributeExample();
-        example.or().andGoodsIdEqualTo(goodsId).andDeletedEqualTo(false);
-        return goodsAttributeMapper.selectByExample(example);*/
-        return Lists.newArrayList();
+        TinymallGoodsAttribute goodsAttribute = new TinymallGoodsAttribute();
+        goodsAttribute.setGoodsId(goodsId);
+        goodsAttribute.setDeleted(0);
+        return goodsAttributeMapper.select(goodsAttribute);
     }
 }

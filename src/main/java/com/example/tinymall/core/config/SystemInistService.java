@@ -2,6 +2,7 @@ package com.example.tinymall.core.config;
 
 import com.example.tinymall.core.system.SystemConfig;
 import com.example.tinymall.core.utils.SystemInfoPrinter;
+import com.example.tinymall.entity.TinymallSystem;
 import com.example.tinymall.service.TinymallSystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -60,11 +61,11 @@ public class SystemInistService {
     }
 
     @Autowired
-    private TinymallSystemConfigService litemallSystemConfigService;
+    private TinymallSystemConfigService tinymallSystemConfigService;
 
     private void initConfigs() {
         // 1. 读取数据库全部配置信息
-        Map<String, String> configs = litemallSystemConfigService.queryAll();
+        Map<String, String> configs = tinymallSystemConfigService.queryAll();
 
         // 2. 分析DEFAULT_CONFIGS
         for (Map.Entry<String, String> entry : DEFAULT_CONFIGS.entrySet()) {
@@ -73,7 +74,10 @@ public class SystemInistService {
             }
 
             configs.put(entry.getKey(), entry.getValue());
-            litemallSystemConfigService.addConfig(entry.getKey(), entry.getValue());
+            TinymallSystem tinymallSystem = new TinymallSystem();
+            tinymallSystem.setKeyName(entry.getKey());
+            tinymallSystem.setKeyValue(entry.getValue());
+            tinymallSystemConfigService.insert(tinymallSystem);
         }
 
         SystemConfig.setConfigs(configs);

@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallIssue;
 
 import java.util.List;
@@ -10,14 +11,5 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-15 11:31
  */
-public interface TinymallIssueService {
-    void deleteById(Integer id);
-
-    void add(TinymallIssue issue);
-
-    List<TinymallIssue> querySelective(String question, Integer page, Integer limit, String sort, String order);
-
-    int updateById(TinymallIssue issue);
-
-    TinymallIssue findById(Integer id);
+public interface TinymallIssueService extends BaseService<TinymallIssue,Integer> {
 }

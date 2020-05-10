@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallCollect;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-15 11:58
  */
-public interface TinymallCollectService {
+public interface TinymallCollectService extends BaseService<TinymallCollect,Integer> {
     int count(int uid, Integer gid);
 
     List<TinymallCollect> queryByType(Integer userId, Byte type, Integer page, Integer limit, String sort, String order);
@@ -18,10 +19,4 @@ public interface TinymallCollectService {
     int countByType(Integer userId, Byte type);
 
     TinymallCollect queryByTypeAndValue(Integer userId, Byte type, Integer valueId);
-
-    void deleteById(Integer id);
-
-    int add(TinymallCollect collect);
-
-    List<TinymallCollect> querySelective(String userId, String valueId, Integer page, Integer size, String sort, String order);
 }

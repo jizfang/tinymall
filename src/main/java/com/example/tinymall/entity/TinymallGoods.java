@@ -1,13 +1,14 @@
 package com.example.tinymall.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.example.tinymall.model.po.BasePO;
+import com.example.tinymall.mybatis.JsonStringArrayTypeHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 @Getter
 @Setter
@@ -42,8 +43,9 @@ public class TinymallGoods extends BasePO<Integer> {
     /**
      * 商品宣传图片列表，采用JSON数组格式
      */
-    //@Column(name = "gallery")
-    //private String[] gallery;
+    @Column(name = "gallery")
+    @ColumnType(typeHandler = JsonStringArrayTypeHandler.class)
+    private String[] gallery;
 
     /**
      * 商品关键字，采用逗号间隔

@@ -47,5 +47,10 @@ registry.addResourceHandler("swagger-ui.html")
 @Column(name = "`level`")
 private String level;
 ```
+## 4. No typehandler found for property
+```java
+@ColumnType(typeHandler = JsonStringArrayTypeHandler.class)
+private String[] gallery;
+```
 ## 参考博客
 https://blog.csdn.net/aiyaya_/

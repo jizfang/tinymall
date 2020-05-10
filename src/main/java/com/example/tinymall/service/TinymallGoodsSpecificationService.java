@@ -13,13 +13,5 @@ import java.util.List;
 public interface TinymallGoodsSpecificationService {
     List<TinymallGoodsSpecification> queryByGid(Integer id);
 
-    TinymallGoodsSpecification findById(Integer id);
-
-    void deleteByGid(Integer gid);
-
-    void add(TinymallGoodsSpecification goodsSpecification);
-
     Object getSpecificationVoList(Integer id);
-
-    void updateById(TinymallGoodsSpecification specification);
 }

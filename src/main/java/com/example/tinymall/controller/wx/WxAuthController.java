@@ -96,7 +96,7 @@ public class WxAuthController {
             user.setLastLoginIp(IpUtil.getIpAddr(request));
             user.setSessionKey(sessionKey);
 
-            userService.add(user);
+            userService.insert(user);
 
             // 新用户发送注册优惠券
             couponAssignService.assignForRegister(user.getId());
@@ -104,7 +104,7 @@ public class WxAuthController {
             user.setLastLoginTime(LocalDateTime.now());
             user.setLastLoginIp(IpUtil.getIpAddr(request));
             user.setSessionKey(sessionKey);
-            AssertUtils.isFalse(userService.updateById(user) == 0,"更新失败");
+            AssertUtils.isFalse(userService.updateByPkSelective(user.getId(),user) == 0,"更新失败");
         }
 
         // token
@@ -152,7 +152,7 @@ public class WxAuthController {
         // 更新登录情况
         user.setLastLoginTime(LocalDateTime.now());
         user.setLastLoginIp(IpUtil.getIpAddr(request));
-        if (userService.updateById(user) == 0) {
+        if (userService.updateByPkSelective(user.getId(),user) == 0) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
 
@@ -289,7 +289,7 @@ public class WxAuthController {
         user.setStatus((byte) 0);
         user.setLastLoginTime(LocalDateTime.now());
         user.setLastLoginIp(IpUtil.getIpAddr(request));
-        userService.add(user);
+        userService.insert(user);
 
         // 给新用户发送注册优惠券
         couponAssignService.assignForRegister(user.getId());

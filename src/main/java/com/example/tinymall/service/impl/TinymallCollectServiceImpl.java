@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallCollect;
 import com.example.tinymall.mapper.TinymallCollectMapper;
 import com.example.tinymall.service.TinymallCollectService;
@@ -19,16 +20,17 @@ import java.util.List;
  * @Date 2020-4-15 12:00
  */
 @Service
-public class TinymallCollectServiceImpl implements TinymallCollectService {
+public class TinymallCollectServiceImpl extends BaseMySqlServiceImpl<TinymallCollect,Integer> implements TinymallCollectService {
     @Resource
     private TinymallCollectMapper collectMapper;
 
     @Override
     public int count(int uid, Integer gid) {
-        /*TinymallCollectExample example = new TinymallCollectExample();
-        example.or().andUserIdEqualTo(uid).andValueIdEqualTo(gid).andDeletedEqualTo(false);
-        return (int) collectMapper.countByExample(example);*/
-        return 0;
+        TinymallCollect collect = new TinymallCollect();
+        collect.setUserId(uid);
+        collect.setValueId(gid);
+        collect.setDeleted(0);
+        return (int) collectMapper.selectCount(collect);
     }
 
     @Override
@@ -65,39 +67,5 @@ public class TinymallCollectServiceImpl implements TinymallCollectService {
         example.or().andUserIdEqualTo(userId).andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         return collectMapper.selectOneByExample(example);*/
         return null;
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        collectMapper.deleteByIds(String.valueOf(id));
-    }
-
-    @Override
-    public int add(TinymallCollect collect) {
-        collect.setAddTime(LocalDateTime.now());
-        collect.setUpdateTime(LocalDateTime.now());
-        return collectMapper.insertSelective(collect);
-    }
-
-    @Override
-    public List<TinymallCollect> querySelective(String userId, String valueId, Integer page, Integer size, String sort, String order) {
-        /*TinymallCollectExample example = new TinymallCollectExample();
-        TinymallCollectExample.Criteria criteria = example.createCriteria();
-
-        if (!StringUtils.isEmpty(userId)) {
-            criteria.andUserIdEqualTo(Integer.valueOf(userId));
-        }
-        if (!StringUtils.isEmpty(valueId)) {
-            criteria.andValueIdEqualTo(Integer.valueOf(valueId));
-        }
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        PageHelper.startPage(page, size);
-        return collectMapper.selectByExample(example);*/
-        return Lists.newArrayList();
     }
 }

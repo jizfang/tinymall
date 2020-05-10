@@ -3,15 +3,19 @@ package com.example.tinymall.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
+import com.example.tinymall.mybatis.JsonStringArrayTypeHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 @Getter
 @Setter
 @ToString
 @Table(name = "tinymall_aftersale")
-public class TinymallAftersale {
+public class TinymallAftersale extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,8 +60,9 @@ public class TinymallAftersale {
     /**
      * 退款凭证图片链接数组
      */
-    //@Column(name = "pictures")
-    //private String[] pictures;
+    @Column(name = "pictures")
+    @ColumnType(typeHandler = JsonStringArrayTypeHandler.class)
+    private String[] pictures;
 
     /**
      * 退款说明
@@ -76,22 +81,5 @@ public class TinymallAftersale {
      */
     @Column(name = "handle_time")
     private LocalDateTime handleTime;
-
-    /**
-     * 添加时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 售后编号
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
+    
 }

@@ -100,13 +100,13 @@ public class WxCollectController {
         TinymallCollect collect = collectService.queryByTypeAndValue(userId, type, valueId);
 
         if (collect != null) {
-            collectService.deleteById(collect.getId());
+            collectService.deleteByPk(collect.getId());
         } else {
             collect = new TinymallCollect();
             collect.setUserId(userId);
             collect.setValueId(valueId);
             collect.setType(type);
-            collectService.add(collect);
+            collectService.insert(collect);
         }
 
         return CommonResult.success();

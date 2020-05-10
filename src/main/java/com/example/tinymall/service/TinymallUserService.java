@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallUser;
 import com.example.tinymall.model.vo.UserVo;
 
@@ -11,16 +12,12 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-14 19:58
  */
-public interface TinymallUserService {
+public interface TinymallUserService extends BaseService<TinymallUser,Integer> {
     TinymallUser findById(Integer userId);
 
     UserVo findUserVoById(Integer userId);
 
     TinymallUser queryByOid(String openId);
-
-    void add(TinymallUser user);
-
-    int updateById(TinymallUser user);
 
     List<TinymallUser> querySelective(String username, String mobile, Integer page, Integer size, String sort, String order);
 

@@ -1,15 +1,17 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallSystem;
 import com.example.tinymall.mapper.TinymallSystemMapper;
 import com.example.tinymall.service.TinymallSystemConfigService;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName TinymallSystemConfigServiceImpl
@@ -18,21 +20,17 @@ import java.util.Map;
  * @Date 2020-4-23 11:44
  */
 @Service
-public class TinymallSystemConfigServiceImpl implements TinymallSystemConfigService {
+public class TinymallSystemConfigServiceImpl extends BaseMySqlServiceImpl<TinymallSystem,Integer> implements TinymallSystemConfigService {
 
     @Resource
     private TinymallSystemMapper systemMapper;
 
     @Override
     public Map<String, String> queryAll() {
-        /*TinymallSystemExample example = new TinymallSystemExample();
-        example.or().andDeletedEqualTo(false);
-
-        List<TinymallSystem> systemList = systemMapper.selectByExample(example);*/
-        Map<String, String> systemConfigs = new HashMap<>();
-        /*for (TinymallSystem item : systemList) {
-            systemConfigs.put(item.getKeyName(), item.getKeyValue());
-        }*/
+        TinymallSystem query = new TinymallSystem();
+        query.setDeleted(0);
+        List<TinymallSystem> systemList = systemMapper.select(query);
+        Map<String, String> systemConfigs = systemList.stream().collect(Collectors.toMap(TinymallSystem::getKeyName,TinymallSystem::getKeyValue));
 
         return systemConfigs;
     }
@@ -98,15 +96,5 @@ public class TinymallSystemConfigServiceImpl implements TinymallSystemConfigServ
             systemMapper.updateByExampleSelective(system, example);
         }*/
 
-    }
-
-    @Override
-    public void addConfig(String key, String value) {
-        TinymallSystem system = new TinymallSystem();
-        system.setKeyName(key);
-        system.setKeyValue(value);
-        system.setAddTime(LocalDateTime.now());
-        system.setUpdateTime(LocalDateTime.now());
-        systemMapper.insertSelective(system);
     }
 }

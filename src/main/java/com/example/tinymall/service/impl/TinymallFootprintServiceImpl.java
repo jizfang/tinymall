@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallFootprint;
 import com.example.tinymall.mapper.TinymallFootprintMapper;
 import com.example.tinymall.service.TinymallFootprintService;
@@ -19,7 +20,7 @@ import java.util.List;
  * @Date 2020-4-15 12:07
  */
 @Service
-public class TinymallFootprintServiceImpl implements TinymallFootprintService {
+public class TinymallFootprintServiceImpl extends BaseMySqlServiceImpl<TinymallFootprint,Integer> implements TinymallFootprintService {
     @Resource
     private TinymallFootprintMapper footprintMapper;
 
@@ -31,31 +32,6 @@ public class TinymallFootprintServiceImpl implements TinymallFootprintService {
         PageHelper.startPage(page, size);
         return footprintMapper.selectByExample(example);*/
         return Lists.newArrayList();
-    }
-
-    @Override
-    public TinymallFootprint findById(Integer id) {
-        return footprintMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public TinymallFootprint findById(Integer userId, Integer id) {
-        /*TinymallFootprintExample example = new TinymallFootprintExample();
-        example.or().andIdEqualTo(id).andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        return footprintMapper.selectOneByExample(example);*/
-        return null;
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        footprintMapper.deleteByIds(String.valueOf(id));
-    }
-
-    @Override
-    public void add(TinymallFootprint footprint) {
-        footprint.setAddTime(LocalDateTime.now());
-        footprint.setUpdateTime(LocalDateTime.now());
-        footprintMapper.insertSelective(footprint);
     }
 
     @Override

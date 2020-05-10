@@ -25,5 +25,5 @@ public abstract class BasePO<PK> implements PO<PK>{
 
     @ApiModelProperty(value = "逻辑删除")
     @Column(name = "deleted")
-    private Boolean deleted;
+    private Integer deleted;
 }

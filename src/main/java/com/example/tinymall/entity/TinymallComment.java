@@ -3,6 +3,8 @@ package com.example.tinymall.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_comment")
-public class TinymallComment {
+public class TinymallComment extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,22 +66,4 @@ public class TinymallComment {
      */
     @Column(name = "star")
     private Short star;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
 }

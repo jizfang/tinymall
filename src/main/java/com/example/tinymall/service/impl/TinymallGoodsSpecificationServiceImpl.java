@@ -26,30 +26,11 @@ public class TinymallGoodsSpecificationServiceImpl implements TinymallGoodsSpeci
     private TinymallGoodsSpecificationMapper goodsSpecificationMapper;
 
     @Override
-    public List<TinymallGoodsSpecification> queryByGid(Integer id) {
-        /*TinymallGoodsSpecificationExample example = new TinymallGoodsSpecificationExample();
-        example.or().andGoodsIdEqualTo(id).andDeletedEqualTo(false);
-        return goodsSpecificationMapper.selectByExample(example);*/
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public TinymallGoodsSpecification findById(Integer id) {
-        return goodsSpecificationMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public void deleteByGid(Integer gid) {
-        /*TinymallGoodsSpecificationExample example = new TinymallGoodsSpecificationExample();
-        example.or().andGoodsIdEqualTo(gid);
-        goodsSpecificationMapper.logicalDeleteByExample(example);*/
-    }
-
-    @Override
-    public void add(TinymallGoodsSpecification goodsSpecification) {
-        goodsSpecification.setAddTime(LocalDateTime.now());
-        goodsSpecification.setUpdateTime(LocalDateTime.now());
-        goodsSpecificationMapper.insertSelective(goodsSpecification);
+    public List<TinymallGoodsSpecification> queryByGid(Integer goodsId) {
+        TinymallGoodsSpecification specification = new TinymallGoodsSpecification();
+        specification.setGoodsId(goodsId);
+        specification.setDeleted(0);
+        return goodsSpecificationMapper.select(specification);
     }
 
     @Override
@@ -77,11 +58,5 @@ public class TinymallGoodsSpecificationServiceImpl implements TinymallGoodsSpeci
         }
 
         return specificationVoList;
-    }
-
-    @Override
-    public void updateById(TinymallGoodsSpecification specification) {
-        specification.setUpdateTime(LocalDateTime.now());
-        goodsSpecificationMapper.updateByPrimaryKeySelective(specification);
     }
 }

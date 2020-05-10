@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallGoodsProduct;
 
 import java.util.List;
@@ -10,14 +11,8 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-15 9:48
  */
-public interface TinymallGoodsProductService {
+public interface TinymallGoodsProductService extends BaseService<TinymallGoodsProduct,Integer> {
     List<TinymallGoodsProduct> queryByGid(Integer gid);
-
-    TinymallGoodsProduct findById(Integer id);
-
-    void deleteById(Integer id);
-
-    void add(TinymallGoodsProduct goodsProduct);
 
     int count();
 
@@ -26,6 +21,4 @@ public interface TinymallGoodsProductService {
     int addStock(Integer id, Short num);
 
     int reduceStock(Integer id, Short num);
-
-    void updateById(TinymallGoodsProduct product);
 }

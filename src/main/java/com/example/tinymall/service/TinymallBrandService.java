@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallBrand;
 
 import java.util.List;
@@ -10,10 +11,5 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-10 16:09
  */
-public interface TinymallBrandService {
-    List<TinymallBrand> query(Integer page, Integer limit);
-
-    List<TinymallBrand> query(Integer page, Integer limit, String sort, String order);
-
-    TinymallBrand findById(Integer brandId);
+public interface TinymallBrandService extends BaseService<TinymallBrand,Integer> {
 }

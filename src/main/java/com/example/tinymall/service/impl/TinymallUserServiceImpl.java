@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallUser;
 import com.example.tinymall.mapper.TinymallUserMapper;
 import com.example.tinymall.model.vo.UserVo;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Date 2020-4-14 20:06
  */
 @Service
-public class TinymallUserServiceImpl implements TinymallUserService {
+public class TinymallUserServiceImpl extends BaseMySqlServiceImpl<TinymallUser,Integer> implements TinymallUserService {
 
     @Resource
     private TinymallUserMapper userMapper;
@@ -45,19 +46,6 @@ public class TinymallUserServiceImpl implements TinymallUserService {
         example.or().andWeixinOpenidEqualTo(openId).andDeletedEqualTo(false);
         return userMapper.selectOneByExample(example);*/
         return null;
-    }
-
-    @Override
-    public void add(TinymallUser user) {
-        user.setAddTime(LocalDateTime.now());
-        user.setUpdateTime(LocalDateTime.now());
-        userMapper.insertSelective(user);
-    }
-
-    @Override
-    public int updateById(TinymallUser user) {
-        user.setUpdateTime(LocalDateTime.now());
-        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override

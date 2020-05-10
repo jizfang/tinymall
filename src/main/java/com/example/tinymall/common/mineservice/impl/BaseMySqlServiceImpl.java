@@ -56,6 +56,7 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
             record.setCreateTime(now);
             record.setUpdateTime(now);
         }
+        record.setDeleted(0);
         crudMapper.insert(record);
         return record.getId();
     }

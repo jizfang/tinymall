@@ -32,8 +32,8 @@ CREATE TABLE `tinymall_ad` (
   `start_time` datetime DEFAULT NULL COMMENT '广告开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '广告结束时间',
   `enabled` tinyint(1) DEFAULT '0' COMMENT '是否启动',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `enabled` (`enabled`)
@@ -59,8 +59,8 @@ CREATE TABLE `tinymall_address` (
   `postal_code` char(6) DEFAULT NULL COMMENT '邮政编码',
   `tel` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号码',
   `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否默认地址',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -81,12 +81,12 @@ CREATE TABLE `tinymall_admin` (
   `last_login_ip` varchar(63) DEFAULT '' COMMENT '最近一次登录IP地址',
   `last_login_time` datetime DEFAULT NULL COMMENT '最近一次登录时间',
   `avatar` varchar(255) DEFAULT '''' COMMENT '头像图片',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  `role_ids` varchar(127) DEFAULT '[]' COMMENT '角色列表',
+  `role_ids` varchar(127) DEFAULT '' COMMENT '角色列表',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,8 +108,8 @@ CREATE TABLE `tinymall_aftersale` (
   `comment` varchar(511) DEFAULT '' COMMENT '退款说明',
   `status` smallint(6) DEFAULT '0' COMMENT '售后状态，0是可申请，1是用户已申请，2是管理员审核通过，3是管理员退款成功，4是管理员审核拒绝，5是用户已取消',
   `handle_time` datetime DEFAULT NULL COMMENT '管理员操作时间',
-  `add_time` datetime DEFAULT NULL COMMENT '添加时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime DEFAULT NULL COMMENT '添加时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '售后编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='售后表';
@@ -129,8 +129,8 @@ CREATE TABLE `tinymall_brand` (
   `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商页的品牌商图片',
   `sort_order` tinyint(3) DEFAULT '50',
   `floor_price` decimal(10,2) DEFAULT '0.00' COMMENT '品牌商的商品低价，仅用于页面展示',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='品牌商表';
@@ -155,8 +155,8 @@ CREATE TABLE `tinymall_cart` (
   `specifications` varchar(1023) DEFAULT NULL COMMENT '商品规格值列表，采用JSON数组格式',
   `checked` tinyint(1) DEFAULT '1' COMMENT '购物车中商品是否选择状态',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '商品图片或者商品货品图片',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='购物车商品表';
@@ -179,8 +179,8 @@ CREATE TABLE `tinymall_category` (
   `pic_url` varchar(255) DEFAULT '' COMMENT '类目图片',
   `level` varchar(255) DEFAULT 'L1',
   `sort_order` tinyint(3) DEFAULT '50' COMMENT '排序',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`pid`)
@@ -199,8 +199,8 @@ CREATE TABLE `tinymall_collect` (
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
   `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是商品ID；如果type=1，则是专题ID',
   `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '收藏类型，如果type=0，则是商品ID；如果type=1，则是专题ID',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -225,8 +225,8 @@ CREATE TABLE `tinymall_comment` (
   `has_picture` tinyint(1) DEFAULT '0' COMMENT '是否含有图片',
   `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表，采用JSON数组格式',
   `star` smallint(6) DEFAULT '1' COMMENT '评分， 1-5',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `id_value` (`value_id`)
@@ -258,8 +258,8 @@ CREATE TABLE `tinymall_coupon` (
   `days` smallint(6) DEFAULT '0' COMMENT '基于领取时间的有效天数days。',
   `start_time` datetime DEFAULT NULL COMMENT '使用券开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '使用券截至时间',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `code` (`code`)
@@ -282,8 +282,8 @@ CREATE TABLE `tinymall_coupon_user` (
   `start_time` datetime DEFAULT NULL COMMENT '有效期开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '有效期截至时间',
   `order_id` int(11) DEFAULT NULL COMMENT '订单ID',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券用户使用表';
@@ -306,8 +306,8 @@ CREATE TABLE `tinymall_feedback` (
   `status` int(3) NOT NULL DEFAULT '0' COMMENT '状态',
   `has_picture` tinyint(1) DEFAULT '0' COMMENT '是否含有图片',
   `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表，采用JSON数组格式',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `id_value` (`status`)
@@ -325,8 +325,8 @@ CREATE TABLE `tinymall_footprint` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
   `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '浏览商品ID',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户浏览足迹表';
@@ -358,8 +358,8 @@ CREATE TABLE `tinymall_goods` (
   `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '专柜价格',
   `retail_price` decimal(10,2) DEFAULT '100000.00' COMMENT '零售价格',
   `detail` text COMMENT '商品详细介绍，是富文本格式',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `goods_sn` (`goods_sn`),
@@ -381,8 +381,8 @@ CREATE TABLE `tinymall_goods_attribute` (
   `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
   `attribute` varchar(255) NOT NULL COMMENT '商品参数名称',
   `value` varchar(255) NOT NULL COMMENT '商品参数值',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
@@ -403,8 +403,8 @@ CREATE TABLE `tinymall_goods_product` (
   `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品货品价格',
   `number` int(11) NOT NULL DEFAULT '0' COMMENT '商品货品数量',
   `url` varchar(125) DEFAULT NULL COMMENT '商品货品图片',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
@@ -424,8 +424,8 @@ CREATE TABLE `tinymall_goods_specification` (
   `specification` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格名称',
   `value` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格值',
   `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格图片',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
@@ -449,8 +449,8 @@ CREATE TABLE `tinymall_groupon` (
   `creator_user_id` int(11) NOT NULL COMMENT '开团用户ID',
   `creator_user_time` datetime DEFAULT NULL COMMENT '开团时间',
   `status` smallint(6) DEFAULT '0' COMMENT '团购活动状态，开团未支付则0，开团中则1，开团失败则2',
-  `add_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购活动表';
@@ -472,8 +472,8 @@ CREATE TABLE `tinymall_groupon_rules` (
   `discount_member` int(11) NOT NULL COMMENT '达到优惠条件的人数',
   `expire_time` datetime DEFAULT NULL COMMENT '团购过期时间',
   `status` smallint(6) DEFAULT '0' COMMENT '团购规则状态，正常上线则0，到期自动下线则1，管理手动下线则2',
-  `add_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `goods_id` (`goods_id`)
@@ -491,8 +491,8 @@ CREATE TABLE `tinymall_issue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(255) DEFAULT NULL COMMENT '问题标题',
   `answer` varchar(255) DEFAULT NULL COMMENT '问题答案',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='常见问题表';
@@ -512,8 +512,8 @@ CREATE TABLE `tinymall_keyword` (
   `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是热门关键字',
   `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是默认关键字',
   `sort_order` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='关键字表';
@@ -535,8 +535,8 @@ CREATE TABLE `tinymall_log` (
   `status` tinyint(1) DEFAULT NULL COMMENT '操作状态',
   `result` varchar(127) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作结果，或者成功消息，或者失败消息',
   `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '补充信息',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
@@ -554,8 +554,8 @@ CREATE TABLE `tinymall_notice` (
   `title` varchar(63) DEFAULT NULL COMMENT '通知标题',
   `content` varchar(511) DEFAULT NULL COMMENT '通知内容',
   `admin_id` int(11) DEFAULT '0' COMMENT '创建通知的管理员ID，如果是系统内置通知则是0.',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='通知表';
@@ -574,8 +574,8 @@ CREATE TABLE `tinymall_notice_admin` (
   `notice_title` varchar(63) DEFAULT NULL COMMENT '通知标题',
   `admin_id` int(11) DEFAULT NULL COMMENT '接收通知的管理员ID',
   `read_time` datetime DEFAULT NULL COMMENT '阅读时间，如果是NULL则是未读状态',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='通知管理员表';
@@ -617,8 +617,8 @@ CREATE TABLE `tinymall_order` (
   `confirm_time` datetime DEFAULT NULL COMMENT '用户确认收货时间',
   `comments` smallint(6) DEFAULT '0' COMMENT '待评价订单商品数量',
   `end_time` datetime DEFAULT NULL COMMENT '订单关闭时间',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
@@ -643,8 +643,8 @@ CREATE TABLE `tinymall_order_goods` (
   `specifications` varchar(1023) NOT NULL COMMENT '商品货品的规格列表',
   `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品货品图片或者商品图片',
   `comment` int(11) DEFAULT '0' COMMENT '订单商品评论，如果是-1，则超期不能评价；如果是0，则可以评价；如果其他值，则是comment表里面的评论ID。',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
@@ -663,8 +663,8 @@ CREATE TABLE `tinymall_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) DEFAULT NULL COMMENT '角色ID',
   `permission` varchar(63) DEFAULT NULL COMMENT '权限',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
@@ -702,8 +702,8 @@ CREATE TABLE `tinymall_role` (
   `name` varchar(63) NOT NULL COMMENT '角色名称',
   `desc` varchar(1023) DEFAULT NULL COMMENT '角色描述',
   `enabled` tinyint(1) DEFAULT '1' COMMENT '是否启用',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
@@ -722,8 +722,8 @@ CREATE TABLE `tinymall_search_history` (
   `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
   `keyword` varchar(63) NOT NULL COMMENT '搜索关键字',
   `from` varchar(63) NOT NULL DEFAULT '' COMMENT '搜索来源，如pc、wx、app',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='搜索历史表';
@@ -746,8 +746,7 @@ CREATE TABLE `tinymall_storage` (
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`),
-  KEY `key` (`key`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件存储表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -762,8 +761,8 @@ CREATE TABLE `tinymall_system` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `key_name` varchar(255) NOT NULL COMMENT '系统配置名',
   `key_value` varchar(255) NOT NULL COMMENT '系统配置值',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
@@ -786,8 +785,8 @@ CREATE TABLE `tinymall_topic` (
   `pic_url` varchar(255) DEFAULT '' COMMENT '专题图片',
   `sort_order` int(11) DEFAULT '100' COMMENT '排序',
   `goods` varchar(1023) DEFAULT '' COMMENT '专题相关商品，采用JSON数组格式',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `topic_id` (`id`)
@@ -816,8 +815,8 @@ CREATE TABLE `tinymall_user` (
   `weixin_openid` varchar(63) NOT NULL DEFAULT '' COMMENT '微信登录openid',
   `session_key` varchar(100) NOT NULL DEFAULT '' COMMENT '微信登录会话KEY',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0 可用, 1 禁用, 2 注销',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`username`)

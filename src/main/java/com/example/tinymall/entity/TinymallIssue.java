@@ -2,6 +2,8 @@ package com.example.tinymall.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_issue")
-public class TinymallIssue {
+public class TinymallIssue extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,22 +29,4 @@ public class TinymallIssue {
      */
     @Column(name = "answer")
     private String answer;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
 }

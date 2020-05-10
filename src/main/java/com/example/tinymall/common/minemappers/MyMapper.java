@@ -1,7 +1,10 @@
 package com.example.tinymall.common.minemappers;
 
+import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.base.select.SelectAllMapper;
 import tk.mybatis.mapper.common.example.SelectByExampleMapper;
+
+import java.util.List;
 
 /**
  * @ClassName MyMapper

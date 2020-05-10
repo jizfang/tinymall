@@ -20,10 +20,10 @@
 
 LOCK TABLES `tinymall_ad` WRITE;
 /*!40000 ALTER TABLE `tinymall_ad` DISABLE KEYS */;
-INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('1', '五一狂欢', '', 'https://resource.smartisan.com/resource/db449fa4355a5330c3a604fcc170ed3c.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '五一狂欢', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
-INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('2', '杭州消费券', '', 'https://resource.smartisan.com/resource/0fdd81f08bbe62ed6fee7dce2ee4c6a0.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '杭州消费券', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
-INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('3', '初夏洗护季', '', 'https://resource.smartisan.com/resource/feb2e6c99b9b577d9c28ac1412673eae.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '初夏洗护季', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
-INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `add_time`, `update_time`, `deleted`) VALUES ('4', '游戏盛典', '', 'https://resource.smartisan.com/resource/81b3567d296aef566268a050c2753aba.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '游戏活动', NULL, NULL, '1', NULL, NULL, '0');
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `create_time`, `update_time`, `deleted`) VALUES ('1', '五一狂欢', '', 'https://resource.smartisan.com/resource/db449fa4355a5330c3a604fcc170ed3c.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '五一狂欢', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `create_time`, `update_time`, `deleted`) VALUES ('2', '杭州消费券', '', 'https://resource.smartisan.com/resource/0fdd81f08bbe62ed6fee7dce2ee4c6a0.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '杭州消费券', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `create_time`, `update_time`, `deleted`) VALUES ('3', '初夏洗护季', '', 'https://resource.smartisan.com/resource/feb2e6c99b9b577d9c28ac1412673eae.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '初夏洗护季', NULL, NULL, '1', '2018-02-01 00:00:00', '2018-02-01 00:00:00', '0');
+INSERT INTO `tinymall`.`tinymall_ad` (`id`, `name`, `link`, `url`, `position`, `content`, `start_time`, `end_time`, `enabled`, `create_time`, `update_time`, `deleted`) VALUES ('4', '游戏盛典', '', 'https://resource.smartisan.com/resource/81b3567d296aef566268a050c2753aba.png?x-oss-process=image/resize,w_1220/format,webp/quality,Q_90', '1', '游戏活动', NULL, NULL, '1', NULL, NULL, '0');
 /*!40000 ALTER TABLE `tinymall_ad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -42,7 +42,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `tinymall_admin` WRITE;
 /*!40000 ALTER TABLE `tinymall_admin` DISABLE KEYS */;
-INSERT INTO `tinymall_admin` VALUES (1,'admin123','$2a$10$.rEfyBb/GURD9P2p0fRg/OAJGloGNDkJS4lY0cQHeqDgsbdTylBpu',NULL,NULL,'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif','2018-02-01 00:00:00','2018-02-01 00:00:00',0,'[1]'),(4,'promotion123','$2a$10$wDZLOLLnzZ1EFZ3ldZ1XFOUWDEX6TnQCUFdJz4g.PoMaLTzS8TjWq','',NULL,'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif','2019-01-07 15:16:59','2019-01-07 15:17:34',0,'[3]'),(5,'mall123','$2a$10$aCtsc4rG6KmxQ59.IkYse.oRyKuwQoU2CPCmxSdB.d5nXq6aw/z4O','',NULL,'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif','2019-01-07 15:17:25','2019-01-07 15:21:05',0,'[2]');
+INSERT INTO `tinymall`.`tinymall_admin`(`id`, `username`, `password`, `last_login_ip`, `last_login_time`, `avatar`, `create_time`, `update_time`, `deleted`, `role_ids`) VALUES (1, 'admin', 'B5E505448EBFCCB6A1B9AAA2E9DAB937C24151D8589207AE63A12EF2', '0:0:0:0:0:0:0:1', '2020-05-07 23:03:33', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '2018-02-01 00:00:00', '2020-05-07 23:03:33', 0, '[1]');
 /*!40000 ALTER TABLE `tinymall_admin` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallGoodsProduct;
 import com.example.tinymall.mapper.GoodsProductMapper;
 import com.example.tinymall.mapper.TinymallGoodsProductMapper;
@@ -18,7 +19,7 @@ import java.util.List;
  * @Date 2020-4-15 11:14
  */
 @Service
-public class TinymallGoodsProductServiceImpl implements TinymallGoodsProductService {
+public class TinymallGoodsProductServiceImpl extends BaseMySqlServiceImpl<TinymallGoodsProduct,Integer> implements TinymallGoodsProductService {
 
     @Resource
     private TinymallGoodsProductMapper litemallGoodsProductMapper;
@@ -27,27 +28,10 @@ public class TinymallGoodsProductServiceImpl implements TinymallGoodsProductServ
 
     @Override
     public List<TinymallGoodsProduct> queryByGid(Integer gid) {
-        /*TinymallGoodsProductExample example = new TinymallGoodsProductExample();
-        example.or().andGoodsIdEqualTo(gid).andDeletedEqualTo(false);
-        return litemallGoodsProductMapper.selectByExample(example);*/
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public TinymallGoodsProduct findById(Integer id) {
-        return litemallGoodsProductMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        litemallGoodsProductMapper.deleteByIds(String.valueOf(id));
-    }
-
-    @Override
-    public void add(TinymallGoodsProduct goodsProduct) {
-        goodsProduct.setAddTime(LocalDateTime.now());
-        goodsProduct.setUpdateTime(LocalDateTime.now());
-        litemallGoodsProductMapper.insertSelective(goodsProduct);
+        TinymallGoodsProduct tinymallGoodsProduct = new TinymallGoodsProduct();
+        tinymallGoodsProduct.setGoodsId(gid);
+        tinymallGoodsProduct.setDeleted(0);
+        return litemallGoodsProductMapper.select(tinymallGoodsProduct);
     }
 
     @Override
@@ -73,11 +57,5 @@ public class TinymallGoodsProductServiceImpl implements TinymallGoodsProductServ
     @Override
     public int reduceStock(Integer id, Short num) {
         return goodsProductMapper.reduceStock(id, num);
-    }
-
-    @Override
-    public void updateById(TinymallGoodsProduct product) {
-        product.setUpdateTime(LocalDateTime.now());
-        litemallGoodsProductMapper.updateByPrimaryKeySelective(product);
     }
 }

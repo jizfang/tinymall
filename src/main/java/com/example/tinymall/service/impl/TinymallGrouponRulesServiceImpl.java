@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.core.constants.GrouponConstant;
 import com.example.tinymall.entity.TinymallGrouponRules;
 import com.example.tinymall.mapper.TinymallGoodsMapper;
@@ -21,19 +22,11 @@ import java.util.List;
  * @Date 2020-4-15 11:55
  */
 @Service
-public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesService {
+public class TinymallGrouponRulesServiceImpl extends BaseMySqlServiceImpl<TinymallGrouponRules,Integer> implements TinymallGrouponRulesService {
     @Resource
     private TinymallGrouponRulesMapper mapper;
     @Resource
     private TinymallGoodsMapper goodsMapper;
-
-
-    @Override
-    public int createRules(TinymallGrouponRules rules) {
-        rules.setAddTime(LocalDateTime.now());
-        rules.setUpdateTime(LocalDateTime.now());
-        return mapper.insertSelective(rules);
-    }
 
     @Override
     public TinymallGrouponRules findById(Integer id) {
@@ -42,10 +35,11 @@ public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesServ
 
     @Override
     public List<TinymallGrouponRules> queryByGoodsId(Integer goodsId) {
-        /*TinymallGrouponRulesExample example = new TinymallGrouponRulesExample();
-        example.or().andGoodsIdEqualTo(goodsId).andStatusEqualTo(GrouponConstant.RULE_STATUS_ON).andDeletedEqualTo(false);
-        return mapper.selectByExample(example);*/
-        return Lists.newArrayList();
+        TinymallGrouponRules tinymallGrouponRules = new TinymallGrouponRules();
+        tinymallGrouponRules.setGoodsId(goodsId);
+        tinymallGrouponRules.setStatus(GrouponConstant.RULE_STATUS_ON);
+        tinymallGrouponRules.setDeleted(0);
+        return mapper.select(tinymallGrouponRules);
     }
 
     @Override
@@ -99,16 +93,5 @@ public class TinymallGrouponRulesServiceImpl implements TinymallGrouponRulesServ
         PageHelper.startPage(page, size);
         return mapper.selectByExample(example);*/
         return Lists.newArrayList();
-    }
-
-    @Override
-    public void delete(Integer id) {
-        mapper.deleteByIds(String.valueOf(id));
-    }
-
-    @Override
-    public int updateById(TinymallGrouponRules grouponRules) {
-        grouponRules.setUpdateTime(LocalDateTime.now());
-        return mapper.updateByPrimaryKeySelective(grouponRules);
     }
 }
