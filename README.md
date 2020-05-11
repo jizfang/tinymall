@@ -6,6 +6,10 @@
 
 http://localhost:8090/swagger-ui.html
 
+## druid sql 监控
+
+http://localhost:8090/druid/
+
 ## 技术点
 - mybatis
 - springboot
@@ -51,6 +55,10 @@ private String level;
 ```java
 @ColumnType(typeHandler = JsonStringArrayTypeHandler.class)
 private String[] gallery;
+
+#也可以全局配置
+mybatis:
+  type-handlers-package: com.example.tinymall.mybatis
 ```
 ## 参考博客
 https://blog.csdn.net/aiyaya_/

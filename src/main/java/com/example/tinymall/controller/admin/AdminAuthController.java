@@ -52,7 +52,7 @@ public class AdminAuthController {
         // 更新登录情况
         user.setLastLoginTime(LocalDateTime.now());
         user.setLastLoginIp(IpUtil.getIpAddr(request));
-        AssertUtils.isFalse(userService.updateById(user) == 0, "账号不存在");
+        AssertUtils.isFalse(userService.updateByPk(user.getId(),user) == 0, "账号不存在");
 
         // userInfo
         UserInfo userInfo = new UserInfo();
@@ -79,7 +79,7 @@ public class AdminAuthController {
     public Object info(String token) {
         AssertUtils.notBlank(token,"用户未登录");
         int userId = LoginTokenHelper.getUserId(token);
-        TinymallAdmin tinymallAdmin = userService.getByUserId(userId);
+        TinymallAdmin tinymallAdmin = userService.selectByPk(userId);
         UserInfo userInfo = new UserInfo();
         userInfo.setAvatarUrl(tinymallAdmin.getAvatar());
         userInfo.setName(tinymallAdmin.getUsername());

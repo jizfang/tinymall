@@ -10,8 +10,10 @@ import com.example.tinymall.entity.*;
 import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -67,7 +69,7 @@ public class WxCartController {
         for (TinymallCart cart : list) {
             TinymallGoods goods = goodsService.selectByPk(cart.getGoodsId());
             if (goods == null || !goods.getIsOnSale()) {
-                cartService.deleteById(cart.getId());
+                cartService.deleteByPk(cart.getId());
                 log.debug("系统自动删除失效购物车商品 goodsId=" + cart.getGoodsId() + " productId=" + cart.getProductId());
             }
             else{
@@ -130,6 +132,7 @@ public class WxCartController {
      * @return 立即购买操作结果
      */
     @PostMapping("fastadd")
+    @ResponseStatus(HttpStatus.CREATED)
     public Object fastadd(@RequestBody TinymallCart cart) {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         AssertUtils.notNull(loginUser,"用户未登录");
@@ -138,12 +141,8 @@ public class WxCartController {
         Integer productId = cart.getProductId();
         Integer number = cart.getNumber().intValue();
         Integer goodsId = cart.getGoodsId();
-        /*if (!ObjectUtils.allNotNull(productId, number, goodsId)) {
-            return ResponseUtil.badArgument();
-        }
-        if(number <= 0){
-            return ResponseUtil.badArgument();
-        }*/
+        AssertUtils.isTrue(ObjectUtils.allNotNull(productId, number, goodsId),"参数错误");
+        AssertUtils.isFalse(number <= 0,"请选择需要购买的商品");
 
         //判断商品是否可以购买
         TinymallGoods goods = goodsService.selectByPk(goodsId);
@@ -173,7 +172,7 @@ public class WxCartController {
             //cart.setSpecifications(product.getSpecifications());
             cart.setUserId(loginUser.getId());
             cart.setChecked(true);
-            cartService.add(cart);
+            cartService.insert(cart);
         } else {
             //取得规格的信息,判断规格库存
             int num = number;
@@ -200,37 +199,28 @@ public class WxCartController {
      */
     @PostMapping("add")
     @LoginAuth
+    @ResponseStatus(HttpStatus.CREATED)
     public Object add(@RequestBody TinymallCart cart) {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         Integer userId = loginUser.getId();
-        /*if (cart == null) {
-            return ResponseUtil.badArgument();
-        }*/
+        AssertUtils.isFalse(cart == null,"购物车信息为空");
 
         Integer productId = cart.getProductId();
         Integer number = cart.getNumber().intValue();
         Integer goodsId = cart.getGoodsId();
-        /*if (!ObjectUtils.allNotNull(productId, number, goodsId)) {
-            return ResponseUtil.badArgument();
-        }
-        if(number <= 0){
-            return ResponseUtil.badArgument();
-        }*/
+        AssertUtils.isTrue(ObjectUtils.allNotNull(productId, number, goodsId),"参数错误");
+        AssertUtils.isFalse(number <= 0,"请选择需要购买的商品");
 
         //判断商品是否可以购买
         TinymallGoods goods = goodsService.selectByPk(goodsId);
-        /*if (goods == null || !goods.getIsOnSale()) {
-            return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
-        }*/
+        AssertUtils.isFalse(goods == null || !goods.getIsOnSale(), "商品已下架");
 
         TinymallGoodsProduct product = productService.selectByPk(productId);
         //判断购物车中是否存在此规格商品
         TinymallCart existCart = cartService.queryExist(goodsId, productId, userId);
         if (existCart == null) {
             //取得规格的信息,判断规格库存
-            /*if (product == null || number > product.getNumber()) {
-                return ResponseUtil.fail(GOODS_NO_STOCK, "库存不足");
-            }*/
+            AssertUtils.isFalse(product == null || number > product.getNumber(), "库存不足");
 
             cart.setId(null);
             cart.setGoodsSn(goods.getGoodsSn());
@@ -242,21 +232,17 @@ public class WxCartController {
                 cart.setPicUrl(product.getUrl());
             }
             cart.setPrice(product.getPrice());
-            //cart.setSpecifications(product.getSpecifications());
+            cart.setSpecifications(product.getSpecifications());
             cart.setUserId(userId);
             cart.setChecked(true);
-            cart.setDeleted(false);
-            cartService.add(cart);
+            cart.setDeleted(0);
+            cartService.insert(cart);
         } else {
             //取得规格的信息,判断规格库存
             int num = existCart.getNumber() + number;
-            /*if (num > product.getNumber()) {
-                return ResponseUtil.fail(GOODS_NO_STOCK, "库存不足");
-            }*/
+            AssertUtils.isFalse(num > product.getNumber(), "库存不足");
             existCart.setNumber((short) num);
-            /*if (cartService.updateById(existCart) == 0) {
-                return ResponseUtil.updatedDataFailed();
-            }*/
+            AssertUtils.isFalse(cartService.updateByPk(existCart.getId(),existCart) == 0,"更新购物车失败");
         }
 
         return goodscount();

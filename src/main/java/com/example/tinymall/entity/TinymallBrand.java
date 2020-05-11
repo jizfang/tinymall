@@ -22,13 +22,13 @@ public class TinymallBrand extends BasePO<Integer> {
     /**
      * 品牌商名称
      */
-    @Column(name = "name")
+    @Column(name = "`name`")
     private String name;
 
     /**
      * 品牌商简介
      */
-    @Column(name = "desc")
+    @Column(name = "`desc`")
     private String desc;
 
     /**

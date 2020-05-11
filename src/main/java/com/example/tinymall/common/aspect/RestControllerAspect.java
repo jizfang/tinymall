@@ -123,7 +123,7 @@ public class RestControllerAspect {
         }
 
         try {
-            if(obj instanceof String){
+            if(obj instanceof String || obj instanceof Integer || obj instanceof Long){
                 // do nothing
             }else {
                 String param = JSON.toJSONString(obj);

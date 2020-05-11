@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallAdmin;
 import com.example.tinymall.mapper.TinymallAdminMapper;
 import com.example.tinymall.service.TinymallAdminService;
@@ -17,7 +18,7 @@ import java.util.List;
  * @Date 2020-4-28 15:11
  */
 @Service
-public class TinymallAdminServiceImpl implements TinymallAdminService {
+public class TinymallAdminServiceImpl extends BaseMySqlServiceImpl<TinymallAdmin,Integer> implements TinymallAdminService {
 
     @Autowired
     private TinymallAdminMapper adminMapper;
@@ -28,16 +29,5 @@ public class TinymallAdminServiceImpl implements TinymallAdminService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("username",username);
         return adminMapper.selectByExample(example);
-    }
-
-    @Override
-    public int updateById(TinymallAdmin user) {
-        user.setUpdateTime(LocalDateTime.now());
-        return adminMapper.updateByPrimaryKeySelective(user);
-    }
-
-    @Override
-    public TinymallAdmin getByUserId(int userId) {
-        return adminMapper.selectByPrimaryKey(userId);
     }
 }

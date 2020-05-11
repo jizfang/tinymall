@@ -3,15 +3,19 @@ package com.example.tinymall.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
+import com.example.tinymall.mybatis.JsonStringArrayTypeHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 @Getter
 @Setter
 @ToString
 @Table(name = "tinymall_cart")
-public class TinymallCart {
+public class TinymallCart extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,8 +66,9 @@ public class TinymallCart {
     /**
      * 商品规格值列表，采用JSON数组格式
      */
-    //@Column(name = "specifications")
-    //private String[] specifications;
+    @Column(name = "specifications")
+    //@ColumnType(typeHandler = JsonStringArrayTypeHandler.class)
+    private String[] specifications;
 
     /**
      * 购物车中商品是否选择状态
@@ -76,22 +81,4 @@ public class TinymallCart {
      */
     @Column(name = "pic_url")
     private String picUrl;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
 }

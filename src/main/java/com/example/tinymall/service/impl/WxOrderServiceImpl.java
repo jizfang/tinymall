@@ -137,7 +137,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (cartId.equals(0)) {
             checkedGoodsList = cartService.queryByUidAndChecked(userId);
         } else {
-            TinymallCart cart = cartService.findById(cartId);
+            TinymallCart cart = cartService.selectByPk(cartId);
             checkedGoodsList = new ArrayList<>(1);
             checkedGoodsList.add(cart);
         }

@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.example.tinymall.model.po.BasePO;
+import com.example.tinymall.mybatis.JsonStringArrayTypeHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 @Getter
 @Setter
@@ -28,8 +30,9 @@ public class TinymallGoodsProduct extends BasePO<Integer> {
     /**
      * 商品规格值列表，采用JSON数组格式
      */
-    //@Column(name = "specifications")
-    //private String[] specifications;
+    @Column(name = "specifications")
+    @ColumnType(typeHandler = JsonStringArrayTypeHandler.class)
+    private String[] specifications;
 
     /**
      * 商品货品价格

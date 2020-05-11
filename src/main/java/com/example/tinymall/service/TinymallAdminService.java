@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallAdmin;
 
 import java.util.List;
@@ -10,10 +11,6 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-28 15:11
  */
-public interface TinymallAdminService {
+public interface TinymallAdminService extends BaseService<TinymallAdmin,Integer> {
     List<TinymallAdmin> queryByUsername(String username);
-
-    int updateById(TinymallAdmin user);
-
-    TinymallAdmin getByUserId(int userId);
 }

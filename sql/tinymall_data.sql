@@ -316,16 +316,6 @@ LOCK TABLES `tinymall_storage` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping data for table `tinymall_system`
---
-
-LOCK TABLES `tinymall_system` WRITE;
-/*!40000 ALTER TABLE `tinymall_system` DISABLE KEYS */;
-INSERT INTO `tinymall_system` VALUES (1,'tinymall_order_unpaid','30','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(2,'tinymall_wx_index_new','6','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(3,'tinymall_mall_latitude','31.201900','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(4,'tinymall_order_unconfirm','7','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(5,'tinymall_wx_share','false','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(6,'tinymall_express_freight_min','88','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(7,'tinymall_mall_name','tinymall','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(8,'tinymall_express_freight_value','8','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(9,'tinymall_mall_qq','705144434','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(10,'tinymall_wx_index_hot','6','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(11,'tinymall_order_comment','7','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(12,'tinymall_wx_catlog_goods','4','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(13,'tinymall_mall_longitude','121.587839','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(14,'tinymall_mall_phone','021-xxxx-xxxx','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(15,'tinymall_wx_catlog_list','4','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(16,'tinymall_mall_address','上海','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(17,'tinymall_wx_index_brand','4','2019-12-08 19:11:18','2019-12-08 19:11:18',0),(18,'tinymall_wx_index_topic','4','2019-12-08 19:11:18','2019-12-08 19:11:18',0);
-/*!40000 ALTER TABLE `tinymall_system` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `tinymall_topic`
 --
 

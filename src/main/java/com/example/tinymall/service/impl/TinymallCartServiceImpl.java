@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallCart;
 import com.example.tinymall.mapper.TinymallCartMapper;
 import com.example.tinymall.service.TinymallCartService;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Date 2020-4-15 14:24
  */
 @Service
-public class TinymallCartServiceImpl implements TinymallCartService {
+public class TinymallCartServiceImpl extends BaseMySqlServiceImpl<TinymallCart,Integer> implements TinymallCartService {
     @Resource
     private TinymallCartMapper cartMapper;
 
@@ -33,24 +34,11 @@ public class TinymallCartServiceImpl implements TinymallCartService {
     }
 
     @Override
-    public void add(TinymallCart cart) {
-        cart.setAddTime(LocalDateTime.now());
-        cart.setUpdateTime(LocalDateTime.now());
-        cartMapper.insertSelective(cart);
-    }
-
-    @Override
-    public int updateById(TinymallCart cart) {
-        cart.setUpdateTime(LocalDateTime.now());
-        return cartMapper.updateByPrimaryKeySelective(cart);
-    }
-
-    @Override
     public List<TinymallCart> queryByUid(int userId) {
-        /*TinymallCartExample example = new TinymallCartExample();
-        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        return cartMapper.selectByExample(example);*/
-        return Lists.newArrayList();
+        TinymallCart tinymallCart = new TinymallCart();
+        tinymallCart.setUserId(userId);
+        tinymallCart.setDeleted(0);
+        return cartMapper.select(tinymallCart);
     }
 
     @Override
@@ -67,11 +55,6 @@ public class TinymallCartServiceImpl implements TinymallCartService {
         example.or().andUserIdEqualTo(userId).andProductIdIn(productIdList);
         return cartMapper.logicalDeleteByExample(example);*/
         return 0;
-    }
-
-    @Override
-    public TinymallCart findById(Integer id) {
-        return cartMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -100,41 +83,6 @@ public class TinymallCartServiceImpl implements TinymallCartService {
         TinymallCart cart = new TinymallCart();
         cart.setDeleted(true);
         cartMapper.updateByExampleSelective(cart, example);*/
-    }
-
-    @Override
-    public List<TinymallCart> querySelective(Integer userId, Integer goodsId, Integer page, Integer limit, String sort, String order) {
-        /*TinymallCartExample example = new TinymallCartExample();
-        TinymallCartExample.Criteria criteria = example.createCriteria();
-
-        if (userId != null) {
-            criteria.andUserIdEqualTo(userId);
-        }
-        if (goodsId != null) {
-            criteria.andGoodsIdEqualTo(goodsId);
-        }
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        PageHelper.startPage(page, limit);
-        return cartMapper.selectByExample(example);*/
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        cartMapper.deleteByIds(String.valueOf(id));
-    }
-
-    @Override
-    public boolean checkExist(Integer goodsId) {
-        /*TinymallCartExample example = new TinymallCartExample();
-        example.or().andGoodsIdEqualTo(goodsId).andCheckedEqualTo(true).andDeletedEqualTo(false);
-        return cartMapper.countByExample(example) != 0;*/
-        return false;
     }
 
     @Override
