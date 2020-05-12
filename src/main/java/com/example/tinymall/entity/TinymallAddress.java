@@ -2,6 +2,10 @@ package com.example.tinymall.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
+import com.example.tinymall.common.minevalidation.IsMobile;
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_address")
-public class TinymallAddress {
+public class TinymallAddress extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +24,7 @@ public class TinymallAddress {
      * 收货人名称
      */
     @Column(name = "name")
+    @NotEmpty(message = "收货人姓名不能为空")
     private String name;
 
     /**
@@ -32,12 +37,14 @@ public class TinymallAddress {
      * 行政区域表的省ID
      */
     @Column(name = "province")
+    @NotEmpty(message = "省不能为空")
     private String province;
 
     /**
      * 行政区域表的市ID
      */
     @Column(name = "city")
+    @NotEmpty(message = "市不能为空")
     private String city;
 
     /**
@@ -68,6 +75,8 @@ public class TinymallAddress {
      * 手机号码
      */
     @Column(name = "tel")
+    @NotEmpty(message = "手机号码不能为空")
+    @IsMobile()
     private String tel;
 
     /**
@@ -75,22 +84,4 @@ public class TinymallAddress {
      */
     @Column(name = "is_default")
     private Boolean isDefault;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
 }

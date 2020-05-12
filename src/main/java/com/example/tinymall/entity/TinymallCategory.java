@@ -1,12 +1,13 @@
 package com.example.tinymall.entity;
 
-import java.time.LocalDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Range;
 
 @Getter
 @Setter
@@ -22,6 +23,7 @@ public class TinymallCategory extends BasePO<Integer> {
      * 类目名称
      */
     @Column(name = "`name`")
+    @NotEmpty(message = "类目名称不能为空")
     private String name;
 
     /**
@@ -55,6 +57,7 @@ public class TinymallCategory extends BasePO<Integer> {
     private String picUrl;
 
     @Column(name = "`level`")
+    @NotEmpty(message = "类目级别不能为空")
     private String level;
 
     /**

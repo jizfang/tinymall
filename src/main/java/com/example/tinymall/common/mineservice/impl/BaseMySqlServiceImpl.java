@@ -12,6 +12,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 
@@ -69,8 +70,11 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
     @Override
     public int deleteByPk(PK pk) {
         AssertUtils.notNull(pk, "pk is not null");
-
-        return crudMapper.deleteByPrimaryKey(pk);
+        E e = selectByPk(pk);
+        AssertUtils.notNull(e, "需要删除的内容不存在");
+        // 物理删除
+        e.setDeleted(1);
+        return crudMapper.updateByPrimaryKey(e);
     }
 
     /**
@@ -86,8 +90,12 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
         if (pksStr == null) {
             return 0;
         }
-
-        return crudMapper.deleteByIds(pksStr);
+        List<E> es = crudMapper.selectByIds(pksStr);
+        if(CollectionUtils.isEmpty(es)){
+            return 0;
+        }
+        es.forEach(e -> e.setDeleted(1));
+        return crudMapper.batchUpdate(es);
     }
 
     /**

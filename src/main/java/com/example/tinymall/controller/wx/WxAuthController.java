@@ -31,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static com.example.tinymall.core.utils.WxResponseCode.*;
 
@@ -282,11 +283,16 @@ public class WxAuthController {
         user.setPassword(MD5Util.encode(password));
         user.setMobile(mobile);
         user.setWeixinOpenid(openId);
-        user.setAvatar("https://yanxuan.nosdn.127.net/80841d741d7fa3073e0ae27bf487339f.jpg?imageView&quality=90&thumbnail=64x64");
+        // 随机选一个头像
+        Random random = new Random();
+        // 防止出现0
+        int num = random.nextInt(6) + 1;
+        user.setAvatar("http://localhost:8090/avatar/avatar" + num +".jpg");
         user.setNickname(username);
         user.setGender((byte) 0);
         user.setUserLevel((byte) 0);
         user.setStatus((byte) 0);
+        user.setSessionKey("");
         user.setLastLoginTime(LocalDateTime.now());
         user.setLastLoginIp(IpUtil.getIpAddr(request));
         userService.insert(user);
@@ -309,7 +315,6 @@ public class WxAuthController {
     }
 
     @PostMapping("logout")
-    @ResponseStatus(HttpStatus.OK)
     @LoginAuth
     public Object logout() {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();

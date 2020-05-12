@@ -21,7 +21,7 @@ target/
 .mvn
 logs
 mvnw*
-upload
+upload/images
 
 ### NetBeans ###
 /nbproject/private/

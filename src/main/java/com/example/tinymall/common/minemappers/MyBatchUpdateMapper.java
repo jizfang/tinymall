@@ -13,5 +13,5 @@ import java.util.List;
 public interface MyBatchUpdateMapper<T> {
 
     @UpdateProvider(type=MyBatchUpdateProvider.class, method="dynamicSQL")
-    void batchUpdate(List<T> list);
+    int batchUpdate(List<T> list);
 }

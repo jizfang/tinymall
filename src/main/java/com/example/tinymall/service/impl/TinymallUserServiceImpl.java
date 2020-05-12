@@ -81,10 +81,10 @@ public class TinymallUserServiceImpl extends BaseMySqlServiceImpl<TinymallUser,I
 
     @Override
     public List<TinymallUser> queryByUsername(String username) {
-        /*TinymallUserExample example = new TinymallUserExample();
-        example.or().andUsernameEqualTo(username).andDeletedEqualTo(false);
-        return userMapper.selectByExample(example);*/
-        return Lists.newArrayList();
+        TinymallUser example = new TinymallUser();
+        example.setUsername(username);
+        example.setDeleted(0);
+        return userMapper.select(example);
     }
 
     @Override

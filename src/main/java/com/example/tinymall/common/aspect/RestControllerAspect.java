@@ -108,7 +108,7 @@ public class RestControllerAspect {
             }
             sb.append(paramStr).append(",");
         }
-        return sb.deleteCharAt(sb.length() - 1).toString();
+        return sb.length() > 1 ? sb.deleteCharAt(sb.length() - 1).toString() : sb.toString();
     }
 
     /**
