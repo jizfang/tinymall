@@ -52,5 +52,5 @@ public class TinymallAdmin extends BasePO<Integer> {
      * 角色列表
      */
     @Column(name = "role_ids")
-    private String roleIds;
+    private String[] roleIds;
 }

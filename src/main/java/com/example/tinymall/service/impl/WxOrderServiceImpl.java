@@ -208,7 +208,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         }
 
         // 添加订单表项
-        orderService.add(order);
+        orderService.insert(order);
         orderId = order.getId();
 
         // 添加订单商品表项
@@ -417,7 +417,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         orderVo.put("id", order.getId());
         orderVo.put("orderSn", order.getOrderSn());
         orderVo.put("message", order.getMessage());
-        orderVo.put("addTime", order.getAddTime());
+        orderVo.put("addTime", order.getCreateTime());
         orderVo.put("consignee", order.getConsignee());
         orderVo.put("mobile", order.getMobile());
         orderVo.put("address", order.getAddress());

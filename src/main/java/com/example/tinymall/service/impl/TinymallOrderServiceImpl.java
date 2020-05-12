@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.constants.OrderUtil;
 import com.example.tinymall.entity.TinymallOrder;
@@ -27,7 +28,7 @@ import static com.example.tinymall.core.utils.CharUtil.getRandomNum;
  * @Date 2020-4-11 17:46
  */
 @Service
-public class TinymallOrderServiceImpl implements TinymallOrderService {
+public class TinymallOrderServiceImpl extends BaseMySqlServiceImpl<TinymallOrder,Integer> implements TinymallOrderService {
 
     @Resource
     private TinymallOrderMapper orderMapper;
@@ -84,23 +85,11 @@ public class TinymallOrderServiceImpl implements TinymallOrderService {
     }
 
     @Override
-    public int add(TinymallOrder order) {
-        order.setAddTime(LocalDateTime.now());
-        order.setUpdateTime(LocalDateTime.now());
-        return orderMapper.insertSelective(order);
-    }
-
-    @Override
     public TinymallOrder findById(Integer userId, Integer orderId) {
         /*TinymallOrderExample example = new TinymallOrderExample();
         example.or().andIdEqualTo(orderId).andUserIdEqualTo(userId).andDeletedEqualTo(false);
         return orderMapper.selectOneByExample(example);*/
         return null;
-    }
-
-    @Override
-    public TinymallOrder findById(Integer orderId) {
-        return orderMapper.selectByPrimaryKey(orderId);
     }
 
     @Override

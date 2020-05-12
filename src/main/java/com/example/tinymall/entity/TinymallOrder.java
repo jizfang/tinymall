@@ -1,8 +1,9 @@
 package com.example.tinymall.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_order")
-public class TinymallOrder {
+public class TinymallOrder extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,7 +118,7 @@ public class TinymallOrder {
      * 微信付款时间
      */
     @Column(name = "pay_time")
-    private LocalDateTime payTime;
+    private long payTime;
 
     /**
      * 发货编号
@@ -135,7 +136,7 @@ public class TinymallOrder {
      * 发货开始时间
      */
     @Column(name = "ship_time")
-    private LocalDateTime shipTime;
+    private long shipTime;
 
     /**
      * 实际退款金额，（有可能退款金额小于实际支付金额）
@@ -159,13 +160,13 @@ public class TinymallOrder {
      * 退款时间
      */
     @Column(name = "refund_time")
-    private LocalDateTime refundTime;
+    private long refundTime;
 
     /**
      * 用户确认收货时间
      */
     @Column(name = "confirm_time")
-    private LocalDateTime confirmTime;
+    private long confirmTime;
 
     /**
      * 待评价订单商品数量
@@ -177,23 +178,5 @@ public class TinymallOrder {
      * 订单关闭时间
      */
     @Column(name = "end_time")
-    private LocalDateTime endTime;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除
-     */
-    @Column(name = "deleted")
-    private Boolean deleted;
+    private long endTime;
 }
