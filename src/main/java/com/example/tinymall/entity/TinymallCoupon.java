@@ -3,6 +3,7 @@ package com.example.tinymall.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class TinymallCoupon extends BasePO<Integer> {
      * 优惠券名称
      */
     @Column(name = "`name`")
+    @NotEmpty(message = "优惠券名称不能为空")
     private String name;
 
     /**

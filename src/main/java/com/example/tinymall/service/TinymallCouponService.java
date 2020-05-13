@@ -16,4 +16,8 @@ import java.util.List;
 public interface TinymallCouponService extends BaseService<TinymallCoupon,Integer> {
 
     List<TinymallCoupon> queryRegister();
+
+    String generateCode();
+
+    TinymallCoupon findByCode(String code);
 }
