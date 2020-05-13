@@ -16,3 +16,4 @@ tinymall:
     local:
       storagePath: upload/images
       address: http://localhost:8090/images/
+

@@ -40,7 +40,7 @@ public class AdminOrderController {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         //condition.setUserId(loginUser.getId());
         page.setCondition(condition);
-        return adminOrderService.selectPage(page);
+        return adminOrderService.queryByOrderStatus(page);
     }
 
     /**
