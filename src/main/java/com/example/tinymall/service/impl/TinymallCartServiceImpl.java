@@ -43,10 +43,11 @@ public class TinymallCartServiceImpl extends BaseMySqlServiceImpl<TinymallCart,I
 
     @Override
     public List<TinymallCart> queryByUidAndChecked(Integer userId) {
-        /*TinymallCartExample example = new TinymallCartExample();
-        example.or().andUserIdEqualTo(userId).andCheckedEqualTo(true).andDeletedEqualTo(false);
-        return cartMapper.selectByExample(example);*/
-        return Lists.newArrayList();
+        TinymallCart cart = new TinymallCart();
+        cart.setUserId(userId);
+        cart.setChecked(true);
+        cart.setDeleted(0);
+        return cartMapper.select(cart);
     }
 
     @Override

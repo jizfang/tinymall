@@ -3,21 +3,21 @@ package com.example.tinymall.service.impl;
 import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
-import com.example.tinymall.core.constants.OrderUtil;
 import com.example.tinymall.entity.TinymallOrder;
 import com.example.tinymall.mapper.TinymallOrderMapper;
+import com.example.tinymall.model.qo.OrderQO;
 import com.example.tinymall.service.TinymallOrderService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.example.tinymall.core.utils.CharUtil.getRandomNum;
@@ -95,20 +95,21 @@ public class TinymallOrderServiceImpl extends BaseMySqlServiceImpl<TinymallOrder
 
     @Override
     public PageVO<TinymallOrder> queryByOrderStatus(PageQO pageQO) {
-        /*example = new TinymallOrderExample();
-        example.setOrderByClause(TinymallOrder.Column.addTime.desc());
-        TinymallOrderExample.Criteria criteria = example.or();
-        criteria.andUserIdEqualTo(userId);
-        if (orderStatus != null) {
-            criteria.andOrderStatusIn(orderStatus);
-        }
-        criteria.andDeletedEqualTo(false);
-        if (!StringUtils.isEmpty(orderBy)) {
-            example.setOrderByClause(orderBy);
-        }
+        Example example = new Example(TinymallOrder.class);
+        Example.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("createTime desc");
+        OrderQO orderQO = (OrderQO) pageQO.getCondition();
 
-        Page page = PageHelper.startPage(pageNum, limit);
+        if(StringUtils.isNotBlank(orderQO.getOrderSn())){
+            criteria.andEqualTo("orderSn",orderQO.getOrderSn());
+        }
+        if (CollectionUtils.isNotEmpty(orderQO.getOrderStatusArray())) {
+            criteria.andIn("orderStatus",orderQO.getOrderStatusArray());
+        }
+        criteria.andEqualTo("deleted",0);
+
+        Page page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize());
         orderMapper.selectByExample(example);
-        return PageVO.build(page);*/
+        return PageVO.build(page);
     }
 }

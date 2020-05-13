@@ -34,18 +34,20 @@ public class TinymallAddressServiceImpl extends BaseMySqlServiceImpl<TinymallAdd
 
     @Override
     public TinymallAddress query(Integer userId, Integer id) {
-        /*TinymallAddressExample example = new TinymallAddressExample();
-        example.or().andIdEqualTo(id).andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        return addressMapper.selectOneByExample(example);*/
-        return null;
+        TinymallAddress address = new TinymallAddress();
+        address.setId(id);
+        address.setUserId(userId);
+        address.setDeleted(0);
+        return addressMapper.selectOne(address);
     }
 
     @Override
     public TinymallAddress findDefault(Integer userId) {
-        /*TinymallAddressExample example = new TinymallAddressExample();
-        example.or().andUserIdEqualTo(userId).andIsDefaultEqualTo(true).andDeletedEqualTo(false);
-        return addressMapper.selectOneByExample(example);*/
-        return null;
+        TinymallAddress address = new TinymallAddress();
+        address.setUserId(userId);
+        address.setDeleted(0);
+        address.setIsDefault(true);
+        return addressMapper.selectOne(address);
     }
 
     @Override

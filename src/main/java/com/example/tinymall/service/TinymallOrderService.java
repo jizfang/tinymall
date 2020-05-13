@@ -20,6 +20,5 @@ public interface TinymallOrderService extends BaseService<TinymallOrder,Integer>
     String generateOrderSn(Integer userId);
 
     TinymallOrder findById(Integer userId, Integer orderId);
-
-    PageVO<TinymallOrder> queryByOrderStatus(PageQO pageQO);
+    PageVO<TinymallOrder> queryByOrderStatus(PageQO page);
 }

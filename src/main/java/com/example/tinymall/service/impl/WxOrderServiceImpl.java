@@ -359,8 +359,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         }
         Integer showType = userOrderParam.getShowType();
         List<Short> orderStatus = OrderUtil.orderStatus(showType);
-        PageVO<TinymallOrder> orderList = orderService.queryByOrderStatus(userId, orderStatus, pageQO.getPageNum(), pageQO.getPageSize(),
-                pageQO.getOrderBy());
+        PageVO<TinymallOrder> orderList = orderService.queryByOrderStatus(pageQO);
 
         List<Map<String, Object>> orderVoList = new ArrayList<>(orderList.getList().size());
         for (TinymallOrder o : orderList.getList()) {
