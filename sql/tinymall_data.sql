@@ -42,7 +42,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `tinymall_admin` WRITE;
 /*!40000 ALTER TABLE `tinymall_admin` DISABLE KEYS */;
-INSERT INTO `tinymall`.`tinymall_admin`(`id`, `username`, `password`, `last_login_ip`, `last_login_time`, `avatar`, `create_time`, `update_time`, `deleted`, `role_ids`) VALUES (1, 'admin', 'B5E505448EBFCCB6A1B9AAA2E9DAB937C24151D8589207AE63A12EF2', '0:0:0:0:0:0:0:1', '2020-05-07 23:03:33', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '2018-02-01 00:00:00', '2020-05-07 23:03:33', 0, '[1]');
+INSERT INTO `tinymall`.`tinymall_admin`(`id`, `username`, `password`, `last_login_ip`, `last_login_time`, `avatar`, `create_time`, `update_time`, `deleted`, `role_ids`) VALUES (1, 'admin', 'B5E505448EBFCCB6A1B9AAA2E9DAB937C24151D8589207AE63A12EF2', '0:0:0:0:0:0:0:1', '2020-05-07 23:03:33', 'http://localhost:8090/avatar/avatar6.jpg', '2018-02-01 00:00:00', '2020-05-07 23:03:33', 0, '[1]');
 /*!40000 ALTER TABLE `tinymall_admin` ENABLE KEYS */;
 UNLOCK TABLES;
 

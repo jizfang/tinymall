@@ -22,19 +22,21 @@
     <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
     <result column="actual_price" jdbcType="DECIMAL" property="actualPrice" />
     <result column="pay_id" jdbcType="VARCHAR" property="payId" />
-    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="pay_time" jdbcType="BIGINT" property="payTime" />
     <result column="ship_sn" jdbcType="VARCHAR" property="shipSn" />
     <result column="ship_channel" jdbcType="VARCHAR" property="shipChannel" />
     <result column="ship_time" jdbcType="TIMESTAMP" property="shipTime" />
     <result column="refund_amount" jdbcType="DECIMAL" property="refundAmount" />
     <result column="refund_type" jdbcType="VARCHAR" property="refundType" />
     <result column="refund_content" jdbcType="VARCHAR" property="refundContent" />
-    <result column="refund_time" jdbcType="TIMESTAMP" property="refundTime" />
-    <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="refund_time" jdbcType="BIGINT" property="refundTime" />
+    <result column="confirm_time" jdbcType="BIGINT" property="confirmTime" />
     <result column="comments" jdbcType="SMALLINT" property="comments" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="end_time" jdbcType="BIGINT" property="endTime" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
+
+
 </mapper>

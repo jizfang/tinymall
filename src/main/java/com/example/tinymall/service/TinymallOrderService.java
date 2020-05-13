@@ -1,6 +1,7 @@
 package com.example.tinymall.service;
 
 import com.example.tinymall.common.mineservice.BaseService;
+import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.entity.TinymallOrder;
 
@@ -20,5 +21,5 @@ public interface TinymallOrderService extends BaseService<TinymallOrder,Integer>
 
     TinymallOrder findById(Integer userId, Integer orderId);
 
-    PageVO<TinymallOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer page, Integer limit, String orderBy);
+    PageVO<TinymallOrder> queryByOrderStatus(PageQO pageQO);
 }

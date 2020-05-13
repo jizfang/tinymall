@@ -1,6 +1,7 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
+import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.constants.OrderUtil;
 import com.example.tinymall.entity.TinymallOrder;
@@ -93,8 +94,8 @@ public class TinymallOrderServiceImpl extends BaseMySqlServiceImpl<TinymallOrder
     }
 
     @Override
-    public PageVO<TinymallOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer pageNum, Integer limit, String orderBy) {
-        /*TinymallOrderExample example = new TinymallOrderExample();
+    public PageVO<TinymallOrder> queryByOrderStatus(PageQO pageQO) {
+        /*example = new TinymallOrderExample();
         example.setOrderByClause(TinymallOrder.Column.addTime.desc());
         TinymallOrderExample.Criteria criteria = example.or();
         criteria.andUserIdEqualTo(userId);
@@ -109,6 +110,5 @@ public class TinymallOrderServiceImpl extends BaseMySqlServiceImpl<TinymallOrder
         Page page = PageHelper.startPage(pageNum, limit);
         orderMapper.selectByExample(example);
         return PageVO.build(page);*/
-        return null;
     }
 }
