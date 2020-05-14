@@ -1,5 +1,6 @@
 package com.example.tinymall.service;
 
+import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.entity.TinymallTopic;
 
 import java.util.List;
@@ -10,8 +11,5 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-10 16:09
  */
-public interface TinymallTopicService {
-    List<TinymallTopic> queryList(int offset, int limit);
-
-    List<TinymallTopic> queryList(int offset, int limit, String sort, String order);
+public interface TinymallTopicService extends BaseService<TinymallTopic,Integer> {
 }

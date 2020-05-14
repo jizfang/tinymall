@@ -38,7 +38,7 @@ public class PageQO<T> implements Serializable {
     private int pageSize = 10;
 
     @ApiModelProperty(value = "排序", notes = "例：create_time desc,update_time desc")
-    private String orderBy;
+    private String orderBy = "create_time desc";
 
     private T condition;
 

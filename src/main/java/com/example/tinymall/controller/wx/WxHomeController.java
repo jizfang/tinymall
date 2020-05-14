@@ -63,14 +63,9 @@ public class WxHomeController {
      */
     @GetMapping("/index")
     public Object index() {
-        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
-        AssertUtils.notNull(loginUser,"用户未登录");
-        Integer userId = loginUser.getId();
-
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("home-pool-%d").build();
 
-        //Common Thread Pool
         ExecutorService executorService = new ThreadPoolExecutor(5, 200,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
@@ -87,7 +82,7 @@ public class WxHomeController {
 
         Callable<List> brandListCallable = () -> brandService.selectPage(new PageQO<>(0, SystemConfig.getBrandLimit())).getList();
 
-        Callable<List> topicListCallable = () -> topicService.queryList(0, SystemConfig.getTopicLimit());
+        Callable<List> topicListCallable = () -> topicService.selectPage(new PageQO<>(0, SystemConfig.getTopicLimit())).getList();
 
         //团购专区
         Callable<List> grouponListCallable = () -> grouponService.queryList(0, 5);

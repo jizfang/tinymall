@@ -211,8 +211,7 @@ public class WxGoodsController {
     public Object list(PageQO page, GoodsQO condition) {
 
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
-        AssertUtils.notNull(loginUser,"用户未登录");
-        Integer userId = loginUser.getId();
+        Integer userId = loginUser != null ? loginUser.getId() : 0;
         //添加到搜索历史
         /*if (userId != null && !StringUtils.isNullOrEmpty(keyword)) {
             TinymallSearchHistory searchHistoryVo = new TinymallSearchHistory();

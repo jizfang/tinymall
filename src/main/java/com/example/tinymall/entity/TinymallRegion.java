@@ -1,6 +1,8 @@
 package com.example.tinymall.entity;
 
 import javax.persistence.*;
+
+import com.example.tinymall.model.po.BasePO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,7 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "tinymall_region")
-public class TinymallRegion {
+public class TinymallRegion extends BasePO<Integer> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

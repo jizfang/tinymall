@@ -266,16 +266,16 @@ public class WxOrderServiceImpl implements WxOrderService {
             //参与者
             if (grouponLinkId != null && grouponLinkId > 0) {
                 //参与的团购记录
-                TinymallGroupon baseGroupon = grouponService.queryById(grouponLinkId);
+                TinymallGroupon baseGroupon = grouponService.selectByPk(grouponLinkId);
                 groupon.setCreatorUserId(baseGroupon.getCreatorUserId());
                 groupon.setGrouponId(grouponLinkId);
                 groupon.setShareUrl(baseGroupon.getShareUrl());
-                grouponService.createGroupon(groupon);
+                grouponService.insert(groupon);
             } else {
                 groupon.setCreatorUserId(userId);
                 groupon.setCreatorUserTime(LocalDateTime.now());
                 groupon.setGrouponId(0);
-                grouponService.createGroupon(groupon);
+                grouponService.insert(groupon);
                 grouponLinkId = groupon.getId();
             }
         }

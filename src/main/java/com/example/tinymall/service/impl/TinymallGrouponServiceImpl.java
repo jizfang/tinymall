@@ -1,5 +1,6 @@
 package com.example.tinymall.service.impl;
 
+import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.core.constants.GrouponConstant;
 import com.example.tinymall.entity.TinymallGroupon;
 import com.example.tinymall.mapper.TinymallGrouponMapper;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Date 2020-4-23 11:11
  */
 @Service
-public class TinymallGrouponServiceImpl implements TinymallGrouponService {
+public class TinymallGrouponServiceImpl extends BaseMySqlServiceImpl<TinymallGroupon,Integer> implements TinymallGrouponService {
     @Resource
     private TinymallGrouponMapper mapper;
 
@@ -60,14 +61,6 @@ public class TinymallGrouponServiceImpl implements TinymallGrouponService {
     }
 
     @Override
-    public TinymallGroupon queryById(Integer id) {
-        /*TinymallGrouponExample example = new TinymallGrouponExample();
-        example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-        return mapper.selectOneByExample(example);*/
-        return null;
-    }
-
-    @Override
     public TinymallGroupon queryById(Integer userId, Integer id) {
         /*TinymallGrouponExample example = new TinymallGrouponExample();
         example.or().andIdEqualTo(id).andUserIdEqualTo(id).andDeletedEqualTo(false);
@@ -89,43 +82,5 @@ public class TinymallGrouponServiceImpl implements TinymallGrouponService {
         example.or().andUserIdEqualTo(userId).andGrouponIdEqualTo(grouponId).andStatusNotEqualTo(GrouponConstant.STATUS_NONE).andDeletedEqualTo(false);
         return mapper.countByExample(example) != 0;*/
         return true;
-    }
-
-    @Override
-    public int updateById(TinymallGroupon groupon) {
-        groupon.setUpdateTime(LocalDateTime.now());
-        return mapper.updateByPrimaryKeySelective(groupon);
-    }
-
-    @Override
-    public int createGroupon(TinymallGroupon groupon) {
-        groupon.setAddTime(LocalDateTime.now());
-        groupon.setUpdateTime(LocalDateTime.now());
-        return mapper.insertSelective(groupon);
-    }
-
-    @Override
-    public List<TinymallGroupon> querySelective(String rulesId, Integer page, Integer size, String sort, String order) {
-        /*TinymallGrouponExample example = new TinymallGrouponExample();
-        TinymallGrouponExample.Criteria criteria = example.createCriteria();
-
-        if (!StringUtils.isEmpty(rulesId)) {
-            criteria.andRulesIdEqualTo(Integer.parseInt(rulesId));
-        }
-        criteria.andDeletedEqualTo(false);
-        criteria.andStatusNotEqualTo(GrouponConstant.STATUS_NONE);
-        criteria.andGrouponIdEqualTo(0);
-
-        PageHelper.startPage(page, size);
-        return mapper.selectByExample(example);*/
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public List<TinymallGroupon> queryByRuleId(int grouponRuleId) {
-        /*TinymallGrouponExample example = new TinymallGrouponExample();
-        example.or().andRulesIdEqualTo(grouponRuleId).andDeletedEqualTo(false);
-        return mapper.selectByExample(example);*/
-        return Lists.newArrayList();
     }
 }
