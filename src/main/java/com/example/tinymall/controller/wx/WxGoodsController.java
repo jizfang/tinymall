@@ -78,8 +78,7 @@ public class WxGoodsController {
     @GetMapping("detail")
     public Object detail( @NotNull Integer id) {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
-        AssertUtils.notNull(loginUser,"用户未登录");
-        Integer userId = loginUser.getId();
+        Integer userId = loginUser == null ? null : loginUser.getId();
 
         // 商品信息
         TinymallGoods info = goodsService.selectByPk(id);

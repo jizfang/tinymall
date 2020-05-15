@@ -135,7 +135,7 @@ public class WxCartController {
     @ResponseStatus(HttpStatus.CREATED)
     public Object fastadd(@RequestBody TinymallCart cart) {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
-        AssertUtils.notNull(loginUser,"用户未登录");
+        AssertUtils.notNull(loginUser,"请先登录");
         AssertUtils.notNull(cart,"购物车信息不能为空");
 
         Integer productId = cart.getProductId();
@@ -263,6 +263,7 @@ public class WxCartController {
     @GetMapping("checkout")
     public Object checkout(Integer cartId, Integer addressId, Integer couponId, Integer userCouponId, Integer grouponRulesId) {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        AssertUtils.notNull(loginUser,"请先登录");
         Integer userId = loginUser.getId();
 
         // 收货地址
