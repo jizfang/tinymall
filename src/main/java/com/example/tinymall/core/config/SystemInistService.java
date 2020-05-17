@@ -1,7 +1,6 @@
 package com.example.tinymall.core.config;
 
 import com.example.tinymall.core.system.SystemConfig;
-import com.example.tinymall.core.utils.SystemInfoPrinter;
 import com.example.tinymall.entity.TinymallSystem;
 import com.example.tinymall.service.TinymallSystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ public class SystemInistService {
     private void inist() {
         systemInistService = this;
         initConfigs();
-        SystemInfoPrinter.printInfo("Tinymall 初始化信息",DEFAULT_CONFIGS);
     }
 
 

@@ -243,4 +243,26 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
 
         return PageVO.build(page);
     }
+
+    /**
+     * 查询数量
+     * @param record
+     * @return
+     */
+    public int selectCount(E record) {
+        AssertUtils.notNull(record, "record is not null");
+
+        return crudMapper.selectCount(record);
+    }
+
+    /**
+     * 根据条件查询list
+     * @param record
+     * @return
+     */
+    public List<E> selectByCondition(E record){
+        AssertUtils.notNull(record, "record is not null");
+        record.setDeleted(0);
+        return crudMapper.select(record);
+    }
 }
