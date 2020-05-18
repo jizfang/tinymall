@@ -26,4 +26,6 @@ public interface BaseService<E,PK> extends InsertService<E,PK>,
      * @return
      */
     List<E> selectByCondition(E record);
+
+    E selectOne(E record);
 }

@@ -249,6 +249,7 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
      * @param record
      * @return
      */
+    @Override
     public int selectCount(E record) {
         AssertUtils.notNull(record, "record is not null");
 
@@ -260,9 +261,16 @@ public abstract class BaseMySqlServiceImpl<E extends PO<PK>,PK> implements BaseS
      * @param record
      * @return
      */
+    @Override
     public List<E> selectByCondition(E record){
         AssertUtils.notNull(record, "record is not null");
         record.setDeleted(0);
         return crudMapper.select(record);
+    }
+
+    @Override
+    public E selectOne(E record) {
+        record.setDeleted(0);
+        return crudMapper.selectOne(record);
     }
 }
