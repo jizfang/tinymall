@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.tinymall.common.constants.HeaderConstants;
 import com.example.tinymall.common.handler.GlobalExceptionHandler;
+import com.example.tinymall.common.helper.LoginTokenHelper;
 import com.example.tinymall.core.utils.IpUtil;
 import com.example.tinymall.core.utils.RequestContextUtil;
+import com.example.tinymall.model.bo.LoginUser;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -48,26 +50,23 @@ public class RestControllerAspect {
         }
 
         HttpServletRequest request = RequestContextUtil.getRequestAttributes().getRequest();
-        //LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
+        LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
 
         String ip = IpUtil.getRealIp(request);
         String methodName = this.getMethodName(joinPoint);
         String params = this.getParamsJson(joinPoint);
-        //String requester = loginUser == null ? "unknown" : String.valueOf(loginUser.getId());
+        String requester = loginUser == null ? "unknown" : String.valueOf(loginUser.getId());
 
         String callSource = request.getHeader(HeaderConstants.CALL_SOURCE);
         String appVersion = request.getHeader(HeaderConstants.APP_VERSION);
         String apiVersion = request.getHeader(HeaderConstants.API_VERSION);
         String userAgent = request.getHeader("user-agent");
 
-        //log.info("Started request requester [{}] method [{}] params [{}] IP [{}] callSource [{}] appVersion [{}] apiVersion [{}] userAgent [{}]", requester, methodName, params, ip, callSource, appVersion, apiVersion, userAgent);
-        log.info("Started request method [{}] params [{}] IP [{}] callSource [{}] appVersion [{}] apiVersion [{}] userAgent [{}]", methodName, params, ip, callSource, appVersion, apiVersion, userAgent);
+        log.info("Started request requester [{}] method [{}] params [{}] IP [{}] callSource [{}] appVersion [{}] apiVersion [{}] userAgent [{}]", requester, methodName, params, ip, callSource, appVersion, apiVersion, userAgent);
         long start = System.currentTimeMillis();
         Object result = joinPoint.proceed();
-        log.info("Ended request method [{}] params[{}] response is [{}] cost [{}] millis ",
-                 methodName, params, this.deleteSensitiveContent(result), System.currentTimeMillis() - start);
-        //log.info("Ended request requester [{}] method [{}] params[{}] response is [{}] cost [{}] millis ",
-        //        requester, methodName, params, this.deleteSensitiveContent(result), System.currentTimeMillis() - start);
+         log.info("Ended request requester [{}] method [{}] params[{}] response is [{}] cost [{}] millis ",
+                requester, methodName, params, this.deleteSensitiveContent(result), System.currentTimeMillis() - start);
         return result;
     }
 

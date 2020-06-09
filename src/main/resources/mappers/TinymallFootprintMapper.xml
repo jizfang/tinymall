@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tinymall.mapper.TinymallFootprintMapper">
-  <resultMap id="BaseResultMap" type="com.example.tinymall.entity.TinymallFootprint">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
-  </resultMap>
+
+  <select id="selectFootprintPage" resultType="com.example.tinymall.model.vo.FootprintVO">
+    SELECT f.id footPrintId,f.goods_id goodsId,FROM_UNIXTIME(f.create_time/1000,'%Y年%m月') createTime,g.name goodsName,g.brief,g.pic_url picUrl,g.retail_price retailPrice
+    FROM tinymall_footprint f
+    INNER JOIN tinymall_goods g ON f.goods_id = g.id
+    <where>
+      f.deleted = 0
+      <if test="condition != null">
+        <if test="condition.userId > 0">
+          AND f.user_id = #{condition.userId}
+        </if>
+      </if>
+    </where>
+    group by f.goods_id,FROM_UNIXTIME(f.create_time/1000,'%Y年%m月')
+  </select>
 </mapper>

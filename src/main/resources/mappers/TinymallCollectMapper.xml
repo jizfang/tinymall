@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tinymall.mapper.TinymallCollectMapper">
-  <resultMap id="BaseResultMap" type="com.example.tinymall.entity.TinymallCollect">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="value_id" jdbcType="INTEGER" property="valueId" />
-    <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
-  </resultMap>
+  <select id="queryByType" resultType="com.example.tinymall.model.vo.FootprintVO">
+    SELECT c.id collectionId,c.type,c.value_id goodsId,g.name goodsName,g.brief,g.pic_url picUrl,g.retail_price retailPrice
+    FROM tinymall_collect c
+    INNER JOIN tinymall_goods g ON c.value_id = g.id
+    WHERE c.deleted = 0
+    <if test="condition.userId > 0">
+      AND c.user_id = #{condition.userId}
+    </if>
+    <if test="condition.type > -1">
+      AND c.type = #{condition.type}
+    </if>
+    GROUP BY c.value_id
+  </select>
 </mapper>

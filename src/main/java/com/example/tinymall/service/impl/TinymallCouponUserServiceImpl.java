@@ -3,6 +3,7 @@ package com.example.tinymall.service.impl;
 import com.example.tinymall.core.constants.CouponUserConstant;
 import com.example.tinymall.entity.TinymallCouponUser;
 import com.example.tinymall.mapper.TinymallCouponUserMapper;
+import com.example.tinymall.model.vo.CouponVo;
 import com.example.tinymall.service.TinymallCouponUserService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
@@ -48,45 +49,25 @@ public class TinymallCouponUserServiceImpl implements TinymallCouponUserService 
     }
 
     @Override
-    public List<TinymallCouponUser> queryList(Integer userId, Integer couponId, Short status, Integer page, Integer size, String sort, String order) {
-        /*TinymallCouponUserExample example = new TinymallCouponUserExample();
-        TinymallCouponUserExample.Criteria criteria = example.createCriteria();
-        if (userId != null) {
-            criteria.andUserIdEqualTo(userId);
-        }
-        if (couponId != null) {
-            criteria.andCouponIdEqualTo(couponId);
-        }
-        if (status != null) {
-            criteria.andStatusEqualTo(status);
-        }
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        if (page != null) {
-            PageHelper.startPage(page, size);
-        }
-
-        return couponUserMapper.selectByExample(example);*/
-        return Lists.newArrayList();
+    public List<CouponVo> queryList(TinymallCouponUser condition) {
+        return couponUserMapper.queryList(condition);
     }
 
     @Override
-    public List<TinymallCouponUser> queryAll(Integer userId, Integer couponId) {
-        return queryList(userId, couponId, CouponUserConstant.STATUS_USABLE, null, null, "add_time", "desc");
+    public List<CouponVo> queryAll(Integer userId) {
+        TinymallCouponUser condition = new TinymallCouponUser();
+        condition.setUserId(userId);
+        condition.setStatus(CouponUserConstant.STATUS_USABLE);
+        return queryList(condition);
     }
 
     @Override
-    public List<TinymallCouponUser> queryAll(Integer userId) {
-        return queryList(userId, null, CouponUserConstant.STATUS_USABLE, null, null, "add_time", "desc");
-    }
-
-    @Override
-    public TinymallCouponUser queryOne(Integer userId, Integer couponId) {
-        List<TinymallCouponUser> couponUserList = queryList(userId, couponId, CouponUserConstant.STATUS_USABLE, 1, 1, "add_time", "desc");
+    public CouponVo queryOne(Integer userId, Integer couponId) {
+        TinymallCouponUser condition = new TinymallCouponUser();
+        condition.setUserId(userId);
+        condition.setStatus(CouponUserConstant.STATUS_USABLE);
+        condition.setCouponId(couponId);
+        List<CouponVo> couponUserList = queryList(condition);
         if (couponUserList.size() == 0) {
             return null;
         }

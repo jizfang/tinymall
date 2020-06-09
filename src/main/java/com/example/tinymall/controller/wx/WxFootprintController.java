@@ -9,13 +9,18 @@ import com.example.tinymall.core.utils.AssertUtils;
 import com.example.tinymall.core.utils.JacksonUtil;
 import com.example.tinymall.entity.TinymallFootprint;
 import com.example.tinymall.model.bo.LoginUser;
+import com.example.tinymall.model.vo.FootprintVO;
 import com.example.tinymall.service.TinymallFootprintService;
 import com.example.tinymall.service.TinymallGoodsService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @ClassName WxFootprintController
@@ -60,14 +65,15 @@ public class WxFootprintController {
      * @return 用户足迹列表
      */
     @GetMapping("list")
-    public Object list(PageQO page) {
+    public Object list(PageQO pageQO) {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         TinymallFootprint condition = new TinymallFootprint();
         condition.setUserId(loginUser.getId());
         condition.setDeleted(0);
-        page.setCondition(condition);
-        PageVO<TinymallFootprint> footprintList = footprintService.selectPage(page);
+        pageQO.setOrderBy("f.create_time desc");
+        Page<FootprintVO> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize(), pageQO.getOrderBy());
+        footprintService.selectFootprintPage(condition);
 
-        return footprintList;
+        return PageVO.build(page);
     }
 }

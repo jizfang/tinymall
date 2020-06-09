@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tinymall.mapper.TinymallCouponUserMapper">
-  <resultMap id="BaseResultMap" type="com.example.tinymall.entity.TinymallCouponUser">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="coupon_id" jdbcType="INTEGER" property="couponId" />
-    <result column="status" jdbcType="SMALLINT" property="status" />
-    <result column="used_time" jdbcType="TIMESTAMP" property="usedTime" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="order_id" jdbcType="INTEGER" property="orderId" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
-  </resultMap>
+  <select id="queryList" resultType="com.example.tinymall.model.vo.CouponVo">
+    SELECT cu.id,c.id cid,c.name,c.desc,c.tag,c.min,c.discount,c.start_time startTime,c.end_time endTime
+    FROM tinymall_coupon_user cu
+    INNER JOIN tinymall_coupon c ON cu.coupon_id = c.id AND c.deleted = 0
+    WHERE cu.deleted = 0
+    <if test="condition.userId > 0">
+      AND cu.user_id = #{condition.userId}
+    </if>
+    <if test="condition.status > 0">
+      AND cu.status = #{condition.status}
+    </if>
+  </select>
 </mapper>

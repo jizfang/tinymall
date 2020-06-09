@@ -35,7 +35,7 @@ public class CouponVerifyServiceImpl implements CouponVerifyService {
 
         TinymallCouponUser couponUser = couponUserService.findById(userCouponId);
         if (couponUser == null) {
-            couponUser = couponUserService.queryOne(userId, couponId);
+            //couponUser = couponUserService.queryOne(userId, couponId);
         } else if (!couponId.equals(couponUser.getCouponId())) {
             return null;
         }

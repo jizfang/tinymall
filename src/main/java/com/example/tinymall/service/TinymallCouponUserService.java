@@ -1,6 +1,7 @@
 package com.example.tinymall.service;
 
 import com.example.tinymall.entity.TinymallCouponUser;
+import com.example.tinymall.model.vo.CouponVo;
 
 import java.util.List;
 
@@ -17,11 +18,10 @@ public interface TinymallCouponUserService {
 
     void add(TinymallCouponUser couponUser);
 
-    List<TinymallCouponUser> queryList(Integer userId, Integer couponId, Short status, Integer page, Integer size, String sort, String order);
+    List<CouponVo> queryList(TinymallCouponUser condition);
 
-    List<TinymallCouponUser> queryAll(Integer userId, Integer couponId);
-    List<TinymallCouponUser> queryAll(Integer userId);
-    TinymallCouponUser queryOne(Integer userId, Integer couponId);
+    List<CouponVo> queryAll(Integer userId);
+    CouponVo queryOne(Integer userId, Integer couponId);
 
     TinymallCouponUser findById(Integer id);
 

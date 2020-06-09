@@ -2,6 +2,8 @@ package com.example.tinymall.controller.wx;
 
 import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.helper.LoginTokenHelper;
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.utils.AssertUtils;
 import com.example.tinymall.core.validator.Order;
 import com.example.tinymall.core.validator.Sort;
@@ -9,8 +11,11 @@ import com.example.tinymall.entity.TinymallCoupon;
 import com.example.tinymall.entity.TinymallCouponUser;
 import com.example.tinymall.model.bo.LoginUser;
 import com.example.tinymall.model.vo.CouponVo;
+import com.example.tinymall.model.vo.FootprintVO;
 import com.example.tinymall.service.TinymallCouponService;
 import com.example.tinymall.service.TinymallCouponUserService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,47 +43,21 @@ public class WxCouponController {
      * 个人优惠券列表
      *
      * @param status
-     * @param page
-     * @param limit
-     * @param sort
-     * @param order
+     * @param pageQO
      * @return
      */
     @GetMapping("mylist")
-    public Object mylist(
-                         Short status,
-                         @RequestParam(defaultValue = "1") Integer page,
-                         @RequestParam(defaultValue = "10") Integer limit,
-                         @Sort @RequestParam(defaultValue = "add_time") String sort,
-                         @Order @RequestParam(defaultValue = "desc") String order) {
+    public Object mylist(Short status, PageQO pageQO) {
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         AssertUtils.notNull(loginUser,"用户未登录");
         Integer userId = loginUser.getId();
+        TinymallCouponUser condition = new TinymallCouponUser();
+        condition.setUserId(userId);
+        condition.setStatus(status);
 
-        List<TinymallCouponUser> couponUserList = couponUserService.queryList(userId, null, status, page, limit, sort, order);
-        List<CouponVo> couponVoList = change(couponUserList);
-        return couponUserList;
-    }
-
-    private List<CouponVo> change(List<TinymallCouponUser> couponList) {
-        List<CouponVo> couponVoList = new ArrayList<>(couponList.size());
-        for(TinymallCouponUser couponUser : couponList){
-            Integer couponId = couponUser.getCouponId();
-            TinymallCoupon coupon = couponService.selectByPk(couponId);
-            CouponVo couponVo = new CouponVo();
-            couponVo.setId(couponUser.getId());
-            couponVo.setCid(coupon.getId());
-            couponVo.setName(coupon.getName());
-            couponVo.setDesc(coupon.getDesc());
-            couponVo.setTag(coupon.getTag());
-            couponVo.setMin(coupon.getMin());
-            couponVo.setDiscount(coupon.getDiscount());
-            couponVo.setStartTime(couponUser.getStartTime());
-            couponVo.setEndTime(couponUser.getEndTime());
-
-            couponVoList.add(couponVo);
-        }
-
-        return couponVoList;
+        pageQO.setOrderBy("cu.create_time desc");
+        Page<CouponVo> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize(), pageQO.getOrderBy());
+        couponUserService.queryList(condition);
+        return PageVO.build(page);
     }
 }

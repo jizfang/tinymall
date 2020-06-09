@@ -3,6 +3,7 @@ package com.example.tinymall.service.impl;
 import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallCollect;
 import com.example.tinymall.mapper.TinymallCollectMapper;
+import com.example.tinymall.model.vo.FootprintVO;
 import com.example.tinymall.service.TinymallCollectService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
@@ -34,31 +35,8 @@ public class TinymallCollectServiceImpl extends BaseMySqlServiceImpl<TinymallCol
     }
 
     @Override
-    public List<TinymallCollect> queryByType(Integer userId, Byte type, Integer page, Integer limit, String sort, String order) {
-        /*TinymallCollectExample example = new TinymallCollectExample();
-        TinymallCollectExample.Criteria criteria = example.createCriteria();
-
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
-        }
-        criteria.andUserIdEqualTo(userId);
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        PageHelper.startPage(page, limit);
-        return collectMapper.selectByExample(example);*/
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public int countByType(Integer userId, Byte type) {
-        /*TinymallCollectExample example = new TinymallCollectExample();
-        example.or().andUserIdEqualTo(userId).andTypeEqualTo(type).andDeletedEqualTo(false);
-        return (int) collectMapper.countByExample(example);*/
-        return 0;
+    public List<FootprintVO> queryByType(TinymallCollect condition) {
+        return collectMapper.queryByType(condition);
     }
 
     @Override

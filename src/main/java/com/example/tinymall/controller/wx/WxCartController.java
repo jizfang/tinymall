@@ -8,6 +8,7 @@ import com.example.tinymall.core.system.SystemConfig;
 import com.example.tinymall.core.utils.AssertUtils;
 import com.example.tinymall.entity.*;
 import com.example.tinymall.model.bo.LoginUser;
+import com.example.tinymall.model.vo.CouponVo;
 import com.example.tinymall.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -322,10 +323,10 @@ public class WxCartController {
         Integer tmpCouponId = 0;
         Integer tmpUserCouponId = 0;
         int tmpCouponLength = 0;
-        List<TinymallCouponUser> couponUserList = couponUserService.queryAll(userId);
-        for(TinymallCouponUser couponUser : couponUserList){
+        List<CouponVo> couponUserList = couponUserService.queryAll(userId);
+        for(CouponVo couponUser : couponUserList){
             tmpUserCouponId = couponUser.getId();
-            TinymallCoupon coupon = couponVerifyService.checkCoupon(userId, couponUser.getCouponId(), tmpUserCouponId, checkedGoodsPrice);
+            TinymallCoupon coupon = couponVerifyService.checkCoupon(userId, couponUser.getCid(), tmpUserCouponId, checkedGoodsPrice);
             if(coupon == null){
                 continue;
             }

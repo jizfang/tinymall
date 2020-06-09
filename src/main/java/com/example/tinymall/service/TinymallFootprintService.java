@@ -1,7 +1,9 @@
 package com.example.tinymall.service;
 
 import com.example.tinymall.common.mineservice.BaseService;
+import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.entity.TinymallFootprint;
+import com.example.tinymall.model.vo.FootprintVO;
 
 import java.util.List;
 
@@ -14,5 +16,5 @@ import java.util.List;
 public interface TinymallFootprintService extends BaseService<TinymallFootprint,Integer> {
     List<TinymallFootprint> queryByAddTime(Integer userId, Integer page, Integer size);
 
-    List<TinymallFootprint> querySelective(String userId, String goodsId, Integer page, Integer size, String sort, String order);
+    List<FootprintVO> selectFootprintPage(TinymallFootprint condition);
 }

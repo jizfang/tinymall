@@ -1,11 +1,14 @@
 package com.example.tinymall.service.impl;
 
 import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
+import com.example.tinymall.core.utils.DateTimeUtil;
 import com.example.tinymall.entity.TinymallFootprint;
 import com.example.tinymall.mapper.TinymallFootprintMapper;
+import com.example.tinymall.model.vo.FootprintVO;
 import com.example.tinymall.service.TinymallFootprintService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -35,24 +38,8 @@ public class TinymallFootprintServiceImpl extends BaseMySqlServiceImpl<TinymallF
     }
 
     @Override
-    public List<TinymallFootprint> querySelective(String userId, String goodsId, Integer page, Integer size, String sort, String order) {
-        /*TinymallFootprintExample example = new TinymallFootprintExample();
-        TinymallFootprintExample.Criteria criteria = example.createCriteria();
-
-        if (!StringUtils.isEmpty(userId)) {
-            criteria.andUserIdEqualTo(Integer.valueOf(userId));
-        }
-        if (!StringUtils.isEmpty(goodsId)) {
-            criteria.andGoodsIdEqualTo(Integer.valueOf(goodsId));
-        }
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        PageHelper.startPage(page, size);
-        return footprintMapper.selectByExample(example);*/
-        return Lists.newArrayList();
+    public List<FootprintVO> selectFootprintPage(TinymallFootprint condition) {
+        List<FootprintVO> resultList = footprintMapper.selectFootprintPage(condition);
+        return resultList;
     }
 }
