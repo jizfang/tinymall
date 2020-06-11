@@ -57,15 +57,16 @@ public class WxOrderController {
     }
 
     @GetMapping("list")
-    public PageVO<TinymallOrder> list(PageQO pageQO,UserOrderParam userOrderParam){
+    public PageVO<TinymallOrder> list(PageQO pageQO,int showType){
         LoginUser loginUser = LoginTokenHelper.getLoginUserFromRequest();
         Integer userId = Integer.valueOf(loginUser.getId());
-        if(userOrderParam == null){
-            userOrderParam = new UserOrderParam();
+        UserOrderParam condition = new UserOrderParam();
+
+        if(showType > 0){
+            condition.setShowType(showType);
         }
-        userOrderParam.setUserId(userId);
-        pageQO.setCondition(userOrderParam);
-        return wxOrderService.list(pageQO);
+        condition.setUserId(userId);
+        return wxOrderService.list(pageQO,condition);
     }
 
     /**

@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.tinymall.core.utils.CharUtil.getRandomNum;
@@ -94,18 +95,17 @@ public class TinymallOrderServiceImpl extends BaseMySqlServiceImpl<TinymallOrder
     }
 
     @Override
-    public PageVO<TinymallOrder> queryByOrderStatus(PageQO pageQO) {
+    public PageVO<TinymallOrder> queryByOrderStatus(PageQO pageQO,Integer userId, List<Short> orderStatus) {
         Example example = new Example(TinymallOrder.class);
         Example.Criteria criteria = example.createCriteria();
         example.setOrderByClause("createTime desc");
-        OrderQO orderQO = (OrderQO) pageQO.getCondition();
 
-        if(StringUtils.isNotBlank(orderQO.getOrderSn())){
+        /*if(StringUtils.isNotBlank(orderQO.getOrderSn())){
             criteria.andEqualTo("orderSn",orderQO.getOrderSn());
         }
         if (CollectionUtils.isNotEmpty(orderQO.getOrderStatusArray())) {
             criteria.andIn("orderStatus",orderQO.getOrderStatusArray());
-        }
+        }*/
         criteria.andEqualTo("deleted",0);
 
         Page page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize());

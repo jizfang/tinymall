@@ -223,8 +223,8 @@ public class WxOrderServiceImpl implements WxOrderService {
             orderGoods.setPicUrl(cartGoods.getPicUrl());
             orderGoods.setPrice(cartGoods.getPrice());
             orderGoods.setNumber(cartGoods.getNumber());
-            //orderGoods.setSpecifications(cartGoods.getSpecifications());
-            orderGoods.setAddTime(LocalDateTime.now());
+            orderGoods.setSpecifications(cartGoods.getSpecifications() == null ? "".split("") : cartGoods.getSpecifications());
+            orderGoods.setCreateTime(System.currentTimeMillis());
 
             orderGoodsService.add(orderGoods);
         }
@@ -351,15 +351,14 @@ public class WxOrderServiceImpl implements WxOrderService {
     }
 
     @Override
-    public PageVO<TinymallOrder> list(PageQO pageQO) {
-        UserOrderParam userOrderParam = (UserOrderParam) pageQO.getCondition();
-        Integer userId = userOrderParam.getUserId();
+    public PageVO<TinymallOrder> list(PageQO pageQO,UserOrderParam condition) {
+        Integer userId = condition.getUserId();
         if (userId == null) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
-        Integer showType = userOrderParam.getShowType();
+        Integer showType = condition.getShowType();
         List<Short> orderStatus = OrderUtil.orderStatus(showType);
-        PageVO<TinymallOrder> orderList = orderService.queryByOrderStatus(pageQO);
+        PageVO<TinymallOrder> orderList = orderService.queryByOrderStatus(pageQO,userId,orderStatus);
 
         List<Map<String, Object>> orderVoList = new ArrayList<>(orderList.getList().size());
         for (TinymallOrder o : orderList.getList()) {

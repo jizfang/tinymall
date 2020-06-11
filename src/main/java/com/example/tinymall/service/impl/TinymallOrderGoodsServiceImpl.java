@@ -24,8 +24,8 @@ public class TinymallOrderGoodsServiceImpl implements TinymallOrderGoodsService 
 
     @Override
     public int add(TinymallOrderGoods orderGoods) {
-        orderGoods.setAddTime(LocalDateTime.now());
-        orderGoods.setUpdateTime(LocalDateTime.now());
+        orderGoods.setCreateTime(System.currentTimeMillis());
+        orderGoods.setUpdateTime(System.currentTimeMillis());
         return orderGoodsMapper.insertSelective(orderGoods);
     }
 
@@ -52,7 +52,7 @@ public class TinymallOrderGoodsServiceImpl implements TinymallOrderGoodsService 
 
     @Override
     public void updateById(TinymallOrderGoods orderGoods) {
-        orderGoods.setUpdateTime(LocalDateTime.now());
+        orderGoods.setUpdateTime(System.currentTimeMillis());
         orderGoodsMapper.updateByPrimaryKeySelective(orderGoods);
     }
 

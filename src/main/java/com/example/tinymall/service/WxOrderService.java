@@ -5,6 +5,7 @@ import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.entity.TinymallOrder;
 import com.example.tinymall.model.bo.OrderInfo;
 import com.example.tinymall.model.bo.UserCartInfo;
+import com.example.tinymall.model.dto.UserOrderParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +20,7 @@ public interface WxOrderService {
 
     Object prepay(Integer userId, OrderInfo orderInfo, HttpServletRequest request);
 
-    PageVO<TinymallOrder> list(PageQO pageQO);
+    PageVO<TinymallOrder> list(PageQO pageQO, UserOrderParam condition);
 
     Object detail(Integer userId, Integer orderId);
 }
