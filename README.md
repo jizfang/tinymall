@@ -2,6 +2,9 @@
 
 一个小型电商网站，包括微信小程序、管理后台
 
+- master分支：普通版本
+- advance分支：加强版
+
 ## swagger接口文档
 
 http://localhost:8090/swagger-ui.html
