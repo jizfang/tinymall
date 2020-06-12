@@ -98,14 +98,14 @@ public class TinymallOrderServiceImpl extends BaseMySqlServiceImpl<TinymallOrder
     public PageVO<TinymallOrder> queryByOrderStatus(PageQO pageQO,Integer userId, List<Short> orderStatus) {
         Example example = new Example(TinymallOrder.class);
         Example.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("createTime desc");
+        example.setOrderByClause("create_time desc");
 
-        /*if(StringUtils.isNotBlank(orderQO.getOrderSn())){
-            criteria.andEqualTo("orderSn",orderQO.getOrderSn());
+        if(userId != null){
+            criteria.andEqualTo("userId",userId);
         }
-        if (CollectionUtils.isNotEmpty(orderQO.getOrderStatusArray())) {
-            criteria.andIn("orderStatus",orderQO.getOrderStatusArray());
-        }*/
+        if (CollectionUtils.isNotEmpty(orderStatus)) {
+            criteria.andIn("orderStatus",orderStatus);
+        }
         criteria.andEqualTo("deleted",0);
 
         Page page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize());

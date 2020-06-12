@@ -14,8 +14,17 @@
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
     <result column="level" jdbcType="VARCHAR" property="level" />
     <result column="sort_order" jdbcType="TINYINT" property="sortOrder" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
+
+  <select id="selectValidCategory" resultMap="BaseResultMap">
+    SELECT c.*,COUNT(g.id) count
+    FROM tinymall_category c
+    INNER JOIN tinymall_goods g ON c.id = g.category_id AND c.deleted = 0 AND g.deleted = 0
+    WHERE pid = #{pid}
+    GROUP BY c.id
+    HAVING (count) > 1
+  </select>
 </mapper>

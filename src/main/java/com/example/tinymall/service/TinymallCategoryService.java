@@ -14,8 +14,6 @@ import java.util.List;
 public interface TinymallCategoryService extends BaseService<TinymallCategory,Integer> {
     List<TinymallCategory> queryChannel();
 
-    List<TinymallCategory> queryL1WithoutRecommend(int offset, int limit);
-
     List<TinymallCategory> queryByPid(Integer pid);
 
     List<TinymallCategory> queryL2ByIds(List<Integer> ids);

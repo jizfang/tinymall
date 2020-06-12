@@ -81,9 +81,6 @@ public class WxCollectController {
 
         Byte type = JacksonUtil.parseByte(body, "type");
         Integer valueId = JacksonUtil.parseInteger(body, "valueId");
-        /*if (!ObjectUtils.allNotNull(type, valueId)) {
-            return ResponseUtil.badArgument();
-        }*/
 
         TinymallCollect collect = collectService.queryByTypeAndValue(userId, type, valueId);
 

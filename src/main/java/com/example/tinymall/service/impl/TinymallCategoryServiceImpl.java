@@ -33,20 +33,8 @@ public class TinymallCategoryServiceImpl extends BaseMySqlServiceImpl<TinymallCa
     }
 
     @Override
-    public List<TinymallCategory> queryL1WithoutRecommend(int offset, int limit) {
-        /*TinymallCategoryExample example = new TinymallCategoryExample();
-        example.or().andLevelEqualTo("L1").andNameNotEqualTo("推荐").andDeletedEqualTo(false);
-        PageHelper.startPage(offset, limit);
-        return categoryMapper.selectByExample(example);*/
-        return Lists.newArrayList();
-    }
-
-    @Override
     public List<TinymallCategory> queryByPid(Integer pid) {
-        TinymallCategory tinymallCategory = new TinymallCategory();
-        tinymallCategory.setPid(pid);
-        tinymallCategory.setDeleted(0);
-        return categoryMapper.select(tinymallCategory);
+        return categoryMapper.selectValidCategory(pid);
     }
 
     @Override

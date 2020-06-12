@@ -62,9 +62,7 @@ public class WxOrderController {
         Integer userId = Integer.valueOf(loginUser.getId());
         UserOrderParam condition = new UserOrderParam();
 
-        if(showType > 0){
-            condition.setShowType(showType);
-        }
+        condition.setShowType(showType);
         condition.setUserId(userId);
         return wxOrderService.list(pageQO,condition);
     }
