@@ -34,7 +34,7 @@ public class AdminCategoryController {
     public Object list() {
         List<CategoryVo> categoryVoList = new ArrayList<>();
 
-        List<TinymallCategory> categoryList = categoryService.queryByPid(0);
+        List<TinymallCategory> categoryList = categoryService.queryByParentId(0);
         for (TinymallCategory category : categoryList) {
             CategoryVo categoryVO = new CategoryVo();
             categoryVO.setId(category.getId());
@@ -46,7 +46,7 @@ public class AdminCategoryController {
             categoryVO.setLevel(category.getLevel());
 
             List<CategoryVo> children = new ArrayList<>();
-            List<TinymallCategory> subCategoryList = categoryService.queryByPid(category.getId());
+            List<TinymallCategory> subCategoryList = categoryService.queryByParentId(category.getId());
             for (TinymallCategory subCategory : subCategoryList) {
                 CategoryVo subCategoryVo = new CategoryVo();
                 subCategoryVo.setId(subCategory.getId());

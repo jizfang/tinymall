@@ -38,6 +38,14 @@ public class TinymallCategoryServiceImpl extends BaseMySqlServiceImpl<TinymallCa
     }
 
     @Override
+    public List<TinymallCategory> queryByParentId(Integer parentId) {
+        TinymallCategory tinymallCategory = new TinymallCategory();
+        tinymallCategory.setPid(parentId);
+        tinymallCategory.setDeleted(0);
+        return categoryMapper.select(tinymallCategory);
+    }
+
+    @Override
     public List<TinymallCategory> queryL2ByIds(List<Integer> ids) {
         TinymallCategory tinymallCategory = new TinymallCategory();
         tinymallCategory.setLevel("L2");

@@ -21,8 +21,6 @@ public interface TinymallUserService extends BaseService<TinymallUser,Integer> {
 
     List<TinymallUser> querySelective(String username, String mobile, Integer page, Integer size, String sort, String order);
 
-    int count();
-
     List<TinymallUser> queryByUsername(String username);
 
     boolean checkByUsername(String username);

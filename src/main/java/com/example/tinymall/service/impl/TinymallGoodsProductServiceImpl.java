@@ -35,14 +35,6 @@ public class TinymallGoodsProductServiceImpl extends BaseMySqlServiceImpl<Tinyma
     }
 
     @Override
-    public int count() {
-        /*TinymallGoodsProductExample example = new TinymallGoodsProductExample();
-        example.or().andDeletedEqualTo(false);
-        return (int) litemallGoodsProductMapper.countByExample(example);*/
-        return 0;
-    }
-
-    @Override
     public void deleteByGid(Integer gid) {
         /*TinymallGoodsProductExample example = new TinymallGoodsProductExample();
         example.or().andGoodsIdEqualTo(gid);

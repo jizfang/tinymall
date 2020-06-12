@@ -27,5 +27,10 @@ public interface BaseService<E,PK> extends InsertService<E,PK>,
      */
     List<E> selectByCondition(E record);
 
+    /**
+     * 根据条件查询某一条数据
+     * @param record
+     * @return
+     */
     E selectOne(E record);
 }

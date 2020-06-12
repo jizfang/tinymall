@@ -16,5 +16,7 @@ public interface TinymallCategoryService extends BaseService<TinymallCategory,In
 
     List<TinymallCategory> queryByPid(Integer pid);
 
+    List<TinymallCategory> queryByParentId(Integer parentId);
+
     List<TinymallCategory> queryL2ByIds(List<Integer> ids);
 }

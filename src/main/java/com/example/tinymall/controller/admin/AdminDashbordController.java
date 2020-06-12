@@ -1,6 +1,10 @@
 package com.example.tinymall.controller.admin;
 
 import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.entity.TinymallGoods;
+import com.example.tinymall.entity.TinymallGoodsProduct;
+import com.example.tinymall.entity.TinymallOrder;
+import com.example.tinymall.entity.TinymallUser;
 import com.example.tinymall.service.TinymallGoodsProductService;
 import com.example.tinymall.service.TinymallGoodsService;
 import com.example.tinymall.service.TinymallOrderService;
@@ -36,10 +40,10 @@ public class AdminDashbordController {
 
     @GetMapping("")
     public Object info() {
-        int userTotal = userService.count();
-        int goodsTotal = 0;//goodsService.count();
-        int productTotal = productService.count();
-        int orderTotal = 0;//orderService.count();
+        int userTotal = userService.selectCount(new TinymallUser());
+        int goodsTotal = goodsService.selectCount(new TinymallGoods());
+        int productTotal = productService.selectCount(new TinymallGoodsProduct());
+        int orderTotal = orderService.selectCount(new TinymallOrder());
         Map<String, Integer> data = new HashMap<>();
         data.put("userTotal", userTotal);
         data.put("goodsTotal", goodsTotal);

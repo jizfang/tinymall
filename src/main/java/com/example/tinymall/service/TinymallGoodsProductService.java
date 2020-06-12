@@ -14,8 +14,6 @@ import java.util.List;
 public interface TinymallGoodsProductService extends BaseService<TinymallGoodsProduct,Integer> {
     List<TinymallGoodsProduct> queryByGid(Integer gid);
 
-    int count();
-
     void deleteByGid(Integer gid);
 
     int addStock(Integer id, Short num);
