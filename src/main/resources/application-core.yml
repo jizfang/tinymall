@@ -1,7 +1,7 @@
 tinymall:
   wx:
-    app-id: wx719a4eb09e4d19ac
-    app-secret: 005b4d05218a004cdadcdc092e13e0e5
+    app-id: wxxxxxxxxxx
+    app-secret: xxxxxxxxxxxxx
     mch-id: 111111
     mch-key: xxxxxx
     notify-url: http://www.example.com/wx/order/pay-notify
