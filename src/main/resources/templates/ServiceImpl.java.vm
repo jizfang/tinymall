@@ -1,0 +1,16 @@
+package ${package}.service.impl;
+
+import ${package}.common.mineservice.impl.BaseMySqlServiceImpl;
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+import org.springframework.stereotype.Service;
+
+/**
+ * @ClassName ${classname}ServiceImpl
+ * @Description
+ * @Author jzf
+ * @Date 2020-7-22 14:34
+ */
+@Service("${classname}Service")
+public class ${className}ServiceImpl extends BaseMySqlServiceImpl<${className},Integer> implements ${className}Service {
+}

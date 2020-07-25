@@ -6,6 +6,7 @@ import com.example.tinymall.mapper.TinymallTopicMapper;
 import com.example.tinymall.service.TinymallTopicService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import java.util.List;
  * @Date 2020-4-10 16:24
  */
 @Service
+@Primary
 public class TinymallTopicServiceImpl extends BaseMySqlServiceImpl<TinymallTopic,Integer> implements TinymallTopicService {
 
 }

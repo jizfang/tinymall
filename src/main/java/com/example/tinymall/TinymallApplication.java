@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@MapperScan("com.example.tinymall.mapper")
 @EnableTransactionManagement
+@MapperScan("com.example.tinymall.mapper")
 public class TinymallApplication {
 
     public static void main(String[] args) {

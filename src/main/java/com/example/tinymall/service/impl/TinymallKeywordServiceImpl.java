@@ -10,6 +10,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import java.util.List;
  * @Date 2020-5-6 11:12
  */
 @Service
+@Primary
 public class TinymallKeywordServiceImpl implements TinymallKeywordService {
 
     @Resource

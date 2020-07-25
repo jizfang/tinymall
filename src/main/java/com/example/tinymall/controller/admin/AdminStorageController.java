@@ -3,6 +3,8 @@ package com.example.tinymall.controller.admin;
 import com.example.tinymall.common.Exceptions.BusinessException;
 import com.example.tinymall.common.Exceptions.ParameterInvalidException;
 import com.example.tinymall.common.annotation.ResponseResult;
+import com.example.tinymall.common.page.PageQO;
+import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.common.result.CommonResult;
 import com.example.tinymall.core.storage.StorageService;
 import com.example.tinymall.core.validator.Order;
@@ -34,12 +36,9 @@ public class AdminStorageController {
     private TinymallStorageService tinymallStorageService;
 
     @GetMapping("/list")
-    public Object list(String key, String name,
-                       @RequestParam(defaultValue = "1") Integer page,
-                       @RequestParam(defaultValue = "10") Integer limit,
-                       @Sort @RequestParam(defaultValue = "add_time") String sort,
-                       @Order @RequestParam(defaultValue = "desc") String order) {
-        List<TinymallStorage> storageList = tinymallStorageService.querySelective(key, name, page, limit, sort, order);
+    public Object list(TinymallStorage condition, PageQO pageQO) {
+        pageQO.setCondition(condition);
+        PageVO<TinymallStorage> storageList = tinymallStorageService.selectPage(pageQO);
         return storageList;
     }
 
@@ -53,7 +52,7 @@ public class AdminStorageController {
 
     @PostMapping("/read")
     public Object read(@NotNull Integer id) {
-        TinymallStorage storageInfo = tinymallStorageService.findById(id);
+        TinymallStorage storageInfo = tinymallStorageService.selectByPk(id);
         if (storageInfo == null) {
             return new ParameterInvalidException();
         }
@@ -62,7 +61,7 @@ public class AdminStorageController {
 
     @PostMapping("/update")
     public Object update(@RequestBody TinymallStorage tinymallStorage) {
-        if (tinymallStorageService.update(tinymallStorage) == 0) {
+        if (tinymallStorageService.updateByPkSelective(tinymallStorage.getId(),tinymallStorage) == 0) {
             return new BusinessException("更新失败");
         }
         return tinymallStorage;
@@ -74,7 +73,7 @@ public class AdminStorageController {
         if (StringUtils.isEmpty(key)) {
             return new ParameterInvalidException();
         }
-        tinymallStorageService.deleteByKey(key);
+        tinymallStorageService.deleteByPk(key);
         storageService.delete(key);
         return CommonResult.success();
     }

@@ -6,6 +6,7 @@ import com.example.tinymall.core.utils.RedisUtil;
 import com.example.tinymall.model.bo.LoginToken;
 import com.example.tinymall.service.LoginTokenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Service
+@Primary
 public class LoginTokenServiceImpl implements LoginTokenService {
 
     @Resource

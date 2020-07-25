@@ -126,12 +126,16 @@ public class RestControllerAspect {
                 // do nothing
             }else {
                 String param = JSON.toJSONString(obj);
-                jsonObject = JSONObject.parseObject(param);
-                List<String> sensitiveFieldList = this.getSensitiveFieldList();
-                for (String sensitiveField : sensitiveFieldList) {
-                    if (jsonObject.containsKey(sensitiveField)) {
-                        jsonObject.put(sensitiveField, "******");
+                try{
+                    jsonObject = JSONObject.parseObject(param);
+                    List<String> sensitiveFieldList = this.getSensitiveFieldList();
+                    for (String sensitiveField : sensitiveFieldList) {
+                        if (jsonObject.containsKey(sensitiveField)) {
+                            jsonObject.put(sensitiveField, "******");
+                        }
                     }
+                }catch (Exception e){
+                    // do nothing
                 }
             }
         } catch (ClassCastException e) {

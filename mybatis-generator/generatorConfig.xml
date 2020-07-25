@@ -46,7 +46,16 @@
 
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
-        <!--表名-->
+        <table tableName="tinymall_template">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="tinymall_spec">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="tinymall_para">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <!--表名
         <table tableName="tinymall_ad">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
@@ -175,5 +184,6 @@
             <columnOverride column="pictures" javaType="java.lang.String[]"
                             typeHandler="com.example.tinymall.mybatis.JsonStringArrayTypeHandler"/>
         </table>
+        -->
     </context>
 </generatorConfiguration>

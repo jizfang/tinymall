@@ -1,0 +1,14 @@
+package ${package}.service;
+
+import ${package}.common.mineservice.BaseService;
+import ${package}.entity.${className};
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service extends BaseService<${className},Integer> {
+}

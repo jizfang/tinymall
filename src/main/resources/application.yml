@@ -24,3 +24,5 @@ server:
 image:
   path:
     prefix: http://localhost:8090/
+
+front.url: http://localhost:9521

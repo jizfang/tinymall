@@ -7,6 +7,7 @@ import com.example.tinymall.service.CouponVerifyService;
 import com.example.tinymall.service.TinymallCouponService;
 import com.example.tinymall.service.TinymallCouponUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
  * @Date 2020-4-23 10:36
  */
 @Service
+@Primary
 public class CouponVerifyServiceImpl implements CouponVerifyService {
 
     @Autowired

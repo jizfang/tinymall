@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @Author jzf
  * @Date 2020-4-10 10:35
  */
-@Service
+@Service("adService")
 public class TinymallAdServiceImpl extends BaseMySqlServiceImpl<Ad,Integer> implements TinymallAdService {
 
 }

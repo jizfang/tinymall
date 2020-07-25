@@ -16,5 +16,6 @@ public interface MyMapper<T> extends CommonSelectMapper<T>,
                           CommonInsertMapper<T>,
                           CommonDeleteMapper<T>,
                           UpdateMapper<T>,
+                          SelectByExampleMapper<T>,
                           MyBatchUpdateMapper<T>{
 }

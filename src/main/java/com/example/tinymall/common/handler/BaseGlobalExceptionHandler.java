@@ -68,6 +68,8 @@ public class BaseGlobalExceptionHandler {
         DefaultErrorResult defaultErrorResult = DefaultErrorResult.failure(e);
         return ResponseEntity
                 .status(HttpStatus.valueOf(defaultErrorResult.getStatus()))
+                //无论返回什么错误信息，状态都是200，错误码根据自定义的code来判断
+                //.status(HttpStatus.OK)
                 .body(defaultErrorResult);
     }
 

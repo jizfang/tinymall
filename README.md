@@ -9,6 +9,9 @@
 
 http://localhost:8090/swagger-ui.html
 
+## knife4j接口文档访问地址
+http://localhost:8090/doc.html
+
 ## druid sql 监控
 
 http://localhost:8090/druid/

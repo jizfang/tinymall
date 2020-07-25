@@ -44,6 +44,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/druid/*")
                 .addResourceLocations("classpath:/META-INF/resources/");
 
+        registry.addResourceHandler("doc.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
         registry.addResourceHandler("/**").addResourceLocations("file:upload/");
     }
 }

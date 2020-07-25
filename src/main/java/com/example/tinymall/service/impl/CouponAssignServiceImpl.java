@@ -7,6 +7,7 @@ import com.example.tinymall.service.CouponAssignService;
 import com.example.tinymall.service.TinymallCouponService;
 import com.example.tinymall.service.TinymallCouponUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.util.List;
  * @Date 2020-4-14 20:12
  */
 @Service
+@Primary
 public class CouponAssignServiceImpl implements CouponAssignService {
 
     @Autowired

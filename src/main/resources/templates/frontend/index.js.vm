@@ -1,0 +1,41 @@
+import request from '@/utils/request'
+
+export function list${className}(query) {
+  return request({
+    url: '/${pathName}/list',
+    method: 'get',
+    params: query
+  })
+}
+
+export function create${className}(data) {
+  return request({
+    url: '/${pathName}/create',
+    method: 'post',
+    data
+  })
+}
+
+export function read${className}(data) {
+  return request({
+    url: '/${pathName}/read',
+    method: 'get',
+    data
+  })
+}
+
+export function update${className}(data) {
+  return request({
+    url: '/${pathName}/update',
+    method: 'put',
+    data
+  })
+}
+
+export function delete${className}(data) {
+  return request({
+    url: '/${pathName}/delete',
+    method: 'delete',
+    data
+  })
+}

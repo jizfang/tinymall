@@ -12,15 +12,8 @@ import java.util.List;
  * @Date 2020-4-9 17:03
  */
 public interface TinymallStorageService extends BaseService<TinymallStorage,Integer> {
-    void deleteByKey(String key);
-
-    void add(TinymallStorage storageInfo);
 
     TinymallStorage findByKey(String key);
 
-    int update(TinymallStorage storageInfo);
-
-    TinymallStorage findById(Integer id);
-
-    List<TinymallStorage> querySelective(String key, String name, Integer page, Integer limit, String sort, String order);
+    void deleteByPk(String key);
 }

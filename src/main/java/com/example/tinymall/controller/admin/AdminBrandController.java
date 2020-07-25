@@ -4,6 +4,7 @@ import com.example.tinymall.common.annotation.ResponseResult;
 import com.example.tinymall.common.page.PageQO;
 import com.example.tinymall.common.page.PageVO;
 import com.example.tinymall.core.utils.AssertUtils;
+import com.example.tinymall.core.utils.BeanUtil;
 import com.example.tinymall.entity.TinymallBrand;
 import com.example.tinymall.model.qo.BrandQO;
 import com.example.tinymall.service.TinymallBrandService;

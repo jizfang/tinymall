@@ -43,10 +43,4 @@ public class TinymallBrand extends BasePO<Integer> {
 
     @Column(name = "sort_order")
     private Byte sortOrder;
-
-    /**
-     * 品牌商的商品低价，仅用于页面展示
-     */
-    @Column(name = "floor_price")
-    private BigDecimal floorPrice;
 }

@@ -4,6 +4,7 @@ import com.example.tinymall.entity.TinymallOrderGoods;
 import com.example.tinymall.mapper.TinymallOrderGoodsMapper;
 import com.example.tinymall.service.TinymallOrderGoodsService;
 import com.google.common.collect.Lists;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import java.util.List;
  * @Date 2020-4-23 11:32
  */
 @Service
+@Primary
 public class TinymallOrderGoodsServiceImpl implements TinymallOrderGoodsService {
 
     @Resource

@@ -5,6 +5,7 @@ import com.example.tinymall.model.vo.UserLoginInfo;
 import com.example.tinymall.service.LoginService;
 import com.example.tinymall.service.LoginTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
  * @Date 2020-4-29 11:33
  */
 @Service
+@Primary
 public class LoginServiceImpl implements LoginService {
     @Autowired
     private LoginTokenService loginTokenService;

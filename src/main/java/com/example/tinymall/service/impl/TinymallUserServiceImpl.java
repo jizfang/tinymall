@@ -8,6 +8,7 @@ import com.example.tinymall.service.TinymallUserService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.List;
  * @Date 2020-4-14 20:06
  */
 @Service
+@Primary
 public class TinymallUserServiceImpl extends BaseMySqlServiceImpl<TinymallUser,Integer> implements TinymallUserService {
 
     @Resource

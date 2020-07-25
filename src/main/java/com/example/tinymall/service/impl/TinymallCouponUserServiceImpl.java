@@ -8,6 +8,7 @@ import com.example.tinymall.service.TinymallCouponUserService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.List;
  * @Date 2020-4-14 20:16
  */
 @Service
+@Primary
 public class TinymallCouponUserServiceImpl implements TinymallCouponUserService {
     @Resource
     private TinymallCouponUserMapper couponUserMapper;

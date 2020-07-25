@@ -1,0 +1,76 @@
+package ${package}.controller.admin;
+
+import ${package}.common.annotation.ResponseResult;
+import ${package}.common.page.PageQO;
+import ${package}.common.result.CommonResult;
+import ${package}.core.utils.AssertUtils;
+import ${package}.entity.${className};
+import ${package}.model.po.Ad;
+import ${package}.model.qo.AdQO;
+import ${package}.service.${className}Service;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+
+/**
+ * ${comments}Controller
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RestController
+@ResponseResult
+@Api(tags = "${comments}Controller")
+@RequestMapping("${moduleName}/${pathName}")
+public class ${className}Controller {
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 列表
+     */
+    @GetMapping("/list")
+    @ApiOperation(value = "查询${comments}列表", notes="查询${comments}列表")
+    public Object list(PageQO page,${className} condition) {
+        page.setCondition(condition);
+        return ${classname}Service.selectPage(page);
+    }
+
+    /**
+     * 保存
+     */
+    @PostMapping("/create")
+    @ApiOperation(value = "新增${comments}", notes="新增${comments}")
+    @ApiImplicitParam(name = "${className}", value = "${comments}", paramType = "${className}", required = true, dataType = "${className}")
+    public Object create(@Validated @RequestBody ${className} ${classname}) {
+        ${classname}Service.insert(${classname});
+        return ${classname};
+    }
+
+    /**
+     * 修改
+     */
+    @PutMapping("/update")
+    @ApiOperation(value = "修改${comments}", notes="修改${comments}")
+    public Object update(@Validated @RequestBody ${className} ${classname}) {
+        ${classname}Service.updateByPkSelective(${classname}.getId(),${classname});
+        return ${classname};
+    }
+
+    /**
+     * 删除
+     */
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "删除${comments}", notes="删除${comments}")
+    public Object delete(@RequestBody ${className} ${classname}) {
+        Integer id = ${classname}.getId();
+        AssertUtils.isFalse(id == null,"id不能为空");
+        ${classname}Service.deleteByPk(id);
+        return CommonResult.success();
+    }
+}

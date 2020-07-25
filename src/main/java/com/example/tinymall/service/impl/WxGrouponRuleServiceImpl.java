@@ -7,6 +7,7 @@ import com.example.tinymall.service.WxGrouponRuleService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
  * @Date 2020-4-10 16:17
  */
 @Service
+@Primary
 public class WxGrouponRuleServiceImpl implements WxGrouponRuleService {
 
     @Autowired

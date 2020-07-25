@@ -1,0 +1,41 @@
+package ${package}.entity;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import javax.persistence.*;
+
+import ${package}.model.po.BasePO;
+import ${package}.mybatis.JsonStringArrayTypeHandler;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import tk.mybatis.mapper.annotation.ColumnType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Getter
+@Setter
+@ToString
+@Table(name = "${tableName}")
+@ApiModel(value="${className}", description="${comments}")
+public class ${className} extends BasePO<Integer> {
+      #foreach ($column in $columns)
+      /**
+       * $column.comments
+       */
+      #if($column.columnName == $pk.columnName)
+      @Id
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
+      #end
+      @Column(name = "$column.columnName")
+      @ApiModelProperty(value="$column.comments")
+      private $column.attrType $column.attrname;
+      #end
+}

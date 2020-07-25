@@ -7,6 +7,7 @@ import com.example.tinymall.service.TinymallCartService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.List;
  * @Date 2020-4-15 14:24
  */
 @Service
+@Primary
 public class TinymallCartServiceImpl extends BaseMySqlServiceImpl<TinymallCart,Integer> implements TinymallCartService {
     @Resource
     private TinymallCartMapper cartMapper;

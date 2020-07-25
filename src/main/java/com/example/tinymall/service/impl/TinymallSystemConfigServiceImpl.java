@@ -4,6 +4,7 @@ import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallSystem;
 import com.example.tinymall.mapper.TinymallSystemMapper;
 import com.example.tinymall.service.TinymallSystemConfigService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @Date 2020-4-23 11:44
  */
 @Service
+@Primary
 public class TinymallSystemConfigServiceImpl extends BaseMySqlServiceImpl<TinymallSystem,Integer> implements TinymallSystemConfigService {
 
     @Resource

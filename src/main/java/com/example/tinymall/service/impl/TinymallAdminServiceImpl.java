@@ -17,7 +17,7 @@ import java.util.List;
  * @Author jzf
  * @Date 2020-4-28 15:11
  */
-@Service
+@Service("adminService")
 public class TinymallAdminServiceImpl extends BaseMySqlServiceImpl<TinymallAdmin,Integer> implements TinymallAdminService {
 
     @Autowired

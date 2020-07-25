@@ -6,6 +6,7 @@ import com.example.tinymall.mapper.TinymallCategoryMapper;
 import com.example.tinymall.service.TinymallCategoryService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * @Date 2020-4-11 10:34
  */
 @Service
+@Primary
 public class TinymallCategoryServiceImpl extends BaseMySqlServiceImpl<TinymallCategory,Integer> implements TinymallCategoryService {
 
     @Resource

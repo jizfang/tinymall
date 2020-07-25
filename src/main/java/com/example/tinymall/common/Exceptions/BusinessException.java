@@ -35,6 +35,7 @@ public class BusinessException extends RuntimeException{
 
     public BusinessException(String message) {
         this();
+        this.code = BusinessExceptionEnum.PARAMETER_INVALID.getResultCode().toString();
         this.message = message;
     }
 

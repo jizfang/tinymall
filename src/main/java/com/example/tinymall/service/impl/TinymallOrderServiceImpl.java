@@ -11,6 +11,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -30,6 +31,7 @@ import static com.example.tinymall.core.utils.CharUtil.getRandomNum;
  * @Date 2020-4-11 17:46
  */
 @Service
+@Primary
 public class TinymallOrderServiceImpl extends BaseMySqlServiceImpl<TinymallOrder,Integer> implements TinymallOrderService {
 
     @Resource

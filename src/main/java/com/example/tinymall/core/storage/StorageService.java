@@ -57,7 +57,7 @@ public class StorageService {
         storageInfo.setStorageType(contentType);
         storageInfo.setStorageKey(key);
         storageInfo.setStorageUrl(url);
-        tinymallStorageService.add(storageInfo);
+        tinymallStorageService.insert(storageInfo);
 
         return storageInfo;
     }

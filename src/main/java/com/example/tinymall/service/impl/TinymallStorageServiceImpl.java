@@ -1,18 +1,14 @@
 package com.example.tinymall.service.impl;
 
-import com.example.tinymall.common.mineservice.BaseService;
 import com.example.tinymall.common.mineservice.impl.BaseMySqlServiceImpl;
 import com.example.tinymall.entity.TinymallStorage;
 import com.example.tinymall.mapper.TinymallStorageMapper;
 import com.example.tinymall.service.TinymallStorageService;
-import com.github.pagehelper.PageHelper;
-import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,62 +18,24 @@ import java.util.List;
  * @Date 2020-4-9 17:06
  */
 @Service
+@Primary
 public class TinymallStorageServiceImpl extends BaseMySqlServiceImpl<TinymallStorage,Integer> implements TinymallStorageService {
     @Autowired
     private TinymallStorageMapper storageMapper;
 
     @Override
-    public void deleteByKey(String key) {
-        /*TinymallStorageExample example = new TinymallStorageExample();
-        example.or().andKeyEqualTo(key);
-        storageMapper.logicalDeleteByExample(example);*/
-    }
-
-    @Override
-    public void add(TinymallStorage storageInfo) {
-        storageInfo.setCreateTime(System.currentTimeMillis());
-        storageInfo.setUpdateTime(System.currentTimeMillis());
-        storageMapper.insertSelective(storageInfo);
-    }
-
-    @Override
     public TinymallStorage findByKey(String key) {
-        /*TinymallStorageExample example = new TinymallStorageExample();
-        example.or().andKeyEqualTo(key).andDeletedEqualTo(false);
-        return storageMapper.selectOneByExample(example);*/
-        return null;
+        Example example = new Example(TinymallStorage.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("storage_key",key);
+        List<TinymallStorage> storageList = storageMapper.selectByExample(example);
+        return storageList.get(0);
     }
 
     @Override
-    public int update(TinymallStorage storageInfo) {
-        storageInfo.setUpdateTime(System.currentTimeMillis());
-        return storageMapper.updateByPrimaryKeySelective(storageInfo);
-    }
-
-    @Override
-    public TinymallStorage findById(Integer id) {
-        return storageMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public List<TinymallStorage> querySelective(String key, String name, Integer page, Integer limit, String sort, String order) {
-        /*TinymallStorageExample example = new TinymallStorageExample();
-        TinymallStorageExample.Criteria criteria = example.createCriteria();
-
-        if (!StringUtils.isEmpty(key)) {
-            criteria.andKeyEqualTo(key);
-        }
-        if (!StringUtils.isEmpty(name)) {
-            criteria.andNameLike("%" + name + "%");
-        }
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        PageHelper.startPage(page, limit);
-        return storageMapper.selectByExample(example);*/
-        return Lists.newArrayList();
+    public void deleteByPk(String key) {
+        TinymallStorage tinymallStorage = new TinymallStorage();
+        tinymallStorage.setStorageKey(key);
+        storageMapper.delete(tinymallStorage);
     }
 }

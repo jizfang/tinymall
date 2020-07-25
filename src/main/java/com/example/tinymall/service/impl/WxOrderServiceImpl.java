@@ -17,6 +17,7 @@ import com.example.tinymall.service.*;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.service.WxPayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ import static com.example.tinymall.core.utils.WxResponseCode.*;
  * @Date 2020-4-23 11:03
  */
 @Service
+@Primary
 public class WxOrderServiceImpl implements WxOrderService {
 
     @Autowired
